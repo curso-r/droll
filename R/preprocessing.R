@@ -1,13 +1,10 @@
 
 dice_regex <- "([:digit:]*?)[dD]([:digit:]+)"
 
-dice_prob_preprocess <- function(dice) {
-
-  dice %>%
+roll_parse_expr <- function(expr) {
+  expr %>%
     stringr::str_remove_all("\\s") %>%
-    stringr::str_replace_all(dice_regex, "({paste0(rep('d(\\2)',\\1),collapse = '+')})") %>%
+    stringr::str_replace_all(dice_regex, "d(\\2,\\1)") %>%
     stringr::str_remove_all(",(?=\\))") %>%
-    stringr::str_replace_all("([*+/\\-\\^])", " \\1 ") %>%
-    stringr::str_glue() %>%
     rlang::parse_expr()
 }

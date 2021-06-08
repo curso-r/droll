@@ -23,4 +23,5 @@ Imports:
     magrittr,
     rlang,
     stringr,
-    tidyr
+    tidyr,
+    VeryLargeIntegers
