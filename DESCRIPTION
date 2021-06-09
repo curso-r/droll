@@ -24,4 +24,4 @@ Imports:
     rlang,
     stringr,
     tidyr,
-    VeryLargeIntegers
+    gmp

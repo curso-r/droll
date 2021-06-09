@@ -2,33 +2,12 @@
 # Calculate how many ways each possible outcome of dice can be obtained
 dice_outcome_count <- function(sides, n = 1) {
 
-  # Create and init a matrix of long integers
-  mat <- purrr::map(1:(sides*n+1), ~as.list(1:(sides*n+1)))
-  mat[[1]][[1]] = VeryLargeIntegers::as.vli(1)
-
-  # Calculate choose(i, j) dynamically
-  i <- 1
-  while (i <= sides*n) {
-    mat[[i+1]][[1]] = mat[[i+1]][[i+1]] = VeryLargeIntegers::as.vli(1)
-    j <- 1
-    while (j < i) {
-      mat[[i+1]][[j+1]] = mat[[i]][[j]] + mat[[i]][[j+1]]
-      j <- j+1
-    }
-    i <- i+1
-  }
-
-  # Use cached matrix instead of choose()
-  cchoose <- function(n, k) {
-    mat[[n+1]][[k+1]]
-  }
-
   # Sigma term of https://mathworld.wolfram.com/Dice.html
   sigma <- function(p) {
     0:floor((p - n)/sides) %>%
-      purrr::map(~(-1)^.x * cchoose(n, .x) * cchoose(p-sides*.x-1, n-1)) %>%
+      purrr::map(~(-1)^.x * gmp::chooseZ(n, .x) * gmp::chooseZ(p-sides*.x-1, n-1)) %>%
       purrr::reduce(`+`) %>%
-      VeryLargeIntegers::asnumeric()
+      gmp::asNumeric()
   }
 
   # Iterate over all possible values dice can add up to
