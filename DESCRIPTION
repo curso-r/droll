@@ -9,6 +9,8 @@ Authors@R:
 Description: A toolkit for parsing dice notation, analyzing rolls, calculating
     skill and ability checks' difficulty, and plotting outcome probabilities.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 3.5.0)
 Imports:
     gmp
 Suggests: 
