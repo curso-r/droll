@@ -5,21 +5,23 @@ dice_outcome_count <- function(sides, n = 1) {
   # Sigma term of https://mathworld.wolfram.com/Dice.html
   sigma <- function(p) {
 
-    # Iterate over all ks
-    sigmas <- Map(
-      function(k) (-1)^k * gmp::chooseZ(n, k) * gmp::chooseZ(p-sides*k-1, n-1),
-      0:floor((p - n)/sides) # Values of k
+    # Command for Yacas Computer Algebra System
+    yacas_cmd <- paste0(
+      "Sum(k, 0, ", floor((p - n)/sides), ", (-1)^k * Bin(", n,
+      ", k) * Bin(", p, " - ", sides, "*k - 1, ", n, " - 1))"
     )
 
-    # Sum all sigmas and convert back to numeric
-    gmp::asNumeric(Reduce(`+`, sigmas))
+    # Sum over all ks with arbitrary precision
+    as.numeric(Ryacas::yac_str(yacas_cmd))
   }
 
   # Iterate over all possible dice outcomes
   Map(function(p) list(outcome = p, count = sapply(p, sigma)), n:(sides*n))
 }
 
-# Calculate the absolute frequency of each outcome of a roll formula
+#' Calculate the absolute frequency of each outcome of a roll formula
+#' @param roll Roll formula
+#' @export
 roll_outcome_count <- function(roll) {
 
   # Clean roll formula
