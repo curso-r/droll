@@ -72,6 +72,10 @@ jobs:
           pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
         shell: Rscript {0}
 
+      - name: Link GMP on macOS
+        if: runner.os == 'macOS'
+        run: brew link gmp mpfr
+
       - name: Install dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
