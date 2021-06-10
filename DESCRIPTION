@@ -1,14 +1,16 @@
 Package: alea
-Title: What the Package Does (One Line, Title Case)
+Title: Analyze Dice Outcomes
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "C.",
+           family = "Lente",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "clente@curso-r.com")
+Description: A toolkit for parsing dice notation, analyzing rolls, calculating
+    skill and ability checks' difficulty, and plotting outcome probabilities.
 License: MIT + file LICENSE
+Imports:
+    gmp
 Suggests: 
     covr,
     testthat (>= 3.0.0)
@@ -17,5 +19,3 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports:
-    gmp
