@@ -2,21 +2,18 @@
 # Calculate how many ways each possible outcome can be obtained
 dice_outcome_count <- function(sides, n = 1) {
 
-  # Sigma term of https://mathworld.wolfram.com/Dice.html
-  sigma <- function(p) {
+  # Polynomial expression for expansion (handled by Yacas)
+  yac <- paste0("Expand((", paste0("x^", 1:sides, collapse = "+"), ")^", n, ")")
+  poly <- Ryacas::yac_str(yac)
 
-    # Command for Yacas Computer Algebra System
-    yacas_cmd <- paste0(
-      "Sum(k, 0, ", floor((p - n)/sides), ", (-1)^k * Bin(", n,
-      ", k) * Bin(", p, " - ", sides, "*k - 1, ", n, " - 1))"
-    )
+  # Expanded polynomial expression and add trivial 1s)
+  poly <- gsub("x(\\+|$)", "x^1\\1", gsub("(^|\\+)x", "\\11*x", poly))
 
-    # Sum over all ks with arbitrary precision
-    as.numeric(Ryacas::yac_str(yacas_cmd))
-  }
-
-  # Iterate over all possible dice outcomes
-  Map(function(p) list(outcome = p, count = sapply(p, sigma)), n:(sides*n))
+  # Convert coeficients into outcome counts
+  Map(
+    function(l) list(outcome = as.numeric(l[2]), count = as.numeric(l[1])),
+    strsplit(strsplit(poly, "\\+")[[1]], "\\*?x\\^")
+  )
 }
 
 #' Calculate the absolute frequency of each outcome of a roll formula
