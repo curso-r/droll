@@ -1,7 +1,4 @@
 
-# Global regex for matching dice
-dice_regex <- "([0-9]*?)[dD]([0-9]+)"
-
 #' Roll dice
 #' @param sides Sides
 #' @param n N
@@ -18,28 +15,18 @@ d <- function(sides, n = 1) {
 setClass(
   "Dice",
   contains = "numeric",
-  slots = c(
-    v = "numeric",
-    w = "numeric",
-    f = "function"
-  )
+  slots = c(v = "numeric")
 )
 
 setGeneric("v", function(x) standardGeneric("v"))
-setMethod("v", "Dice", function(x) x@v)
-
-setGeneric("w", function(x) standardGeneric("w"))
-setMethod("w", "Dice", function(x) x@w)
-
-setGeneric("f", function(x) standardGeneric("f"))
-setMethod("f", "Dice", function(x) x@f)
+methods::setMethod("v", "Dice", function(x) x@v)
 
 setGeneric("roll", function(object, n = 1) standardGeneric("roll"))
-setMethod("roll", "Dice", function(object, n = 1) {
-  object@f(sample(object@v, n, TRUE, object@w))
+methods::setMethod("roll", "Dice", function(object, n = 1) {
+  sample(object@v, n, TRUE)
 })
 
-setMethod("show", "Dice", function(object) {
+methods::setMethod("show", "Dice", function(object) {
   print(roll(object))
 })
 
@@ -51,15 +38,15 @@ setMethod("show", "Dice", function(object) {
 #   }
 # })
 
-setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
+methods::setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
   methods::callGeneric(roll(e1), e2)
 })
 
-setMethod("Ops", c("numeric", "Dice"), function(e1, e2) {
+methods::setMethod("Ops", c("numeric", "Dice"), function(e1, e2) {
   methods::callGeneric(e1, roll(e2))
 })
 
-setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
+methods::setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
   methods::callGeneric(roll(e1), roll(e2))
 })
 
@@ -67,29 +54,16 @@ setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
 #' @param e1 A numeric value
 #' @param e2 A Dice object
 #'
-setMethod("*", c("numeric", "Dice"), function(e1, e2) {
+methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
   sum(roll(e2, e1))
-})
-
-#' Roll multiple dice and multiply outcomes
-#' @param e1 A numeric value
-#' @param e2 A Dice object
-#'
-setMethod("^", c("numeric", "Dice"), function(e1, e2) {
-  prod(roll(e2, e1))
 })
 
 #' Create a Dice object
 #' @param faces A numeric vector
-#' @param weights A numeric vector
-#' @param filter A function
 #' @export
-Dice <- function(faces, weights = rep(1/length(faces), length(faces)), filter = function(x) x) {
-  methods::new("Dice", v = faces, w = weights, f = filter)
+Dice <- function(faces) {
+  methods::new("Dice", v = faces)
 }
-
-
-
 
 # d6 <- Dice(1:6)
 #
@@ -132,12 +106,7 @@ Dice <- function(faces, weights = rep(1/length(faces), length(faces)), filter = 
 # l <- purrr::rerun(1000, 2*d20kl)
 # table(purrr::flatten_dbl(l))
 #
-# dF <- Dice(-1:1, rep(1/3, 3))
+# dF <- Dice(-1:1)
 #
 # l <- purrr::rerun(1000, 1*dF) ### This is a problem (maybe solved with as())
 # table(purrr::flatten_dbl(l))
-
-
-
-
-
