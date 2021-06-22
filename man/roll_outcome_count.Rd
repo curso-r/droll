@@ -4,10 +4,12 @@
 \alias{roll_outcome_count}
 \title{Calculate the absolute frequency of each outcome of a roll formula}
 \usage{
-roll_outcome_count(roll)
+roll_outcome_count(roll, env = parent.frame())
 }
 \arguments{
 \item{roll}{Roll formula}
+
+\item{env}{Environment where to evaluate}
 }
 \description{
 Calculate the absolute frequency of each outcome of a roll formula

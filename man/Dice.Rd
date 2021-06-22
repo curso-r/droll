@@ -4,18 +4,10 @@
 \alias{Dice}
 \title{Create a Dice object}
 \usage{
-Dice(
-  faces,
-  weights = rep(1/length(faces), length(faces)),
-  filter = function(x) x
-)
+Dice(faces)
 }
 \arguments{
 \item{faces}{A numeric vector}
-
-\item{weights}{A numeric vector}
-
-\item{filter}{A function}
 }
 \description{
 Create a Dice object
