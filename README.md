@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/alea)](https://CRAN.R-project.org/package=alea)
 [![R-CMD-check](https://github.com/clente/alea/workflows/R-CMD-check/badge.svg)](https://github.com/clente/alea/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/clente/alea/branch/master/graph/badge.svg)](https://codecov.io/gh/clente/alea?branch=master)
+coverage](https://codecov.io/gh/clente/alea/branch/main/graph/badge.svg?token=ER3TMR0V9F)](https://codecov.io/gh/clente/alea?branch=master)
 <!-- badges: end -->
 
 The goal of alea is to …
