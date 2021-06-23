@@ -9,7 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/alea)](https://CRAN.R-project.org/package=alea)
-[![R-CMD-check](https://github.com/clente/alea/workflows/R-CMD-check/badge.svg)](https://github.com/clente/alea/actions)
+[![R-CMD-check](https://github.com/clente/alea/workflows/Check/badge.svg)](https://github.com/clente/alea/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/clente/alea/branch/main/graph/badge.svg?token=ER3TMR0V9F)](https://codecov.io/gh/clente/alea?branch=master)
 <!-- badges: end -->
