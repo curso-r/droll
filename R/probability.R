@@ -26,17 +26,8 @@ get_doc <- function(expr, env, dice = FALSE) {
 
   # Evaluate and get DOC (if expression is of the form N * dS)
   if (dice) {
-
-    # Clone package env because original is locked
-    new_env <- new.env(parent = env)
-
-    # Create new environment with a `*` that returns a DOC
-    assign("*", methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
-      dice_outcome_count(max(v(e2)), e1)
-    }), envir = new_env)
-
-    # Evaluate expression
-    return(eval(expr, new_env))
+    expr <- bquote(dice_outcome_count(max(v(.(expr[[3]]))), .(expr[[2]])))
+    return(eval(expr, env))
   }
 
   # Return DOC directly (if expression is a single die)
@@ -76,9 +67,12 @@ mask_roll <- function(expr_and_counts, env = parent.frame()) {
     expr[[2]] <- out[[1]]; counts <- out[[2]]
   }
 
-  # Skip parentheses and unary functions
+  # Handle parentheses and unary functions
   if (length(expr) == 2) {
-    return(mask_roll(list(expr[[2]], counts), env))
+    out <- mask_roll(list(expr[[2]], counts), env)
+    expr[[2]] <- out[[1]]; counts <- out[[2]]
+
+    return(list(expr, counts))
   }
 
   # DFS to evaluate every branch of the expression
@@ -88,7 +82,7 @@ mask_roll <- function(expr_and_counts, env = parent.frame()) {
   if (is_dice(expr[[3]], env)) {
 
     # Handle expressions of the form N * dS
-    if (length(idx) == 0) {
+    if (length(idx) == 0 && expr[[1]] == "*") {
       return(mask_dice(list(expr, counts), env, TRUE))
     }
 
