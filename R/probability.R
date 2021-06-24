@@ -102,12 +102,11 @@ mask_roll <- function(expr_and_counts, env = parent.frame()) {
 
 #' Calculate the absolute frequency of each outcome of a roll formula
 #' @param roll Roll formula
-#' @param env Environment where to evaluate
 #' @export
-roll_outcome_count <- function(roll, env = parent.frame()) {
+roll_outcome_count <- function(roll) {
 
   # Capture roll expression and mask dice objects
-  expr_and_counts <- mask_roll(list(substitute(roll), list()), env)
+  expr_and_counts <- mask_roll(list(substitute(roll), list()), parent.frame())
 
   # Create a function that inputs values in the roll formula (final outcome)
   roll_function <- function(...) {

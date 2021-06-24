@@ -58,7 +58,6 @@ d <- function(faces) {
   methods::new("Dice", faces = faces)
 }
 
-
 #' Roll a dice
 #' @param x A Dice object
 #' @param ... Not used
