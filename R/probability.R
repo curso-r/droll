@@ -127,5 +127,11 @@ roll_outcome_count <- function(roll) {
   ), dice_out)
 
   # Summarise table by outcome, adding counts
-  stats::aggregate(count ~ outcome, data = do.call(rbind, roll_out), sum)
+  df <- stats::aggregate(count ~ outcome, data = do.call(rbind, roll_out), sum)
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    return(tibble::as_tibble(df))
+  } else {
+    return(df)
+  }
 }
