@@ -1,9 +1,9 @@
 
 # Calculate how many ways each possible outcome can be obtained
-dice_outcome_count <- function(sides, n = 1) {
+dice_outcome_count <- function(faces, n = 1) {
 
   # Polynomial expression for expansion (handled by Yacas)
-  yac <- paste0("Expand((", paste0("x^", 1:sides, collapse = "+"), ")^", n, ")")
+  yac <- paste0("Expand((", paste0("x^", faces, collapse = "+"), ")^", n, ")")
   poly <- Ryacas::yac_str(yac)
 
   # Expanded polynomial expression and add trivial 1s)
@@ -26,12 +26,12 @@ get_doc <- function(expr, env, dice = FALSE) {
 
   # Evaluate and get DOC (if expression is of the form N * dS)
   if (dice) {
-    expr <- bquote(dice_outcome_count(max(v(.(expr[[3]]))), .(expr[[2]])))
+    expr <- bquote(dice_outcome_count(faces(.(expr[[3]])), .(expr[[2]])))
     return(eval(expr, env))
   }
 
   # Return DOC directly (if expression is a single die)
-  return(dice_outcome_count(max(v(eval(expr, env)))))
+  return(dice_outcome_count(faces(eval(expr, env))))
 }
 
 # Mask dice as inputs of a function (and get their dice_outcome_count())

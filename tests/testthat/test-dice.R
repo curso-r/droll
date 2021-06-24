@@ -1,17 +1,17 @@
-test_that("dice works", {
+test_that("Dice S4 class works", {
 
-  d6 <- Dice(1:6)
-  d20 <- Dice(1:20)
-  d10 <- Dice(1:10)
+  d6  <- d(1:6)
+  d20 <- d(1:20)
+  d10 <- d(1:10)
 
-  expect_lte(d6, 6)
-  expect_lte(d10, 10)
-  expect_lte(d20, 20)
+  expect_lte(roll(d6), 6)
+  expect_lte(roll(d10), 10)
+  expect_lte(roll(d20), 20)
   expect_lte(d20 * d10, 200)
 
-  expect_gte(d6, 1)
-  expect_gte(d10, 1)
-  expect_gte(d20, 1)
+  expect_gte(roll(d6), 1)
+  expect_gte(roll(d10), 1)
+  expect_gte(roll(d20), 1)
   expect_gte(d20 * d10, 1)
 
   expect_equal((d6 * 10) %% 10, 0)
@@ -29,5 +29,8 @@ test_that("dice works", {
   expect_type(d6 %% 10, "double")
   expect_type(10 %/% d6, "double")
   expect_type(d6 %/% 10, "double")
+
+  dEven <- d(c(2, 4, 6, 8, 10))
+  expect_equal(dEven %% 2, 0)
 
 })

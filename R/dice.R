@@ -1,42 +1,35 @@
 
-#' Roll dice
-#' @param sides Sides
-#' @param n N
-#' @export
-d <- function(sides, n = 1) {
-  sum(sample(1:sides, n, TRUE))
-}
-
 # Roll dice
 `%d%` <- function(x, y) {
-  d(x, y)
+  sample(1:y, x, TRUE)
 }
 
-setClass(
+methods::setClass(
   "Dice",
   contains = "numeric",
-  slots = c(v = "numeric")
+  slots = c(faces = "numeric")
 )
 
-setGeneric("v", function(x) standardGeneric("v"))
-methods::setMethod("v", "Dice", function(x) x@v)
+methods::setGeneric("faces", function(x) standardGeneric("faces"))
+methods::setMethod("faces", "Dice", function(x) x@faces)
 
-setGeneric("roll", function(object, n = 1) standardGeneric("roll"))
+methods::setGeneric("roll", function(object, n = 1) standardGeneric("roll"))
 methods::setMethod("roll", "Dice", function(object, n = 1) {
-  sample(object@v, n, TRUE)
+  sample(object@faces, n, TRUE)
 })
 
 methods::setMethod("show", "Dice", function(object) {
-  print(roll(object))
+  cat("\033[38;5;246m# A dice with faces:\n\033[39m")
+  print(object@faces)
 })
 
-# setValidity("Dice", function(object) {
-#   if (length(object@v) != length(object@w)) {
-#     "@v and @w must be same length"
-#   } else {
-#     TRUE
-#   }
-# })
+methods::setValidity("Dice", function(object) {
+  if (!is.vector(object@faces, "numeric")) {
+    "@faces must be a numeric vector"
+  } else {
+    TRUE
+  }
+})
 
 methods::setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
   methods::callGeneric(roll(e1), e2)
@@ -61,27 +54,28 @@ methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
 #' Create a Dice object
 #' @param faces A numeric vector
 #' @export
-Dice <- function(faces) {
-  methods::new("Dice", v = faces)
+d <- function(faces) {
+  methods::new("Dice", faces = faces)
 }
 
-# c(d6, 2, 3, d6)
-#
-# c(d6, "1", d6)
-#
-# c(2, d6)
 
-# d20kh <- Dice(1:20, filter = max)
-#
-# l <- purrr::rerun(1000, 2*d20kh)
-# table(purrr::flatten_dbl(l))
-#
-# d20kl <- Dice(1:20, filter = min)
-#
-# l <- purrr::rerun(1000, 2*d20kl)
-# table(purrr::flatten_dbl(l))
-#
-# dF <- Dice(-1:1)
-#
-# l <- purrr::rerun(1000, 1*dF) ### This is a problem (maybe solved with as())
-# table(purrr::flatten_dbl(l))
+#' Roll a dice
+#' @param x A Dice object
+#' @param ... Not used
+#' @export
+as.numeric.Dice <- function(x, ...) roll(x)
+
+#' Roll a dice
+#' @param x A Dice object
+#' @param ... Not used
+#' @export
+methods::setMethod("as.numeric", "Dice", as.numeric.Dice)
+
+#' Combine dice
+#' @param x A Dice object
+#' @param ... Objects to concatenate
+#' @param recursive Recursively descend
+#' @export
+methods::setMethod("c", "Dice", function(x, ..., recursive = FALSE) {
+  c(as.numeric(x), c(..., recursive = recursive))
+})

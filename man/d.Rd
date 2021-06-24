@@ -2,15 +2,13 @@
 % Please edit documentation in R/dice.R
 \name{d}
 \alias{d}
-\title{Roll dice}
+\title{Create a Dice object}
 \usage{
-d(sides, n = 1)
+d(faces)
 }
 \arguments{
-\item{sides}{Sides}
-
-\item{n}{N}
+\item{faces}{A numeric vector}
 }
 \description{
-Roll dice
+Create a Dice object
 }
