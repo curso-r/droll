@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a Dice object — d • alea</title>
+<title>Combine dice — c,Dice-method • alea</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Create a Dice object — d" />
-<meta property="og:description" content="Create a Dice object" />
+<meta property="og:title" content="Combine dice — c,Dice-method" />
+<meta property="og:description" content="Combine dice" />
 
 
 
@@ -103,23 +103,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a Dice object</h1>
+    <h1>Combine dice</h1>
     
-    <div class="hidden name"><code>d.Rd</code></div>
+    <div class="hidden name"><code>c-Dice-method.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a Dice object</p>
+    <p>Combine dice</p>
     </div>
 
-    <pre class="usage"><span class='fu'>d</span><span class='op'>(</span><span class='va'>faces</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S4 method for Dice</span>
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, recursive <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>faces</th>
-      <td><p>A numeric vector</p></td>
+      <th>x</th>
+      <td><p>A Dice object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Objects to concatenate</p></td>
+    </tr>
+    <tr>
+      <th>recursive</th>
+      <td><p>Recursively descend</p></td>
     </tr>
     </table>
 
