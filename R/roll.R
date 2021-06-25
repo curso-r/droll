@@ -22,6 +22,14 @@ roll <- function(roll, verbose = TRUE) {
     # Bypass regular `*` roll in order to get partial results
     # TODO: not a really good solution, try to not bypass
     if (expr[[1]] == "*" && is_die(expr[[3]], env) && !is_die(expr[[2]], env)) {
+
+      # Backport of str2lang() for R 3.6 and older
+      if (R.version$major < 4) {
+        str2lang <- function(s) {
+          parse(text = s, keep.source = FALSE)[[1]]
+        }
+      }
+
       dice <- r(eval(expr[[3]], env), eval(expr[[2]], env))
       return(str2lang(paste0("sum(", paste(dice, collapse = " + "), ")")))
     }
