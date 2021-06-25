@@ -16,7 +16,7 @@ test_that("roll() works", {
 
   expect_output(
     roll(d10 * d20),
-    "# Outcome: [0-9] \\* [0-9]"
+    "# Outcome: [0-9]+ \\* [0-9]+"
   )
 
   expect_output(
