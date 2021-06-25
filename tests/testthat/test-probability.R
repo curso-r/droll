@@ -51,4 +51,5 @@ test_that("roll_outcome_count() works", {
   expect_equal(nrow(even), 1)
   expect_equal(even$count, 5)
   expect_equal(even$outcome, 0)
+
 })

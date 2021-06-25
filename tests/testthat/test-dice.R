@@ -4,14 +4,14 @@ test_that("Dice S4 class works", {
   d20 <- d(1:20)
   d10 <- d(1:10)
 
-  expect_lte(roll(d6), 6)
-  expect_lte(roll(d10), 10)
-  expect_lte(roll(d20), 20)
+  expect_lte(r(d6), 6)
+  expect_lte(r(d10), 10)
+  expect_lte(r(d20), 20)
   expect_lte(d20 * d10, 200)
 
-  expect_gte(roll(d6), 1)
-  expect_gte(roll(d10), 1)
-  expect_gte(roll(d20), 1)
+  expect_gte(r(d6), 1)
+  expect_gte(r(d10), 1)
+  expect_gte(r(d20), 1)
   expect_gte(d20 * d10, 1)
 
   expect_equal((d6 * 10) %% 10, 0)

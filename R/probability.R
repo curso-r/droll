@@ -17,7 +17,7 @@ dice_outcome_count <- function(faces, n = 1) {
 }
 
 # Check if expression belongs to the Dice S4 class
-is_dice <- function(expr, env) {
+is_die <- function(expr, env) {
   tryCatch(class(eval(expr, env)), error = function(e) "None") == "Dice"
 }
 
@@ -55,14 +55,14 @@ mask_dice <- function(expr_and_counts, env, dice = FALSE) {
 }
 
 # Mask dice of a roll as inputs of a function (and their dice_outcome_count())
-mask_roll <- function(expr_and_counts, env = parent.frame()) {
+mask_roll <- function(expr_and_counts, env) {
 
   # Separate parts of input
   expr <- expr_and_counts[[1]]
   counts <- expr_and_counts[[2]]
 
   # Mask dice from LHS of expression
-  if (is_dice(expr[[2]], env)) {
+  if (is_die(expr[[2]], env)) {
     out <- mask_dice(list(expr[[2]], counts), env)
     expr[[2]] <- out[[1]]; counts <- out[[2]]
   }
@@ -79,7 +79,7 @@ mask_roll <- function(expr_and_counts, env = parent.frame()) {
   idx <- which(sapply(expr, typeof) == "language")
 
   # Mask dice from RHS of expression
-  if (is_dice(expr[[3]], env)) {
+  if (is_die(expr[[3]], env)) {
 
     # Handle expressions of the form N * dS
     if (length(idx) == 0 && expr[[1]] == "*") {
