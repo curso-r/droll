@@ -5,7 +5,7 @@ test_that("roll() works", {
   d10 <- d(1:10)
 
   expect_output(
-    roll(3* (2*d6) + d20 - 1 +    4),
+    roll(3 * (2 * d6) + d20 - 1 + 4),
     "# Outcome: 3 \\* \\(sum\\([0-9\\+ ]+\\)\\) \\+ [0-9]+ \\- 1 \\+ 4"
   )
 
@@ -41,7 +41,7 @@ test_that("roll() works", {
   )
 
   expect_output(
-    roll(3* (2*d6) + d20 - 1 +    4, verbose = FALSE),
+    roll(3 * (2 * d6) + d20 + 1*d10 - 1 + 4, verbose = FALSE),
     NA
   )
 

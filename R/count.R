@@ -107,17 +107,19 @@ roll_outcome_count <- function(roll) {
 
   # Capture roll expression and mask dice objects
   expr_and_counts <- mask_roll(list(substitute(roll), list()), parent.frame())
+  expr <- expr_and_counts[[1]]
+  counts <- expr_and_counts[[2]]
 
   # Create a function that inputs values in the roll formula (final outcome)
   roll_function <- function(...) {
     dots <- list(...)
-    eval(expr_and_counts[[1]], envir = list(dots))
+    eval(expr, envir = list(dots))
   }
 
   # Transpose list of dice outcomes
   dice_out <- Map(
     function(l) do.call(Map, c(f = list, l)),
-    cross(expr_and_counts[[2]])
+    tryCatch(cross(counts), error = function(e) stop("Invalid expression"))
   )
 
   # Actually roll dice with roll_function() and multiply outcomes' counts

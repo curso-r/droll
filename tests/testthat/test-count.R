@@ -4,7 +4,7 @@ test_that("roll_outcome_count() works", {
   d20 <- d(1:20)
   d10 <- d(1:10)
 
-  wide <- roll_outcome_count(3* (2*d6) + d20 + 1*d10 - 1 +    4)
+  wide <- roll_outcome_count(3 * (2 * d6) + d20 + 1*d10 - 1 + 4)
 
   expect_equal(nrow(wide), 59)
   expect_equal(wide$count[30], 280)
