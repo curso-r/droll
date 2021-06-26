@@ -27,7 +27,7 @@ methods::setMethod("r", "Dice", function(object, n = 1) {
 })
 
 methods::setMethod("show", "Dice", function(object) {
-  cat("\033[38;5;246m# A dice with faces:\n\033[39m")
+  cat("\033[38;5;246m# A die with faces:\n\033[39m")
   print(faces(object))
 })
 
@@ -55,7 +55,7 @@ methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
 #' @param faces A numeric vector
 #' @export
 d <- function(faces) {
-  methods::new("Dice", faces = faces)
+  methods::new("Dice", faces, faces = faces)
 }
 
 #' Roll a dice

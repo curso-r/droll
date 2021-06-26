@@ -4,6 +4,9 @@ test_that("Dice S4 class works", {
   d20 <- d(1:20)
   d10 <- d(1:10)
 
+  expect_output(print(d6), "# A die with faces:")
+  expect_length(d6, 6)
+
   expect_lte(r(d6), 6)
   expect_lte(r(d10), 10)
   expect_lte(r(d20), 20)
@@ -33,4 +36,8 @@ test_that("Dice S4 class works", {
   dEven <- d(c(2, 4, 6, 8, 10))
   expect_equal(dEven %% 2, 0)
 
+  expect_length(c(d6, d10, d20), 3)
+  expect_length(c(d6, d10, d20, 1, 2), 5)
+
+  expect_type(as.numeric(d6), "double")
 })
