@@ -1,14 +1,5 @@
 
-# counts <-
-# counts <- roll_outcome_count(40 * d6)
-#
-# barplot(count ~ outcome, data = counts)
-
-plot_outcome_count <- function(roll, env = parent.frame()) {
-  roll_outcome_count(substitute(roll))
+plot_outcome_count <- function(roll, ...) {
+  counts <- roll_outcome_count_(substitute(roll), parent.frame())
+  graphics::barplot(count ~ outcome, data = counts, ...)
 }
-
-# d6 <- alea::d(1:6)
-# alea::roll_outcome_count(40 * d6)
-#
-# roll_outcome_count()

@@ -78,11 +78,3 @@ methods::setMethod("as.numeric", "Dice", as.numeric.Dice)
 methods::setMethod("c", "Dice", function(x, ..., recursive = FALSE) {
   c(as.numeric(x), c(..., recursive = recursive))
 })
-
-# A bunch of dice
-d4  <- d(1:4)
-d6  <- d(1:6)
-d8  <- d(1:8)
-d10 <- d(1:10)
-d12 <- d(1:12)
-d20 <- d(1:20)
