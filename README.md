@@ -1,35 +1,35 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# alea
+# droll
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/alea)](https://CRAN.R-project.org/package=alea)
-[![R-CMD-check](https://github.com/clente/alea/workflows/Check/badge.svg)](https://github.com/clente/alea/actions)
+status](https://www.r-pkg.org/badges/version/droll)](https://CRAN.R-project.org/package=droll)
+[![R-CMD-check](https://github.com/clente/droll/workflows/Check/badge.svg)](https://github.com/clente/droll/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/clente/alea/branch/main/graph/badge.svg?token=ER3TMR0V9F)](https://codecov.io/gh/clente/alea?branch=master)
+coverage](https://codecov.io/gh/clente/droll/branch/main/graph/badge.svg?token=ER3TMR0V9F)](https://codecov.io/gh/clente/droll?branch=master)
 <!-- badges: end -->
 
-The goal of alea is to …
+The goal of droll is to …
 
 ## Installation
 
-You can install the released version of alea from
+You can install the released version of droll from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("alea")
+install.packages("droll")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("clente/alea")
+devtools::install_github("clente/droll")
 ```
 
 ## Example
@@ -37,7 +37,7 @@ devtools::install_github("clente/alea")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-# library(alea)
+# library(droll)
 ## basic example code
 ```
 
@@ -70,7 +70,7 @@ files, so they display on GitHub and CRAN.
 
 ## Code of Conduct
 
-Please note that the alea project is released with a [Contributor Code
+Please note that the droll project is released with a [Contributor Code
 of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

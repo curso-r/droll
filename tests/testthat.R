@@ -1,4 +1,4 @@
 library(testthat)
-library(alea)
+library(droll)
 
-test_check("alea")
+test_check("droll")
