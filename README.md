@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/droll)](https://CRAN.R-project.org/package=droll)
 [![R-CMD-check](https://github.com/curso-r/droll/workflows/Check/badge.svg)](https://github.com/curso-r/droll/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/curso-r/droll/branch/main/graph/badge.svg?token=ER3TMR0V9F)](https://codecov.io/gh/curso-r/droll?branch=master)
+coverage](https://codecov.io/gh/curso-r/droll/branch/main/graph/badge.svg)](https://codecov.io/gh/curso-r/droll?branch=master)
 <!-- badges: end -->
 
 The goal of droll is to …
