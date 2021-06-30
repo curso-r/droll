@@ -155,6 +155,7 @@ mask_roll <- function(expr_and_counts, env) {
 #' @param env The environment of `roll`.
 #' @return A data frame with two columns: `outcome` and `count`.
 #'
+#' @noRd
 roll_outcome_count_ <- function(roll, env = parent.frame()) {
 
   # Capture roll expression and mask dice objects

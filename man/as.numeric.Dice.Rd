@@ -2,9 +2,12 @@
 % Please edit documentation in R/dice.R
 \name{as.numeric.Dice}
 \alias{as.numeric.Dice}
+\alias{as.numeric,Dice-method}
 \title{Coerce Dice object to numeric scalar by simulating a roll}
 \usage{
 \method{as.numeric}{Dice}(x, ...)
+
+\S4method{as.numeric}{Dice}(x, ...)
 }
 \arguments{
 \item{x}{A Dice object.}
@@ -14,3 +17,8 @@
 \description{
 Coerce Dice object to numeric scalar by simulating a roll
 }
+\section{Functions}{
+\itemize{
+\item \code{as.numeric,Dice-method}: S4 port
+}}
+

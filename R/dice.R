@@ -42,10 +42,12 @@ d <- function(faces) {
 #'
 #' @param x A Dice object.
 #'
+#' @noRd
 setGeneric("faces", function(x) standardGeneric("faces"))
 
 #' @describeIn faces Get faces of a Dice object.
 #'
+#' @noRd
 methods::setMethod("faces", "Dice", function(x) x@faces)
 
 #' Validate a Dice object
@@ -66,10 +68,12 @@ methods::setValidity("Dice", function(object) {
 #' @param object A Dice object.
 #' @param n Number of dice.
 #'
+#' @noRd
 setGeneric("r", function(object, n = 1) standardGeneric("r"))
 
 #' @describeIn r Roll a Dice object.
 #'
+#' @noRd
 methods::setMethod("r", "Dice", function(object, n = 1) {
   return(as.numeric(sample(faces(object), n, TRUE)))
 })
@@ -88,36 +92,25 @@ methods::setMethod("show", "Dice", function(object) {
 #' @param e1 A numeric scalar or a Dice object.
 #' @param e2 A numeric scalar or a Dice object.
 #'
+#' @name Ops-Dice
+NULL
+
+#' @rdname Ops-Dice
 methods::setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
   methods::callGeneric(r(e1), e2)
 })
 
-#' Arithmetic operations with Dice objects
-#'
-#' @param e1 A numeric scalar or a Dice object.
-#' @param e2 A numeric scalar or a Dice object.
-#'
-#' @export
+#' @rdname Ops-Dice
 methods::setMethod("Ops", c("numeric", "Dice"), function(e1, e2) {
   methods::callGeneric(e1, r(e2))
 })
 
-#' Arithmetic operations with Dice objects
-#'
-#' @param e1 A numeric scalar or a Dice object.
-#' @param e2 A numeric scalar or a Dice object.
-#'
-#' @export
+#' @rdname Ops-Dice
 methods::setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
   methods::callGeneric(r(e1), r(e2))
 })
 
-#' Simulate rolling multiple Dice objects and add outcomes
-#'
-#' @param e1 A numeric scalar.
-#' @param e2 A Dice object.
-#'
-#' @export
+#' @rdname Ops-Dice
 methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
   sum(r(e2, e1))
 })
@@ -129,11 +122,7 @@ methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
 #'
 as.numeric.Dice <- function(x, ...) r(x)
 
-#' Coerce Dice object to numeric scalar by simulating a roll
-#'
-#' @param x A Dice object.
-#' @param ... Not used.
-#'
+#' @describeIn as.numeric.Dice S4 port
 methods::setMethod("as.numeric", "Dice", as.numeric.Dice)
 
 #' Combine Dice objects into a vector by simulating rolls
