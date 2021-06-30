@@ -1,5 +1,15 @@
 
-# Calculate how many ways each possible outcome can be obtained
+#' Calculate how many ways each possible outcome of some dice can be obtained
+#'
+#' Given `n` dice with a numeric vector representing their `faces`, compute the
+#' absolute frequency of each possible outcome of their sum. In other words,
+#' calculate how many ways every outcome of 'NdF' can be obtained.
+#'
+#' @param faces A numeric vector with the dice's faces.
+#' @param n The number of dice.
+#' @return A list of lists of the form `list(outcome, count)`.
+#'
+#' @noRd
 dice_outcome_count <- function(faces, n = 1) {
 
   # Polynomial expression for expansion (handled by Yacas)
@@ -16,15 +26,28 @@ dice_outcome_count <- function(faces, n = 1) {
   )
 }
 
-# Check if expression belongs to the Dice S4 class
+#' Check if expression belongs to the Dice S4 class
+#'
+#' @param expr An expression of class 'call'.
+#' @param env The environment of `expr`.
+#' @return A boolean.
+#'
+#' @noRd
 is_die <- function(expr, env) {
   tryCatch(class(eval(expr, env)), error = function(e) "None") == "Dice"
 }
 
-# Get dice_outcome_count() of an expression
+#' Handle dice_outcome_count() for different kinds of expressions
+#'
+#' @param expr An expression of class 'call'.
+#' @param env The environment of `expr`.
+#' @param dice Whether `expr` is of the form NdF.
+#' @return The output of [dice_outcome_count()]
+#'
+#' @noRd
 get_doc <- function(expr, env, dice = FALSE) {
 
-  # Evaluate and get DOC (if expression is of the form N * dS)
+  # Evaluate and get DOC (if expression is of the form N * dF)
   if (dice) {
     expr <- bquote(dice_outcome_count(faces(.(expr[[3]])), .(expr[[2]])))
     return(eval(expr, env))
@@ -34,7 +57,18 @@ get_doc <- function(expr, env, dice = FALSE) {
   return(dice_outcome_count(faces(eval(expr, env))))
 }
 
-# Mask dice as inputs of a function (and get their dice_outcome_count())
+#' Mask dice as inputs of a function (and get their dice_outcome_count())
+#'
+#' Given an expression with one Dice object, get its [dice_outcome_count()] and
+#' replace it with `dots[[UUID]]` so that the expression can be used as the body
+#' of a function.
+#'
+#' @param expr_and_counts A list with an expression and a count data frame.
+#' @param env The environment of `expr_and_counts[[1]]`.
+#' @param dice Whether `expr_and_counts[[1]]` is of the form NdF.
+#' @return A list with an expression and a count data frame.
+#'
+#' @noRd
 mask_dice <- function(expr_and_counts, env, dice = FALSE) {
 
   # Separate parts of input
@@ -54,7 +88,17 @@ mask_dice <- function(expr_and_counts, env, dice = FALSE) {
   return(list(expr, counts))
 }
 
-# Mask dice of a roll as inputs of a function (and their dice_outcome_count())
+#' Mask all dice of a roll expression as inputs of a function
+#'
+#' Given an expression with one or more Dice objects, get their
+#' [dice_outcome_count()] and replace them with `dots[[UUID]]` so that the
+#' expression can be used as the body of a function.
+#'
+#' @param expr_and_counts A list with an expression and a count data frame.
+#' @param env The environment of `expr_and_counts[[1]]`.
+#' @return A list with an expression and a count data frame.
+#'
+#' @noRd
 mask_roll <- function(expr_and_counts, env) {
 
   # Separate parts of input
@@ -100,6 +144,17 @@ mask_roll <- function(expr_and_counts, env) {
   return(list(expr, counts))
 }
 
+#' Count the ways each outcome of a roll can be obtained (internal)
+#'
+#' Given a roll expression, compute the absolute frequency of each possible
+#' outcome. In other words, calculate how many ways can every outcome of the
+#' roll be obtained. [roll_outcome_count()] wraps this function so that the user
+#' doesn't have to worry about environments.
+#'
+#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param env The environment of `roll`.
+#' @return A data frame with two columns: `outcome` and `count`.
+#'
 roll_outcome_count_ <- function(roll, env = parent.frame()) {
 
   # Capture roll expression and mask dice objects
@@ -135,8 +190,20 @@ roll_outcome_count_ <- function(roll, env = parent.frame()) {
   }
 }
 
-#' Calculate the absolute frequency of each outcome of a roll formula
-#' @param roll Roll formula
+#' Count the ways each outcome of a roll can be obtained
+#'
+#' Given a roll expression (i.e. an arithmetic expression involving dice),
+#' compute the absolute frequency of each possible outcome. In other words,
+#' calculate how many ways every outcome of the roll can be obtained.
+#'
+#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @return A data frame with two columns: `outcome` and `count`.
+#'
+#' @examples
+#' # Possible outcomes of 2d6 + 6
+#' d6 <- d(1:6)
+#' ### roll_outcome_count(2 * d6 + 5) ### FIX
+#'
 #' @export
 roll_outcome_count <- function(roll) {
   roll_outcome_count_(substitute(roll), parent.frame())

@@ -1,4 +1,20 @@
 
+#' Roll some dice
+#'
+#' Given a roll expression (i.e. an arithmetic expression involving dice),
+#' compute an outcome by sampling one face from each die and evaluating the
+#' expression. If `verbose = TRUE`, also print the expression before evaluation.
+#'
+#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param verbose Whether to print the expression after the dice rolls.
+#' @return A numeric scalar.
+#'
+#' @examples
+#' # Roll 2d6 + 6
+#' d6 <- d(1:6)
+#' roll(2 * d6 + 5)
+#'
+#' @export
 roll <- function(roll, verbose = TRUE) {
 
   # BFS on the expression tree, evaluating dice rolls

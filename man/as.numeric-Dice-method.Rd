@@ -2,15 +2,15 @@
 % Please edit documentation in R/dice.R
 \name{as.numeric,Dice-method}
 \alias{as.numeric,Dice-method}
-\title{Roll a dice}
+\title{Coerce Dice object to numeric scalar by simulating a roll}
 \usage{
 \S4method{as.numeric}{Dice}(x, ...)
 }
 \arguments{
-\item{x}{A Dice object}
+\item{x}{A Dice object.}
 
-\item{...}{Not used}
+\item{...}{Not used.}
 }
 \description{
-Roll a dice
+Coerce Dice object to numeric scalar by simulating a roll
 }

@@ -2,13 +2,24 @@
 % Please edit documentation in R/count.R
 \name{roll_outcome_count}
 \alias{roll_outcome_count}
-\title{Calculate the absolute frequency of each outcome of a roll formula}
+\title{Count the ways each outcome of a roll can be obtained}
 \usage{
 roll_outcome_count(roll)
 }
 \arguments{
-\item{roll}{Roll formula}
+\item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
+}
+\value{
+A data frame with two columns: \code{outcome} and \code{count}.
 }
 \description{
-Calculate the absolute frequency of each outcome of a roll formula
+Given a roll expression (i.e. an arithmetic expression involving dice),
+compute the absolute frequency of each possible outcome. In other words,
+calculate how many ways every outcome of the roll can be obtained.
+}
+\examples{
+# Possible outcomes of 2d6 + 6
+d6 <- d(1:6)
+### roll_outcome_count(2 * d6 + 5) ### FIX
+
 }

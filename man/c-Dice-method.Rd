@@ -2,17 +2,20 @@
 % Please edit documentation in R/dice.R
 \name{c,Dice-method}
 \alias{c,Dice-method}
-\title{Combine dice}
+\title{Combine Dice objects into a vector by simulating rolls}
 \usage{
 \S4method{c}{Dice}(x, ..., recursive = FALSE)
 }
 \arguments{
-\item{x}{A Dice object}
+\item{x}{A Dice object.}
 
-\item{...}{Objects to concatenate}
+\item{...}{Objects to be concatenated.}
 
-\item{recursive}{Recursively descend}
+\item{recursive}{Recursively descend.}
+}
+\value{
+A numeric vector.
 }
 \description{
-Combine dice
+Combine Dice objects into a vector by simulating rolls
 }

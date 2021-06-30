@@ -2,15 +2,15 @@
 % Please edit documentation in R/dice.R
 \name{*,numeric,Dice-method}
 \alias{*,numeric,Dice-method}
-\title{Roll multiple dice and add outcomes}
+\title{Simulate rolling multiple Dice objects and add outcomes}
 \usage{
 \S4method{*}{numeric,Dice}(e1, e2)
 }
 \arguments{
-\item{e1}{A numeric value}
+\item{e1}{A numeric scalar.}
 
-\item{e2}{A Dice object}
+\item{e2}{A Dice object.}
 }
 \description{
-Roll multiple dice and add outcomes
+Simulate rolling multiple Dice objects and add outcomes
 }

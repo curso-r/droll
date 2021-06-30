@@ -7,8 +7,16 @@
 d(faces)
 }
 \arguments{
-\item{faces}{A numeric vector}
+\item{faces}{A numeric vector with the die's faces.}
+}
+\value{
+A Dice object.
 }
 \description{
 Create a Dice object
+}
+\examples{
+# Create a d6
+d6 <- d(1:6)
+
 }
