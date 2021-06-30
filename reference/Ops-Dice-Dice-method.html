@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Count the ways each outcome of a roll can be obtained — roll_outcome_count • droll</title>
+<title>Arithmetic operations with Dice objects — Ops,Dice,Dice-method • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,8 @@
 
 
 
-<meta property="og:title" content="Count the ways each outcome of a roll can be obtained — roll_outcome_count" />
-<meta property="og:description" content="Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained." />
+<meta property="og:title" content="Arithmetic operations with Dice objects — Ops,Dice,Dice-method" />
+<meta property="og:description" content="Arithmetic operations with Dice objects" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -113,38 +111,32 @@ calculate how many ways every outcome of the roll can be obtained." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Count the ways each outcome of a roll can be obtained</h1>
+    <h1>Arithmetic operations with Dice objects</h1>
     
-    <div class="hidden name"><code>roll_outcome_count.Rd</code></div>
+    <div class="hidden name"><code>Ops-Dice-Dice-method.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained.</p>
+    <p>Arithmetic operations with Dice objects</p>
     </div>
 
-    <pre class="usage"><span class='fu'>roll_outcome_count</span><span class='op'>(</span><span class='va'>roll</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S4 method for Dice,Dice</span>
+<span class='fu'><a href='https://rdrr.io/r/base/groupGeneric.html'>Ops</a></span><span class='op'>(</span><span class='va'>e1</span>, <span class='va'>e2</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>roll</th>
-      <td><p>A roll expression (e.g. <code>2 * d6 + 5</code>).</p></td>
+      <th>e1</th>
+      <td><p>A numeric scalar or a Dice object.</p></td>
+    </tr>
+    <tr>
+      <th>e2</th>
+      <td><p>A numeric scalar or a Dice object.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with two columns: <code>outcome</code> and <code>count</code>.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Possible outcomes of 2d6 + 6</span>
-<span class='va'>d6</span> <span class='op'>&lt;-</span> <span class='fu'><a href='d.html'>d</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
-<span class='co'>### roll_outcome_count(2 * d6 + 5) ### FIX</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
