@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coerce Dice object to numeric scalar by simulating a roll — as.numeric.Dice • droll</title>
+<title>Arithmetic operations with Dice objects — Ops-Dice • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Coerce Dice object to numeric scalar by simulating a roll — as.numeric.Dice" />
-<meta property="og:description" content="Coerce Dice object to numeric scalar by simulating a roll" />
+<meta property="og:title" content="Arithmetic operations with Dice objects — Ops-Dice" />
+<meta property="og:description" content="Arithmetic operations with Dice objects" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -111,40 +111,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Coerce Dice object to numeric scalar by simulating a roll</h1>
+    <h1>Arithmetic operations with Dice objects</h1>
     
-    <div class="hidden name"><code>as.numeric.Dice.Rd</code></div>
+    <div class="hidden name"><code>Ops-Dice.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Coerce Dice object to numeric scalar by simulating a roll</p>
+    <p>Arithmetic operations with Dice objects</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for Dice</span>
-<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"># S4 method for Dice,numeric
+Ops(e1, e2)
 
-<span class='co'># S4 method for Dice</span>
-<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+# S4 method for numeric,Dice
+Ops(e1, e2)
+
+# S4 method for Dice,Dice
+Ops(e1, e2)
+
+# S4 method for numeric,Dice
+*(e1, e2)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A Dice object.</p></td>
+      <th>e1</th>
+      <td><p>A numeric scalar or a Dice object.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Not used.</p></td>
+      <th>e2</th>
+      <td><p>A numeric scalar or a Dice object.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
-
-    
-<ul>
-<li><p><code>as.numeric,Dice-method</code>: S4 port</p></li>
-</ul>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
