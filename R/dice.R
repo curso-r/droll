@@ -8,7 +8,6 @@
 #' @examples
 #' # Roll 2d6
 #' 2 %d% 6
-#'
 #' @export
 `%d%` <- function(n, sides) {
   sample(1:sides, n, TRUE)
@@ -32,7 +31,6 @@ methods::setClass(
 #' @examples
 #' # Create a d6
 #' d6 <- d(1:6)
-#'
 #' @export
 d <- function(faces) {
   methods::new("Dice", faces, faces = faces)

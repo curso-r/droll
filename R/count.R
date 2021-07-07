@@ -108,13 +108,15 @@ mask_roll <- function(expr_and_counts, env) {
   # Mask dice from LHS of expression
   if (is_die(expr[[2]], env)) {
     out <- mask_dice(list(expr[[2]], counts), env)
-    expr[[2]] <- out[[1]]; counts <- out[[2]]
+    expr[[2]] <- out[[1]]
+    counts <- out[[2]]
   }
 
   # Handle parentheses and unary functions
   if (length(expr) == 2) {
     out <- mask_roll(list(expr[[2]], counts), env)
-    expr[[2]] <- out[[1]]; counts <- out[[2]]
+    expr[[2]] <- out[[1]]
+    counts <- out[[2]]
 
     return(list(expr, counts))
   }
@@ -132,13 +134,15 @@ mask_roll <- function(expr_and_counts, env) {
 
     # Otherwise simply mask the dice
     out <- mask_dice(list(expr[[3]], counts), env)
-    expr[[3]] <- out[[1]]; counts <- out[[2]]
+    expr[[3]] <- out[[1]]
+    counts <- out[[2]]
   }
 
   # Iterate over both branches of the expression
   for (i in idx) {
     out <- mask_roll(list(expr[[i]], counts), env)
-    expr[[i]] <- out[[1]]; counts <- out[[2]]
+    expr[[i]] <- out[[1]]
+    counts <- out[[2]]
   }
 
   return(list(expr, counts))
@@ -176,10 +180,12 @@ roll_outcome_count_ <- function(roll, env = parent.frame()) {
   )
 
   # Actually roll dice with roll_function() and multiply outcomes' counts
-  roll_out <- Map(function(l) data.frame(
-    outcome = do.call(roll_function, as.list(l$outcome)),
-    count = do.call(prod, l$count)
-  ), dice_out)
+  roll_out <- Map(function(l) {
+    data.frame(
+      outcome = do.call(roll_function, as.list(l$outcome)),
+      count = do.call(prod, l$count)
+    )
+  }, dice_out)
 
   # Summarise table by outcome, adding counts
   df <- stats::aggregate(count ~ outcome, data = do.call(rbind, roll_out), sum)
@@ -204,7 +210,6 @@ roll_outcome_count_ <- function(roll, env = parent.frame()) {
 #' # Possible outcomes of 2d6 + 6
 #' d6 <- d(1:6)
 #' ### roll_outcome_count(2 * d6 + 5) ### FIX
-#'
 #' @export
 roll_outcome_count <- function(roll) {
   roll_outcome_count_(substitute(roll), parent.frame())

@@ -10,7 +10,7 @@
 #' directly mapped over.
 #'
 #' @noRd
-cross <- function (.l)  {
+cross <- function(.l) {
   n <- length(.l)
   lengths <- lapply(.l, length)
   names <- names(.l)
@@ -20,7 +20,7 @@ cross <- function (.l)  {
   out <- replicate(total_length, vector("list", n), simplify = FALSE)
   for (i in seq_along(out)) {
     for (j in seq_len(n)) {
-      index <- floor((i - 1)/factors[j])%%length(.l[[j]]) + 1
+      index <- floor((i - 1) / factors[j]) %% length(.l[[j]]) + 1
       out[[i]][[j]] <- .l[[j]][[index]]
     }
     names(out[[i]]) <- names

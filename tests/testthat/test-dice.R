@@ -1,6 +1,5 @@
 test_that("Dice S4 class works", {
-
-  d6  <- d(1:6)
+  d6 <- d(1:6)
   d20 <- d(1:20)
   d10 <- d(1:10)
 
@@ -26,8 +25,8 @@ test_that("Dice S4 class works", {
   expect_type(d6 / 10, "double")
   expect_type(10 - d6, "double")
   expect_type(d6 - 10, "double")
-  expect_type(10 ^ d6, "double")
-  expect_type(d6 ^ 10, "double")
+  expect_type(10^d6, "double")
+  expect_type(d6^10, "double")
   expect_type(10 %% d6, "double")
   expect_type(d6 %% 10, "double")
   expect_type(10 %/% d6, "double")

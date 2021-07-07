@@ -1,6 +1,5 @@
 test_that("roll() works", {
-
-  d6  <- d(1:6)
+  d6 <- d(1:6)
   d20 <- d(1:20)
   d10 <- d(1:10)
 
@@ -41,8 +40,7 @@ test_that("roll() works", {
   )
 
   expect_output(
-    roll(3 * (2 * d6) + d20 + 1*d10 - 1 + 4, verbose = FALSE),
+    roll(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4, verbose = FALSE),
     NA
   )
-
 })

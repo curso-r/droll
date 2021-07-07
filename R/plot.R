@@ -13,12 +13,12 @@
 #' # Possible outcomes of 2d6 + 6
 #' d6 <- d(1:6)
 #' ### plot_outcome_count(2 * d6 + 5) ### FIX
-#'
 #' @export
 plot_outcome_count <- function(roll, ...) {
   counts <- roll_outcome_count_(substitute(roll), parent.frame())
   graphics::barplot(
-    counts$count, names.arg = counts$outcome,
+    counts$count,
+    names.arg = counts$outcome,
     xlab = "outcome", ylab = "count", ...
   )
 }
