@@ -23,5 +23,4 @@ bar chart.
 # Possible outcomes of 2d6 + 6
 d6 <- d(1:6)
 ### plot_outcome_count(2 * d6 + 5) ### FIX
-
 }

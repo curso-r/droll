@@ -90,27 +90,54 @@ methods::setMethod("show", "Dice", function(object) {
 #' @param e1 A numeric scalar or a Dice object.
 #' @param e2 A numeric scalar or a Dice object.
 #'
-#' @name Ops-Dice
+#' @name Ops-Dice-method
 NULL
 
-#' @rdname Ops-Dice
+#' @rdname Ops-Dice-method
 methods::setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
   methods::callGeneric(r(e1), e2)
 })
 
-#' @rdname Ops-Dice
+#' @rdname Ops-Dice-method
 methods::setMethod("Ops", c("numeric", "Dice"), function(e1, e2) {
   methods::callGeneric(e1, r(e2))
 })
 
-#' @rdname Ops-Dice
+#' @rdname Ops-Dice-method
 methods::setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
   methods::callGeneric(r(e1), r(e2))
 })
 
-#' @rdname Ops-Dice
+#' @rdname Ops-Dice-method
 methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
   sum(r(e2, e1))
+})
+
+#' Math operations with Dice objects
+#'
+#' @param x A Dice object.
+#'
+methods::setMethod("Math", "Dice", function(x) {
+  methods::callGeneric(r(x))
+})
+
+#' Math2 operations with Dice objects
+#'
+#' @param x A Dice object.
+#' @param digits Number of digits to be used in `round` or `signif`.
+#'
+methods::setMethod("Math2", "Dice", function(x, digits) {
+  methods::callGeneric(r(x), digits)
+})
+
+#' Summary operations with Dice objects
+#'
+#' @param x A Dice object
+#' @param ... Numeric arguments.
+#' @param na.rm A logical indicating whether missing values should be removed.
+#'
+methods::setMethod("Summary", "Dice", function(x, ..., na.rm = FALSE) {
+  methods::callGeneric(r(x), as.numeric(...), na.rm = na.rm)
 })
 
 #' Coerce Dice object to numeric scalar by simulating a roll
@@ -131,5 +158,5 @@ methods::setMethod("as.numeric", "Dice", as.numeric.Dice)
 #' @return A numeric vector.
 #'
 methods::setMethod("c", "Dice", function(x, ..., recursive = FALSE) {
-  c(as.numeric(x), c(..., recursive = recursive))
+  c(r(x), c(..., recursive = recursive))
 })

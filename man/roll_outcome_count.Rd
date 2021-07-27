@@ -21,5 +21,4 @@ calculate how many ways every outcome of the roll can be obtained.
 # Possible outcomes of 2d6 + 6
 d6 <- d(1:6)
 ### roll_outcome_count(2 * d6 + 5) ### FIX
-
 }

@@ -20,5 +20,4 @@ Simple infix dice roller
 \examples{
 # Roll 2d6
 2 \%d\% 6
-
 }

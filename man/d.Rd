@@ -18,5 +18,4 @@ Create a Dice object
 \examples{
 # Create a d6
 d6 <- d(1:6)
-
 }

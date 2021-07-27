@@ -23,5 +23,4 @@ expression. If \code{verbose = TRUE}, also print the expression before evaluatio
 # Roll 2d6 + 6
 d6 <- d(1:6)
 roll(2 * d6 + 5)
-
 }
