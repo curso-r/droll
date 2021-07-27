@@ -44,8 +44,8 @@ test_that("roll_outcome_count() works", {
   expect_equal(kl$count[20], 1)
   expect_equal(kl$count[1], 39)
 
-  dEven <- d(c(2, 4, 6, 8, 10))
-  even <- roll_outcome_count(dEven %% 2)
+  deven <- d(c(2, 4, 6, 8, 10))
+  even <- roll_outcome_count(deven %% 2)
 
   expect_equal(nrow(even), 1)
   expect_equal(even$count, 5)

@@ -42,8 +42,8 @@ test_that("Dice S4 class works", {
   expect_type(sum(d6, d6), "double")
   expect_type(prod(d6, d6), "double")
 
-  dEven <- d(c(2, 4, 6, 8, 10))
-  expect_equal(dEven %% 2, 0)
+  deven <- d(c(2, 4, 6, 8, 10))
+  expect_equal(deven %% 2, 0)
 
   expect_length(c(d6, d10, d20), 3)
   expect_length(c(d6, d10, d20, 1, 2), 5)

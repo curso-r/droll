@@ -33,9 +33,9 @@ test_that("roll() works", {
     "# Outcome: min\\([0-9]+, [0-9]+\\)"
   )
 
-  dEven <- d(c(2, 4, 6, 8, 10))
+  deven <- d(c(2, 4, 6, 8, 10))
   expect_output(
-    roll(dEven %% 2),
+    roll(deven %% 2),
     "# Outcome: [0-9]+\\%\\%[0-9]"
   )
 
