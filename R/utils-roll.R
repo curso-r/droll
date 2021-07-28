@@ -12,3 +12,14 @@ str2lang_ <- function(s) {
     str2lang(s)
   }
 }
+
+#' Shortcut to [Ryacas::yac_str()]
+#'
+#' @param f Yacas function.
+#' @param b Body of `f`.
+#' @return A string with Yacas' output
+#'
+#' @noRd
+yac <- function(f, b) {
+  Ryacas::yac_str(paste0(f, "(", b, ")"))
+}

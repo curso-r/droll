@@ -13,8 +13,8 @@
 dice_outcome_count <- function(faces, n = 1) {
 
   # Polynomial expression for expansion (handled by Yacas)
-  yac <- paste0("Expand((", paste0("x^", faces, collapse = "+"), ")^", n, ")")
-  poly <- Ryacas::yac_str(yac)
+  body <- paste0("(", paste0("x^", faces, collapse = "+"), ")^", n)
+  poly <- yac("Expand", body)
 
   # Expanded polynomial expression and add trivial 1s)
   poly <- gsub("x(\\+|$)", "x^1\\1", gsub("(^|\\+)x", "\\11*x", poly))
@@ -49,7 +49,10 @@ get_doc <- function(expr, env, dice = FALSE) {
 
   # Evaluate and get DOC (if expression is of the form N * dF)
   if (dice) {
-    return(dice_outcome_count(faces(eval(expr[[3]], env)), eval(expr[[2]], env)))
+    return(dice_outcome_count(
+      faces(eval(expr[[3]], env)),
+      eval(expr[[2]], env))
+    )
   }
 
   # Return DOC directly (if expression is a single die)
@@ -183,14 +186,14 @@ roll_outcome_count_ <- function(roll, precise = FALSE, env = parent.frame()) {
   roll_out <- Map(function(l) {
     data.frame(
       outcome = do.call(roll_function, as.list(l$outcome)),
-      count = Ryacas::yac_str(paste0("Multiply(", paste0(l$count, collapse = ","), ")"))
+      count = yac("Multiply", paste0(l$count, collapse = ","))
     )
   }, dice_out)
 
   # Summarise table by outcome, adding counts
   df <- stats::aggregate(
     count ~ outcome, data = do.call(rbind, roll_out),
-    function(l) Ryacas::yac_str(paste0("Add(", paste0(l, collapse = ","), ")"))
+    function(l) yac("Add", paste0(l, collapse = ","))
   )
 
   # Convert values to numeric if requested
