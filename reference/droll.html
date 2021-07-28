@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Count the ways each outcome of a roll can be obtained — roll • droll</title>
+<title>Get relative frequency of an outcome of a roll — droll • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,10 @@
 
 
 
-<meta property="og:title" content="Count the ways each outcome of a roll can be obtained — roll" />
+<meta property="og:title" content="Get relative frequency of an outcome of a roll — droll" />
 <meta property="og:description" content="Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained." />
+compute the relative frequency of a specific outcome. In other words,
+calculate the probability of obtaining this outcome." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -113,54 +113,41 @@ calculate how many ways every outcome of the roll can be obtained." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Count the ways each outcome of a roll can be obtained</h1>
+    <h1>Get relative frequency of an outcome of a roll</h1>
     
-    <div class="hidden name"><code>roll.Rd</code></div>
+    <div class="hidden name"><code>droll.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained.</p>
+compute the relative frequency of a specific outcome. In other words,
+calculate the probability of obtaining this outcome.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>roll</span><span class='op'>(</span><span class='va'>roll</span>, precise <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>droll</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>roll</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>roll</th>
-      <td><p>A roll expression (e.g. <code>2 * d6 + 5</code>).</p></td>
+      <th>x</th>
+      <td><p>A vector of outcomes.</p></td>
     </tr>
     <tr>
-      <th>precise</th>
-      <td><p>Whether to return values with arbitrary precision.</p></td>
+      <th>roll</th>
+      <td><p>A roll expression (e.g. <code>2 * d6 + 5</code>).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with two columns: <code>outcome</code>, <code>count</code>, and <code>freq</code>.</p>
+    <p>A numeric vector.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Possible outcomes of 2d6 + 5</span>
 <span class='va'>d6</span> <span class='op'>&lt;-</span> <span class='fu'><a href='d.html'>d</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
-<span class='fu'>roll</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 × 3</span>
-#&gt;    outcome count   freq
-#&gt;      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>       7     1 0.027<span style='text-decoration: underline;'>8</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span>       8     2 0.055<span style='text-decoration: underline;'>6</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span>       9     3 0.083<span style='text-decoration: underline;'>3</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span>      10     4 0.111 
-#&gt; <span style='color: #BCBCBC;'> 5</span>      11     5 0.139 
-#&gt; <span style='color: #BCBCBC;'> 6</span>      12     6 0.167 
-#&gt; <span style='color: #BCBCBC;'> 7</span>      13     5 0.139 
-#&gt; <span style='color: #BCBCBC;'> 8</span>      14     4 0.111 
-#&gt; <span style='color: #BCBCBC;'> 9</span>      15     3 0.083<span style='text-decoration: underline;'>3</span>
-#&gt; <span style='color: #BCBCBC;'>10</span>      16     2 0.055<span style='text-decoration: underline;'>6</span>
-#&gt; <span style='color: #BCBCBC;'>11</span>      17     1 0.027<span style='text-decoration: underline;'>8</span></div></pre>
+<span class='fu'>droll</span><span class='op'>(</span><span class='fl'>7</span><span class='op'>:</span><span class='fl'>9</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.02777778 0.05555556 0.08333333</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
