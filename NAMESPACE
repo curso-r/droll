@@ -2,7 +2,6 @@
 
 export("%d%")
 export(d)
+export(droll)
 export(plot_outcome_count)
-export(roll)
-export(roll_outcome_count)
-export(roll_outcome_freq)
+export(rroll)

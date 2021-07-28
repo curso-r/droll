@@ -15,7 +15,7 @@
 #' plot_outcome_count(2 * d6 + 5)
 #' @export
 plot_outcome_count <- function(roll, ...) {
-  counts <- roll_outcome_count_(substitute(roll), env = parent.frame())
+  counts <- roll_outcome_count(substitute(roll), env = parent.frame())
   graphics::barplot(
     counts$count,
     names.arg = counts$outcome,

@@ -1,4 +1,40 @@
 
+#' Count the ways each outcome of a roll can be obtained
+#'
+#' Given a roll expression (i.e. an arithmetic expression involving dice),
+#' compute the absolute frequency of each possible outcome. In other words,
+#' calculate how many ways every outcome of the roll can be obtained.
+#'
+#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param precise Whether to return values with arbitrary precision.
+#' @return A data frame with two columns: `outcome` and `count`.
+#'
+#' @examples
+#' # Possible outcomes of 2d6 + 5
+#' d6 <- d(1:6)
+#' droll(2 * d6 + 5)
+#' @export
+droll <- function(roll, precise = FALSE) {
+
+  # Calculate absolute density distribution
+  df <- roll_outcome_count(substitute(roll), TRUE, parent.frame())
+  t <- yac("Add", paste0(df$count, collapse = ","))
+
+  # Calculate relative frequency with arbitrary precision
+  df$freq <- sapply(df$count, function(n) yac("", paste0(n, "/", t)))
+  names(df$freq) <- NULL
+
+  # Convert values to numeric if requested
+  if (!precise) {
+    df$freq <- sapply(df$freq, function(f) yac("N", f))
+    df$freq <- as.numeric(df$freq)
+    df$count <- sapply(df$count, function(n) yac("N", n))
+    df$count <- as.numeric(df$count)
+  }
+
+  return(df)
+}
+
 #' Roll some dice
 #'
 #' Given a roll expression (i.e. an arithmetic expression involving dice),
@@ -12,9 +48,9 @@
 #' @examples
 #' # Roll 2d6 + 6
 #' d6 <- d(1:6)
-#' roll(2 * d6 + 5)
+#' rroll(2 * d6 + 5)
 #' @export
-roll <- function(roll, verbose = TRUE) {
+rroll <- function(roll, verbose = TRUE) {
 
   # BFS on the expression tree, evaluating dice rolls
   roll_dice <- function(expr, env) {
