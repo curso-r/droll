@@ -21,7 +21,7 @@ calculate how many ways every outcome of the roll can be obtained and then
 divide by the total sum.
 }
 \examples{
-# Possible outcomes of 2d6 + 6
+# Possible outcomes of 2d6 + 5
 d6 <- d(1:6)
 roll_outcome_freq(2 * d6 + 5)
 }

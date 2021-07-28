@@ -10,9 +10,9 @@
 #' @return A bar plot.
 #'
 #' @examples
-#' # Possible outcomes of 2d6 + 6
+#' # Possible outcomes of 2d6 + 5
 #' d6 <- d(1:6)
-#' ### plot_outcome_count(2 * d6 + 5) ### FIX
+#' plot_outcome_count(2 * d6 + 5)
 #' @export
 plot_outcome_count <- function(roll, ...) {
   counts <- roll_outcome_count_(substitute(roll), env = parent.frame())

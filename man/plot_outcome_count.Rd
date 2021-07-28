@@ -20,7 +20,7 @@ compute the absolute frequency of each possible outcome and plot them as a
 bar chart.
 }
 \examples{
-# Possible outcomes of 2d6 + 6
+# Possible outcomes of 2d6 + 5
 d6 <- d(1:6)
-### plot_outcome_count(2 * d6 + 5) ### FIX
+plot_outcome_count(2 * d6 + 5)
 }

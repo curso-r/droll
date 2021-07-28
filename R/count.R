@@ -219,7 +219,7 @@ roll_outcome_count_ <- function(roll, precise = FALSE, env = parent.frame()) {
 #' @return A data frame with two columns: `outcome` and `count`.
 #'
 #' @examples
-#' # Possible outcomes of 2d6 + 6
+#' # Possible outcomes of 2d6 + 5
 #' d6 <- d(1:6)
 #' roll_outcome_count(2 * d6 + 5)
 #' @export

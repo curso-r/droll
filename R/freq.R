@@ -11,7 +11,7 @@
 #' @return A data frame with two columns: `outcome` and `freq`.
 #'
 #' @examples
-#' # Possible outcomes of 2d6 + 6
+#' # Possible outcomes of 2d6 + 5
 #' d6 <- d(1:6)
 #' roll_outcome_freq(2 * d6 + 5)
 #' @export

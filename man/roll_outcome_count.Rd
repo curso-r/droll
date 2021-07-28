@@ -20,7 +20,7 @@ compute the absolute frequency of each possible outcome. In other words,
 calculate how many ways every outcome of the roll can be obtained.
 }
 \examples{
-# Possible outcomes of 2d6 + 6
+# Possible outcomes of 2d6 + 5
 d6 <- d(1:6)
 roll_outcome_count(2 * d6 + 5)
 }
