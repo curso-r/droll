@@ -4,15 +4,17 @@
 \alias{rroll}
 \title{Roll some dice}
 \usage{
-rroll(roll, verbose = TRUE)
+rroll(n, roll, verbose = TRUE)
 }
 \arguments{
+\item{n}{Number of observations.}
+
 \item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
 
 \item{verbose}{Whether to print the expression after the dice rolls.}
 }
 \value{
-A numeric scalar.
+A numeric vector.
 }
 \description{
 Given a roll expression (i.e. an arithmetic expression involving dice),
@@ -22,5 +24,5 @@ expression. If \code{verbose = TRUE}, also print the expression before evaluatio
 \examples{
 # Roll 2d6 + 6
 d6 <- d(1:6)
-rroll(2 * d6 + 5)
+rroll(3, 2 * d6 + 5)
 }

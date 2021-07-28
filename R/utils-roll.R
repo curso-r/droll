@@ -17,11 +17,48 @@ str2lang_ <- function(s) {
 #'
 #' @param f Yacas function.
 #' @param b Body of `f`.
-#' @return A string with Yacas' output
+#' @return A string with Yacas' output.
 #'
 #' @noRd
 yac <- function(f, b) {
   Ryacas::yac_str(paste0(f, "(", b, ")"))
+}
+
+#' BFS on the expression tree, evaluating dice rolls
+#'
+#' @param expr An expression of class 'call'.
+#' @param env The environment of `expr`.
+#' @return An expression that can be evaluated by R.
+#'
+#' @noRd
+roll_dice <- function(expr, env) {
+
+  # Simplest expression, either roll or just eval
+  if (length(expr) == 1) {
+    if (is_die(expr, env)) {
+      return(r(eval(expr, env)))
+    } else {
+      return(eval(expr, env))
+    }
+  }
+
+  # Evaluate argument of unary functions
+  if (length(expr) == 2) {
+    expr[[2]] <- roll_dice(expr[[2]], env)
+    return(expr)
+  }
+
+  # Bypass regular `*` roll in order to get partial results
+  # TODO: not a really good solution, try to not bypass
+  if (expr[[1]] == "*" && is_die(expr[[3]], env) && !is_die(expr[[2]], env)) {
+    dice <- r(eval(expr[[3]], env), eval(expr[[2]], env))
+    return(str2lang_(paste0("sum(", paste(dice, collapse = ", "), ")")))
+  }
+
+  # Evaluate both sides of binary operations
+  expr[[2]] <- roll_dice(expr[[2]], env)
+  expr[[3]] <- roll_dice(expr[[3]], env)
+  return(expr)
 }
 
 #' Calculate how many ways each possible outcome of some dice can be obtained
@@ -62,28 +99,6 @@ is_die <- function(expr, env) {
   tryCatch(class(eval(expr, env)), error = function(e) "None") == "Dice"
 }
 
-#' Handle dice_outcome_count() for different kinds of expressions
-#'
-#' @param expr An expression of class 'call'.
-#' @param env The environment of `expr`.
-#' @param dice Whether `expr` is of the form NdF.
-#' @return The output of [dice_outcome_count()]
-#'
-#' @noRd
-get_doc <- function(expr, env, dice = FALSE) {
-
-  # Evaluate and get DOC (if expression is of the form N * dF)
-  if (dice) {
-    return(dice_outcome_count(
-      faces(eval(expr[[3]], env)),
-      eval(expr[[2]], env))
-    )
-  }
-
-  # Return DOC directly (if expression is a single die)
-  return(dice_outcome_count(faces(eval(expr, env))))
-}
-
 #' Mask dice as inputs of a function (and get their dice_outcome_count())
 #'
 #' Given an expression with one Dice object, get its [dice_outcome_count()] and
@@ -101,6 +116,21 @@ mask_dice <- function(expr_and_counts, env, dice = FALSE) {
   # Separate parts of input
   expr <- expr_and_counts[[1]]
   counts <- expr_and_counts[[2]]
+
+  # Handle dice_outcome_count() for different kinds of expressions
+  get_doc <- function(expr, env, dice = FALSE) {
+
+    # Evaluate and get DOC (if expression is of the form N * dF)
+    if (dice) {
+      return(dice_outcome_count(
+        faces(eval(expr[[3]], env)),
+        eval(expr[[2]], env))
+      )
+    }
+
+    # Return DOC directly (if expression is a single die)
+    return(dice_outcome_count(faces(eval(expr, env))))
+  }
 
   # Get dice_outcome_count() of expression
   doc <- get_doc(expr, env, dice)
@@ -185,7 +215,7 @@ mask_roll <- function(expr_and_counts, env) {
 #'
 #' Given a roll expression, compute the absolute frequency of each possible
 #' outcome. In other words, calculate how many ways can every outcome of the
-#' roll be obtained. [droll()] wraps this function so that the user doesn't
+#' roll be obtained. [roll()] wraps this function so that the user doesn't
 #' have to worry about environments.
 #'
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).

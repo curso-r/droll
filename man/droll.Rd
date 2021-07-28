@@ -2,25 +2,25 @@
 % Please edit documentation in R/roll.R
 \name{droll}
 \alias{droll}
-\title{Count the ways each outcome of a roll can be obtained}
+\title{Get relative frequency of an outcome of a roll}
 \usage{
-droll(roll, precise = FALSE)
+droll(x, roll)
 }
 \arguments{
-\item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
+\item{x}{A vector of outcomes.}
 
-\item{precise}{Whether to return values with arbitrary precision.}
+\item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
 }
 \value{
-A data frame with two columns: \code{outcome} and \code{count}.
+A numeric vector.
 }
 \description{
 Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained.
+compute the relative frequency of a specific outcome. In other words,
+calculate the probability of obtaining this outcome.
 }
 \examples{
 # Possible outcomes of 2d6 + 5
 d6 <- d(1:6)
-droll(2 * d6 + 5)
+droll(7:9, 2 * d6 + 5)
 }
