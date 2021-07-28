@@ -52,7 +52,91 @@ droll <- function(x, roll) {
   yac_n(df$freq[df$outcome %in% x])
 }
 
+#' Get distribution of outcomes of a roll
+#'
+#' Given a roll expression (i.e. an arithmetic expression involving dice),
+#' compute the distribution the outcomes, returning `P[X <= x]` where `x` is an
+#' outcome of the roll.
+#'
+#' @param q A vector of outcomes.
+#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param lower.tail Whether to return `P[X ≤ x]` or `P[X > x]`.
+#' @return A numeric vector.
+#'
+#' @examples
+#' # Possible outcomes of 2d6 + 5
+#' d6 <- d(1:6)
+#' proll(7:9, 2 * d6 + 5)
+#' @export
+proll <- function(q, roll, lower.tail = TRUE) {
 
+  # Get full distribution
+  df <- roll_outcome_count(substitute(roll), parent.frame())
+
+  # Get tail of the distribution
+  tails <- c()
+  for (n in q) {
+
+    # Handle side of tail
+    if (lower.tail) {
+      tail <- df$freq[df$outcome <= n]
+    } else {
+      tail <- df$freq[df$outcome > n]
+    }
+
+    # Add and convert to numeric
+    tails <- append(tails, yac_n(yac("Add", paste0(tail, collapse = ","))))
+  }
+
+  return(tails)
+}
+
+#' Get inverse distribution of outcomes of a roll
+#'
+#' Given a roll expression (i.e. an arithmetic expression involving dice),
+#' compute the distribution the outcomes, returning `x | P[X ≤ x] = p` where
+#' `p` is a probability.
+#'
+#' @param p A vector of probabilities.
+#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param lower.tail Whether to return `x | P[X ≤ x] = p` or `x | P[X > x] = p`.
+#' @return A numeric vector.
+#'
+#' @examples
+#' # Possible outcomes of 2d6 + 5
+#' d6 <- d(1:6)
+#' qroll(7:9, 2 * d6 + 5)
+#' @export
+qroll <- function(p, roll, lower.tail = TRUE) {
+
+  # Get full distribution
+  df <- roll_outcome_count(substitute(roll), parent.frame())
+
+  # Calculate the cumulative sum of the probabilities
+  freq <- Reduce(
+    function(x, y) yac("Add", paste0(x, ",", y)),
+    if (lower.tail) df$freq else rev(df$freq), accumulate = TRUE
+  )
+
+  # Convert to numeric
+  freq <- yac_n(freq)
+
+  # Get outcomes that correspond to p
+  tails <- c()
+  for (f in p) {
+
+    # Handle side of tail
+    if (lower.tail) {
+      tail <- df$outcome[which.min(freq <= f) - 1]
+    } else {
+      tail <- rev(df$outcome)[which.min(freq < f) - 1]
+    }
+
+    tails <- append(tails, tail)
+  }
+
+  return(tails)
+}
 
 #' Roll some dice
 #'
