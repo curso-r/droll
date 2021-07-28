@@ -21,7 +21,7 @@ dice_outcome_count <- function(faces, n = 1) {
 
   # Convert coeficients into outcome counts
   Map(
-    function(l) list(outcome = as.numeric(l[2]), count = as.numeric(l[1])),
+    function(l) list(outcome = as.numeric(l[2]), count = l[1]),
     strsplit(strsplit(poly, "\\+")[[1]], "\\*?x\\^")
   )
 }
@@ -49,8 +49,7 @@ get_doc <- function(expr, env, dice = FALSE) {
 
   # Evaluate and get DOC (if expression is of the form N * dF)
   if (dice) {
-    expr <- bquote(dice_outcome_count(faces(.(expr[[3]])), .(expr[[2]])))
-    return(eval(expr, env))
+    return(dice_outcome_count(faces(eval(expr[[3]], env)), eval(expr[[2]], env)))
   }
 
   # Return DOC directly (if expression is a single die)
@@ -156,11 +155,12 @@ mask_roll <- function(expr_and_counts, env) {
 #' doesn't have to worry about environments.
 #'
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param precise Whether to return values with arbitrary precision.
 #' @param env The environment of `roll`.
 #' @return A data frame with two columns: `outcome` and `count`.
 #'
 #' @noRd
-roll_outcome_count_ <- function(roll, env = parent.frame()) {
+roll_outcome_count_ <- function(roll, precise = FALSE, env = parent.frame()) {
 
   # Capture roll expression and mask dice objects
   expr_and_counts <- mask_roll(list(roll, list()), env)
@@ -183,12 +183,20 @@ roll_outcome_count_ <- function(roll, env = parent.frame()) {
   roll_out <- Map(function(l) {
     data.frame(
       outcome = do.call(roll_function, as.list(l$outcome)),
-      count = do.call(prod, l$count)
+      count = Ryacas::yac_str(paste0("Multiply(", paste0(l$count, collapse = ","), ")"))
     )
   }, dice_out)
 
   # Summarise table by outcome, adding counts
-  df <- stats::aggregate(count ~ outcome, data = do.call(rbind, roll_out), sum)
+  df <- stats::aggregate(
+    count ~ outcome, data = do.call(rbind, roll_out),
+    function(l) Ryacas::yac_str(paste0("Add(", paste0(l, collapse = ","), ")"))
+  )
+
+  # Convert values to numeric if requested
+  if (!precise) {
+    df$count <- as.numeric(df$count)
+  }
 
   if (requireNamespace("tibble", quietly = TRUE)) {
     return(tibble::as_tibble(df))
@@ -204,13 +212,14 @@ roll_outcome_count_ <- function(roll, env = parent.frame()) {
 #' calculate how many ways every outcome of the roll can be obtained.
 #'
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param precise Whether to return values with arbitrary precision.
 #' @return A data frame with two columns: `outcome` and `count`.
 #'
 #' @examples
 #' # Possible outcomes of 2d6 + 6
 #' d6 <- d(1:6)
-#' ### roll_outcome_count(2 * d6 + 5) ### FIX
+#' roll_outcome_count(2 * d6 + 5)
 #' @export
-roll_outcome_count <- function(roll) {
-  roll_outcome_count_(substitute(roll), parent.frame())
+roll_outcome_count <- function(roll, precise = FALSE) {
+  roll_outcome_count_(substitute(roll), precise, parent.frame())
 }

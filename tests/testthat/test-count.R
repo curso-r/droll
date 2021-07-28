@@ -51,3 +51,17 @@ test_that("roll_outcome_count() works", {
   expect_equal(even$count, 5)
   expect_equal(even$outcome, 0)
 })
+
+test_that("arbitrary precision works", {
+  d6 <- d(1:6)
+
+  long <- roll_outcome_count(40 * d6, TRUE)
+
+  expect_type(long$count, "character")
+  expect_equal(nrow(long), 201)
+  expect_equal(long$count[1], "1")
+  expect_equal(long$count[201], "1")
+  expect_equal(min(long$outcome), 40)
+  expect_equal(max(long$outcome), 240)
+  expect_equal(long$count[100], "489696863256543831706905170720")
+})

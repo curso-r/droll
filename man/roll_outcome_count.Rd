@@ -4,10 +4,12 @@
 \alias{roll_outcome_count}
 \title{Count the ways each outcome of a roll can be obtained}
 \usage{
-roll_outcome_count(roll)
+roll_outcome_count(roll, precise = FALSE)
 }
 \arguments{
 \item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
+
+\item{precise}{Whether to return values with arbitrary precision.}
 }
 \value{
 A data frame with two columns: \code{outcome} and \code{count}.
@@ -20,5 +22,5 @@ calculate how many ways every outcome of the roll can be obtained.
 \examples{
 # Possible outcomes of 2d6 + 6
 d6 <- d(1:6)
-### roll_outcome_count(2 * d6 + 5) ### FIX
+roll_outcome_count(2 * d6 + 5)
 }
