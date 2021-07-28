@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a Dice object — d • droll</title>
+<title>Math2 operations with Dice objects — Math2,Dice-method • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Create a Dice object — d" />
-<meta property="og:description" content="Create a Dice object" />
+<meta property="og:title" content="Math2 operations with Dice objects — Math2,Dice-method" />
+<meta property="og:description" content="Math2 operations with Dice objects" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -111,34 +111,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a Dice object</h1>
+    <h1>Math2 operations with Dice objects</h1>
     
-    <div class="hidden name"><code>d.Rd</code></div>
+    <div class="hidden name"><code>Math2-Dice-method.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a Dice object</p>
+    <p>Math2 operations with Dice objects</p>
     </div>
 
-    <pre class="usage"><span class='fu'>d</span><span class='op'>(</span><span class='va'>faces</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S4 method for Dice</span>
+<span class='fu'>Math2</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>digits</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>faces</th>
-      <td><p>A numeric vector with the die's faces.</p></td>
+      <th>x</th>
+      <td><p>A Dice object.</p></td>
+    </tr>
+    <tr>
+      <th>digits</th>
+      <td><p>Number of digits to be used in <code>round</code> or <code>signif</code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A Dice object.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Create a d6</span>
-<span class='va'>d6</span> <span class='op'>&lt;-</span> <span class='fu'>d</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
