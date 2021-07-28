@@ -5,12 +5,12 @@ test_that("roll() works", {
 
   expect_output(
     roll(3 * (2 * d6) + d20 - 1 + 4),
-    "# Outcome: 3 \\* \\(sum\\([0-9\\+ ]+\\)\\) \\+ [0-9]+ \\- 1 \\+ 4"
+    "# Outcome: 3 \\* \\(sum\\([0-9, ]+\\)\\) \\+ [0-9]+ \\- 1 \\+ 4"
   )
 
   expect_output(
     roll(40 * d6),
-    "# Outcome: sum\\([0-9\\+ ]+\\)"
+    "# Outcome: sum\\([0-9, ]+\\)"
   )
 
   expect_output(

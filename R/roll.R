@@ -38,7 +38,7 @@ roll <- function(roll, verbose = TRUE) {
     # TODO: not a really good solution, try to not bypass
     if (expr[[1]] == "*" && is_die(expr[[3]], env) && !is_die(expr[[2]], env)) {
       dice <- r(eval(expr[[3]], env), eval(expr[[2]], env))
-      return(str2lang_(paste0("sum(", paste(dice, collapse = " + "), ")")))
+      return(str2lang_(paste0("sum(", paste(dice, collapse = ", "), ")")))
     }
 
     # Evaluate both sides of binary operations
