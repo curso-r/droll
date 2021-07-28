@@ -16,20 +16,13 @@
 #' @export
 roll <- function(roll, precise = FALSE) {
 
-  # Calculate absolute density distribution
-  df <- roll_outcome_count(substitute(roll), TRUE, parent.frame())
-  t <- yac("Add", paste0(df$count, collapse = ","))
-
-  # Calculate relative frequency with arbitrary precision
-  df$freq <- sapply(df$count, function(n) yac("", paste0(n, "/", t)))
-  names(df$freq) <- NULL
+  # Get full distribution
+  df <- roll_outcome_count(substitute(roll), parent.frame())
 
   # Convert values to numeric if requested
   if (!precise) {
-    df$freq <- sapply(df$freq, function(f) yac("N", f))
-    df$freq <- as.numeric(df$freq)
-    df$count <- sapply(df$count, function(n) yac("N", n))
-    df$count <- as.numeric(df$count)
+    df$freq <- yac_n(df$freq)
+    df$count <- yac_n(df$count)
   }
 
   return(df)
@@ -53,17 +46,13 @@ roll <- function(roll, precise = FALSE) {
 droll <- function(x, roll) {
 
   # Get full distribution
-  df <- roll_outcome_count(substitute(roll), TRUE, parent.frame())
-  t <- yac("Add", paste0(df$count, collapse = ","))
-
-  # Calculate relative frequency with arbitrary precision
-  df$freq <- sapply(df$count, function(n) yac("", paste0(n, "/", t)))
-  names(df$freq) <- NULL
+  df <- roll_outcome_count(substitute(roll), parent.frame())
 
   # Filter correct frequencies and convert to numeric
-  out <- df$freq[df$outcome %in% x]
-  as.numeric(sapply(out, function(f) yac("N", f)))
+  yac_n(df$freq[df$outcome %in% x])
 }
+
+
 
 #' Roll some dice
 #'

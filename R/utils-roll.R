@@ -24,6 +24,16 @@ yac <- function(f, b) {
   Ryacas::yac_str(paste0(f, "(", b, ")"))
 }
 
+#' Convert strings with arbitrary precision to numerics
+#'
+#' @param x A character vector.
+#' @return A numeric vector.
+#'
+#' @noRd
+yac_n <- function(x) {
+  as.numeric(sapply(x, function(a) yac("N", a)))
+}
+
 #' BFS on the expression tree, evaluating dice rolls
 #'
 #' @param expr An expression of class 'call'.
@@ -219,12 +229,11 @@ mask_roll <- function(expr_and_counts, env) {
 #' have to worry about environments.
 #'
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param precise Whether to return values with arbitrary precision.
 #' @param env The environment of `roll`.
 #' @return A data frame with two columns: `outcome` and `count`.
 #'
 #' @noRd
-roll_outcome_count <- function(roll, precise = FALSE, env = parent.frame()) {
+roll_outcome_count <- function(roll, env = parent.frame()) {
 
   # Capture roll expression and mask dice objects
   expr_and_counts <- mask_roll(list(roll, list()), env)
@@ -257,10 +266,12 @@ roll_outcome_count <- function(roll, precise = FALSE, env = parent.frame()) {
     function(l) yac("Add", paste0(l, collapse = ","))
   )
 
-  # Convert values to numeric if requested
-  if (!precise) {
-    df$count <- as.numeric(df$count)
-  }
+  # Calculate relative frequency
+  t <- yac("Add", paste0(df$count, collapse = ","))
+  df$freq <- sapply(df$count, function(n) yac("", paste0(n, "/", t)))
+
+  # Fix freq column
+  names(df$freq) <- NULL
 
   if (requireNamespace("tibble", quietly = TRUE)) {
     return(tibble::as_tibble(df))
