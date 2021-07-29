@@ -60,7 +60,7 @@ droll <- function(x, roll) {
 #'
 #' @param q A vector of outcomes.
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param lower.tail Whether to return `P[X ≤ x]` or `P[X > x]`.
+#' @param lower.tail Whether to return `P[X <= x]` or `P[X > x]`.
 #' @return A numeric vector.
 #'
 #' @examples
@@ -84,7 +84,12 @@ proll <- function(q, roll, lower.tail = TRUE) {
       tail <- df$freq[df$outcome > n]
     }
 
-    # Add and convert to numeric
+    # Handle empty results
+    if (length(tail) == 0) {
+      tail <- "0"
+    }
+
+    # Convert to numeric
     tails <- append(tails, yac_n(yac("Add", paste0(tail, collapse = ","))))
   }
 
@@ -94,18 +99,19 @@ proll <- function(q, roll, lower.tail = TRUE) {
 #' Get inverse distribution of outcomes of a roll
 #'
 #' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute the distribution the outcomes, returning `x | P[X ≤ x] = p` where
-#' `p` is a probability.
+#' compute the distribution the outcomes, returning the smallest `x` such that
+#' `P[X <= x] >= p`.
 #'
 #' @param p A vector of probabilities.
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param lower.tail Whether to return `x | P[X ≤ x] = p` or `x | P[X > x] = p`.
+#' @param lower.tail Whether to return `x | P[X <= x] >= p` or
+#' `x | P[X > x] >= p`.
 #' @return A numeric vector.
 #'
 #' @examples
 #' # Possible outcomes of 2d6 + 5
 #' d6 <- d(1:6)
-#' qroll(7:9, 2 * d6 + 5)
+#' qroll(0.5, 2 * d6 + 5)
 #' @export
 qroll <- function(p, roll, lower.tail = TRUE) {
 
@@ -115,8 +121,12 @@ qroll <- function(p, roll, lower.tail = TRUE) {
   # Calculate the cumulative sum of the probabilities
   freq <- Reduce(
     function(x, y) yac("Add", paste0(x, ",", y)),
-    if (lower.tail) df$freq else rev(df$freq), accumulate = TRUE
+    df$freq, accumulate = TRUE
   )
+
+  if (!lower.tail) {
+    freq <- sapply(freq, function(x) paste0("1-", x))
+  }
 
   # Convert to numeric
   freq <- yac_n(freq)
@@ -127,9 +137,9 @@ qroll <- function(p, roll, lower.tail = TRUE) {
 
     # Handle side of tail
     if (lower.tail) {
-      tail <- df$outcome[which.min(freq <= f) - 1]
+      tail <- df$outcome[min(which(freq >= f))]
     } else {
-      tail <- rev(df$outcome)[which.min(freq < f) - 1]
+      tail <- df$outcome[max(which(freq >= f))]
     }
 
     tails <- append(tails, tail)

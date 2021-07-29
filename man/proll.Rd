@@ -11,7 +11,7 @@ proll(q, roll, lower.tail = TRUE)
 
 \item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
 
-\item{lower.tail}{Whether to return \verb{P[X ≤ x]} or \code{P[X > x]}.}
+\item{lower.tail}{Whether to return \code{P[X <= x]} or \code{P[X > x]}.}
 }
 \value{
 A numeric vector.

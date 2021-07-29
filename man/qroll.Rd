@@ -11,18 +11,19 @@ qroll(p, roll, lower.tail = TRUE)
 
 \item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
 
-\item{lower.tail}{Whether to return \verb{x | P[X ≤ x] = p} or \code{x | P[X > x] = p}.}
+\item{lower.tail}{Whether to return \code{x | P[X <= x] >= p} or
+\code{x | P[X > x] >= p}.}
 }
 \value{
 A numeric vector.
 }
 \description{
 Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the distribution the outcomes, returning \verb{x | P[X ≤ x] = p} where
-\code{p} is a probability.
+compute the distribution the outcomes, returning the smallest \code{x} such that
+\code{P[X <= x] >= p}.
 }
 \examples{
 # Possible outcomes of 2d6 + 5
 d6 <- d(1:6)
-qroll(7:9, 2 * d6 + 5)
+qroll(0.5, 2 * d6 + 5)
 }
