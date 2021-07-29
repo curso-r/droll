@@ -16,11 +16,10 @@
 #' @export
 droll_plot <- function(roll, ...) {
   df <- roll_outcome_count(substitute(roll), parent.frame())
-  df$count <- yac_n(df$count)
 
   graphics::barplot(
-    df$count, names.arg = df$outcome,
-    xlab = "outcome", ylab = "count", ...
+    yac_n(df$freq), names.arg = df$outcome,
+    xlab = "Outcome", ylab = "P[X = x]", ...
   )
 }
 
@@ -63,7 +62,7 @@ proll_plot <- function(roll, ..., lower.tail = TRUE) {
 
   graphics::barplot(
     tails, names.arg = df$outcome,
-    xlab = "outcome", ylab = "probability", ...
+    xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]", ...
   )
 }
 
@@ -99,9 +98,15 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
   # Convert to numeric
   freq <- yac_n(freq)
 
+  # Create vector of probabilities
+  if (lower.tail) {
+    p <- seq(0, 1, length.out = length(freq))
+  } else {
+    p <- seq(0, 0.99, length.out = length(freq))
+  }
+
   # Get outcomes that correspond to p
   tails <- c()
-  p <- seq(0, 1, length.out = length(freq))
   for (f in p) {
 
     # Handle side of tail
@@ -116,7 +121,7 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
 
   graphics::barplot(
     tails, names.arg = round(p, 2),
-    xlab = "outcome", ylab = "probability", ...
+    xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome", ...
   )
 }
 
@@ -150,5 +155,8 @@ rroll_plot <- function(n, roll, ...) {
     out <- append(out, eval(expr, parent.frame()))
   }
 
-  graphics::hist(out, breaks = min(out):max(out))
+  graphics::hist(
+    out, breaks = min(out):max(out),
+    xlab = "Outcome", ylab = "Count"
+  )
 }
