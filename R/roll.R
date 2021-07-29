@@ -124,6 +124,7 @@ qroll <- function(p, roll, lower.tail = TRUE) {
     df$freq, accumulate = TRUE
   )
 
+  # Handle side of tail
   if (!lower.tail) {
     freq <- sapply(freq, function(x) paste0("1-", x))
   }
