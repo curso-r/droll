@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Count the ways each outcome of a roll can be obtained — roll • droll</title>
+<title>The roll distribution — roll • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,10 @@
 
 
 
-<meta property="og:title" content="Count the ways each outcome of a roll can be obtained — roll" />
-<meta property="og:description" content="Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained." />
+<meta property="og:title" content="The roll distribution — roll" />
+<meta property="og:description" content="Density, distribution function, quantile function, and random generation for
+the discrete distribution described by a roll expression. See below for more
+details." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -113,39 +113,126 @@ calculate how many ways every outcome of the roll can be obtained." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Count the ways each outcome of a roll can be obtained</h1>
+    <h1>The roll distribution</h1>
     
     <div class="hidden name"><code>roll.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Given a roll expression (i.e. an arithmetic expression involving dice),
-compute the absolute frequency of each possible outcome. In other words,
-calculate how many ways every outcome of the roll can be obtained.</p>
+    <p>Density, distribution function, quantile function, and random generation for
+the discrete distribution described by a roll expression. See below for more
+details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>roll</span><span class='op'>(</span><span class='va'>roll</span>, precise <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>roll</span><span class='op'>(</span><span class='va'>roll</span>, precise <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>droll</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>roll</span><span class='op'>)</span>
+
+<span class='fu'>proll</span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>roll</span>, lower.tail <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='fu'>qroll</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>roll</span>, lower.tail <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='fu'>rroll</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>roll</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>roll</th>
-      <td><p>A roll expression (e.g. <code>2 * d6 + 5</code>).</p></td>
+      <td><p>A roll expression (e.g., <code>2 * d6 + 5</code>).</p></td>
     </tr>
     <tr>
       <th>precise</th>
       <td><p>Whether to return values with arbitrary precision.</p></td>
     </tr>
+    <tr>
+      <th>x</th>
+      <td><p>A numeric vector of outcomes.</p></td>
+    </tr>
+    <tr>
+      <th>q</th>
+      <td><p>A numeric vector of outcomes.</p></td>
+    </tr>
+    <tr>
+      <th>lower.tail</th>
+      <td><p>Whether to calculate <code>P[X &lt;= x]</code> or <code>P[X &gt; x]</code>.</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>A numeric vector of probabilities.</p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>Number of random deviates to return.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>For <code>rroll()</code>, if <code>n = 1</code>, whether to print partial result of
+the dice roll.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>The main algorithm for calculating dice probabilities comes from
+<a href='https://mathworld.wolfram.com/Dice.html'>MathWorld</a>.</p>
+<p>Symbolic calculations are handled by
+<a href='https://cran.r-project.org/package=Ryacas'>Ryacas</a>, and, by extension, by
+<a href='https://www.yacas.org/'>Yacas</a>.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with two columns: <code>outcome</code>, <code>count</code>, and <code>freq</code>.</p>
+    <p>For <code>roll()</code>, a data frame with three columns: <code>outcome</code>, <code>count</code>,
+and <code>freq</code>. For <code>droll()</code>, <code>proll()</code>, <code>qroll()</code>, and <code>rroll()</code>, a numeric
+vector.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Given a roll expression (i.e., an arithmetic expression involving dice),
+<code>roll()</code> calculates the complete distribution of the outcomes. This is
+possible because the distribution is discrete and has a finite number of
+outcomes.</p>
+<p>From this distribution, <code>droll()</code> returns the density, <code>proll()</code> returns the
+distribution function, <code>qroll()</code> returns the quantile function, and
+<code>rroll()</code> generates random deviates. They mirror functions from the
+<a href='https://rdrr.io/r/stats/Distributions.html'>Distributions</a> family.</p>
+    <h2 class="hasAnchor" id="roll-expressions"><a class="anchor" href="#roll-expressions"></a>Roll Expressions</h2>
+
+    
+
+<p>A roll expression is a piece of R code that describes a dice roll with or
+without modifiers, e.g., <code>2 * d6 + 5</code>.</p>
+<p>Standard <a href='https://en.wikipedia.org/wiki/Dice_notation'>dice notation</a> should
+mostly work out of the box, with the notable exception of <code>NdX</code>, i.e., "roll
+<code>N</code> dice with <code>X</code> faces and add the results". In this case, the user must
+write <code>N * dX</code>; this also means that, when translating "roll a die with <code>X</code>
+faces and multiply the result by <code>N</code>" to a roll expression, the user must
+then write <code>dX * N</code>. All other expressions involving dice can usually be
+pasted straight into these functions.</p>
+<p>For more information, see the dice creating function <code><a href='d.html'>d()</a></code>.</p>
+    <h2 class="hasAnchor" id="built-in-dice"><a class="anchor" href="#built-in-dice"></a>Built-in Dice</h2>
+
+    
+
+<p>It is possible to define any die with <code><a href='d.html'>d()</a></code>, but some are already built-in.
+Because of R's restrictions on what kind of object can be exported, they are
+not readly available for the user, but can be used inside a roll expression
+nontheless. These are the standard D&amp;D dice: <code>d4</code>, <code>d6</code>, <code>d8</code>, <code>d10</code>, <code>d12</code>,
+<code>d20</code>, and <code>d100</code>.</p>
+    <h2 class="hasAnchor" id="arbitrary-precision"><a class="anchor" href="#arbitrary-precision"></a>Arbitrary Precision</h2>
+
+    
+
+<p>Most dice programs that can calculate probabilities are forced to round
+their results due to the fact that these quantities might become
+exceptionally low when dealing with a lot of dice. This, however, can lead
+to error magnification.</p>
+<p>In order to avoid rouding as much as possible, all functions described here
+use <code><a href='https://rdrr.io/pkg/Ryacas/man/yac_str.html'>Ryacas::yac_str()</a></code> to run computations symbolically. By default,
+results are converted to numeric vectors just before returning to the user,
+but one is able to access the symbolic strings returned by Ryacas by setting
+<code>precise = TRUE</code> on <code>roll()</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Possible outcomes of 2d6 + 5</span>
-<span class='va'>d6</span> <span class='op'>&lt;-</span> <span class='fu'><a href='d.html'>d</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># Complete distribution of 2d6 + 5</span>
 <span class='fu'>roll</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 × 3</span>
 #&gt;    outcome count   freq
@@ -160,7 +247,22 @@ calculate how many ways every outcome of the roll can be obtained.</p>
 #&gt; <span style='color: #BCBCBC;'> 8</span>      14     4 0.111 
 #&gt; <span style='color: #BCBCBC;'> 9</span>      15     3 0.083<span style='text-decoration: underline;'>3</span>
 #&gt; <span style='color: #BCBCBC;'>10</span>      16     2 0.055<span style='text-decoration: underline;'>6</span>
-#&gt; <span style='color: #BCBCBC;'>11</span>      17     1 0.027<span style='text-decoration: underline;'>8</span></div></pre>
+#&gt; <span style='color: #BCBCBC;'>11</span>      17     1 0.027<span style='text-decoration: underline;'>8</span></div><div class='input'>
+<span class='co'># Density of 2d6 + 5</span>
+<span class='fu'>droll</span><span class='op'>(</span><span class='fl'>12</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.1666667</div><div class='input'>
+<span class='co'># Distribution function of 2d6 + 5</span>
+<span class='fu'>proll</span><span class='op'>(</span><span class='fl'>12</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.5833333</div><div class='input'>
+<span class='co'># Quantile function of 2d6 + 5</span>
+<span class='fu'>qroll</span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 12</div><div class='input'>
+<span class='co'># Roll 2d6 + 5 (generate random deviates)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='fu'>rroll</span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># Outcome: sum(1, 5) + 5 
+#&gt; </span></div><div class='output co'>#&gt; [1] 11</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
