@@ -174,8 +174,13 @@ mask_roll <- function(expr_and_counts, env) {
 
   # Handle single die expressions
   if (length(expr) == 1) {
-    out <- mask_dice(list(expr, counts), env)
-    return(list(out[[1]], out[[2]]))
+    if (is_die(expr, env)) {
+      out <- mask_dice(list(expr, counts), env)
+      return(list(out[[1]], out[[2]]))
+    }
+
+    # If there are no dice, just return
+    return(list(expr, counts))
   }
 
   # Mask dice from LHS of expression

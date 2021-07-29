@@ -130,3 +130,21 @@ test_that("arbitrary precision works", {
     "15303026976766994740840786585/417734204338866689619963936768"
   )
 })
+
+test_that("exotic cases work", {
+  d10 <- d(1:10)
+  d20 <- d(1:20)
+
+  # Level 6 barbarian raging and attacking recklessly
+  barbarian <- roll({
+    if (max(d20, d20) + 8 > 15) {
+      return(d10 + 7)
+    } else {
+      return(0)
+    }
+  })
+
+  expect_equal(nrow(barbarian), 11)
+  expect_equal(barbarian$freq[1], 0.1225)
+  expect_true(all(barbarian$freq[-1] == 0.08775))
+})
