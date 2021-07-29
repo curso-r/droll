@@ -129,7 +129,7 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
 #'
 #' @param n Number of samples.
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param ... Other arguments passed on to [graphics::barplot()]
+#' @param ... Other arguments passed on to [graphics::hist()]
 #' @return A histogram.
 #'
 #' @examples
@@ -157,6 +157,6 @@ rroll_plot <- function(n, roll, ...) {
 
   graphics::hist(
     out, breaks = min(out):max(out),
-    xlab = "Outcome", ylab = "Count"
+    xlab = "Outcome", ylab = "Count", ...
   )
 }

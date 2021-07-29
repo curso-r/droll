@@ -11,7 +11,7 @@ rroll_plot(n, roll, ...)
 
 \item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
 
-\item{...}{Other arguments passed on to \code{\link[graphics:barplot]{graphics::barplot()}}}
+\item{...}{Other arguments passed on to \code{\link[graphics:hist]{graphics::hist()}}}
 }
 \value{
 A histogram.

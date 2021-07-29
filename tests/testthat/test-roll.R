@@ -147,4 +147,11 @@ test_that("exotic cases work", {
   expect_equal(nrow(barbarian), 11)
   expect_equal(barbarian$freq[1], 0.1225)
   expect_true(all(barbarian$freq[-1] == 0.08775))
+
+  # Undeclared built-in dice
+  builtin <- roll(d4 + d6 + d12)
+
+  expect_equal(nrow(builtin), 20)
+  expect_equal(builtin$freq[1], 0.003472222, tolerance = 1e-6)
+  expect_equal(builtin$count[10], 24)
 })

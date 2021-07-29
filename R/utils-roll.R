@@ -98,6 +98,33 @@ dice_outcome_count <- function(faces, n = 1) {
   )
 }
 
+#' Wrapper around eval() that handles built-in dice
+#'
+#' @param expr An expression of class 'call'.
+#' @param env The environment of `expr`.
+#' @return The result of evaluating the expression.
+#'
+#' @noRd
+eval_dice <- function(expr, env) {
+
+  # Error handling funtion
+  err <- function(e) {
+    text <- as.character(expr)
+
+    # Return a new dice if built-in
+    if (length(text) == 1) {
+      if (grepl("^[dD](4|6|10|12|20|100)$", text)) {
+        return(d(1:(sub("[dD]", "", text))))
+      } else {
+        stop(e)
+      }
+    }
+  }
+
+  # Try to evaluate
+  tryCatch(eval(expr, env), error = err)
+}
+
 #' Check if expression belongs to the Dice S4 class
 #'
 #' @param expr An expression of class 'call'.
@@ -106,7 +133,7 @@ dice_outcome_count <- function(faces, n = 1) {
 #'
 #' @noRd
 is_die <- function(expr, env) {
-  tryCatch(class(eval(expr, env)), error = function(e) "None") == "Dice"
+  tryCatch(class(eval_dice(expr, env)), error = function(e) "None") == "Dice"
 }
 
 #' Mask dice as inputs of a function (and get their dice_outcome_count())
@@ -133,13 +160,13 @@ mask_dice <- function(expr_and_counts, env, dice = FALSE) {
     # Evaluate and get DOC (if expression is of the form N * dF)
     if (dice) {
       return(dice_outcome_count(
-        faces(eval(expr[[3]], env)),
+        faces(eval_dice(expr[[3]], env)),
         eval(expr[[2]], env))
       )
     }
 
     # Return DOC directly (if expression is a single die)
-    return(dice_outcome_count(faces(eval(expr, env))))
+    return(dice_outcome_count(faces(eval_dice(expr, env))))
   }
 
   # Get dice_outcome_count() of expression
