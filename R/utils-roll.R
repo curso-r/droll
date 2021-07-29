@@ -46,7 +46,7 @@ roll_dice <- function(expr, env) {
   # Simplest expression, either roll or just eval
   if (length(expr) == 1) {
     if (is_die(expr, env)) {
-      return(r(eval(expr, env)))
+      return(r(eval_dice(expr, env)))
     } else {
       return(eval(expr, env))
     }
@@ -61,7 +61,7 @@ roll_dice <- function(expr, env) {
   # Bypass regular `*` roll in order to get partial results
   # TODO: not a really good solution, try to not bypass
   if (expr[[1]] == "*" && is_die(expr[[3]], env) && !is_die(expr[[2]], env)) {
-    dice <- r(eval(expr[[3]], env), eval(expr[[2]], env))
+    dice <- r(eval_dice(expr[[3]], env), eval(expr[[2]], env))
     return(str2lang_(paste0("sum(", paste(dice, collapse = ", "), ")")))
   }
 
@@ -75,7 +75,7 @@ roll_dice <- function(expr, env) {
 #'
 #' Given `n` dice with a numeric vector representing their `faces`, compute the
 #' absolute frequency of each possible outcome of their sum. In other words,
-#' calculate how many ways every outcome of 'NdF' can be obtained.
+#' calculate how many ways every outcome of 'NdX' can be obtained.
 #'
 #' @param faces A numeric vector with the dice's faces.
 #' @param n The number of dice.
@@ -113,7 +113,7 @@ eval_dice <- function(expr, env) {
 
     # Return a new dice if built-in
     if (length(text) == 1) {
-      if (grepl("^[dD](4|6|10|12|20|100)$", text)) {
+      if (grepl("^[dD](4|6|8|10|12|20|100)$", text)) {
         return(d(1:(sub("[dD]", "", text))))
       } else {
         stop(e)
@@ -144,7 +144,7 @@ is_die <- function(expr, env) {
 #'
 #' @param expr_and_counts A list with an expression and a count data frame.
 #' @param env The environment of `expr_and_counts[[1]]`.
-#' @param dice Whether `expr_and_counts[[1]]` is of the form NdF.
+#' @param dice Whether `expr_and_counts[[1]]` is of the form NdX.
 #' @return A list with an expression and a count data frame.
 #'
 #' @noRd
@@ -157,7 +157,7 @@ mask_dice <- function(expr_and_counts, env, dice = FALSE) {
   # Handle dice_outcome_count() for different kinds of expressions
   get_doc <- function(expr, env, dice = FALSE) {
 
-    # Evaluate and get DOC (if expression is of the form N * dF)
+    # Evaluate and get DOC (if expression is of the form N * dX)
     if (dice) {
       return(dice_outcome_count(
         faces(eval_dice(expr[[3]], env)),

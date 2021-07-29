@@ -1,18 +1,96 @@
 
-#' Count the ways each outcome of a roll can be obtained
+#' The roll distribution
 #'
-#' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute the absolute frequency of each possible outcome. In other words,
-#' calculate how many ways every outcome of the roll can be obtained.
+#' @description
+#' Density, distribution function, quantile function, and random generation for
+#' the discrete distribution described by a roll expression. See below for more
+#' details.
 #'
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @details
+#' Given a roll expression (i.e., an arithmetic expression involving dice),
+#' [roll()] calculates the complete distribution of the outcomes. This is
+#' possible because the distribution is discrete and has a finite number of
+#' outcomes.
+#'
+#' From this distribution, [droll()] returns the density, [proll()] returns the
+#' distribution function, [qroll()] returns the quantile function, and
+#' [rroll()] generates random deviates. They mirror functions from the
+#' [Distributions] family.
+#'
+#' @section Roll Expressions:
+#' A roll expression is a piece of R code that describes a dice roll with or
+#' without modifiers, e.g., `2 * d6 + 5`.
+#'
+#' Standard [dice notation](https://en.wikipedia.org/wiki/Dice_notation) should
+#' mostly work out of the box, with the notable exception of `NdX`, i.e., "roll
+#' `N` dice with `X` faces and add the results". In this case, the user must
+#' write `N * dX`; this also means that, when translating "roll a die with `X`
+#' faces and multiply the result by `N`" to a roll expression, the user must
+#' then write `dX * N`. All other expressions involving dice can usually be
+#' pasted straight into these functions.
+#'
+#' For more information, see the dice creating function [d()].
+#'
+#' @section Built-in Dice:
+#' It is possible to define any die with [d()], but some are already built-in.
+#' Because of R's restrictions on what kind of object can be exported, they are
+#' not readly available for the user, but can be used inside a roll expression
+#' nontheless. These are the standard D&D dice: `d4`, `d6`, `d8`, `d10`, `d12`,
+#' `d20`, and `d100`.
+#'
+#' @section Arbitrary Precision:
+#' Most dice programs that can calculate probabilities are forced to round
+#' their results due to the fact that these quantities might become
+#' exceptionally low when dealing with a lot of dice. This, however, can lead
+#' to error magnification.
+#'
+#' In order to avoid rouding as much as possible, all functions described here
+#' use [Ryacas::yac_str()] to run computations symbolically. By default,
+#' results are converted to numeric vectors just before returning to the user,
+#' but one is able to access the symbolic strings returned by Ryacas by setting
+#' `precise = TRUE` on [roll()].
+#'
+#' @source
+#' The main algorithm for calculating dice probabilities comes from
+#' [MathWorld](https://mathworld.wolfram.com/Dice.html).
+#'
+#' Symbolic calculations are handled by
+#' [Ryacas](https://cran.r-project.org/package=Ryacas), and, by extension, by
+#' [Yacas](https://www.yacas.org/).
+#'
+#' @param x A numeric vector of outcomes.
+#' @param q A numeric vector of outcomes.
+#' @param p A numeric vector of probabilities.
+#' @param n Number of random deviates to return.
+#' @param roll A roll expression (e.g., `2 * d6 + 5`).
+#' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
 #' @param precise Whether to return values with arbitrary precision.
-#' @return A data frame with two columns: `outcome`, `count`, and `freq`.
+#' @param verbose For [rroll()], if `n = 1`, whether to print partial result of
+#' the dice roll.
+#' @return For [roll()], a data frame with three columns: `outcome`, `count`,
+#' and `freq`. For [droll()], [proll()], [qroll()], and [rroll()], a numeric
+#' vector.
 #'
 #' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
+#' # Complete distribution of 2d6 + 5
 #' roll(2 * d6 + 5)
+#'
+#' # Density of 2d6 + 5
+#' droll(12, 2 * d6 + 5)
+#'
+#' # Distribution function of 2d6 + 5
+#' proll(12, 2 * d6 + 5)
+#'
+#' # Quantile function of 2d6 + 5
+#' qroll(0.5, 2 * d6 + 5)
+#'
+#' # Roll 2d6 + 5 (generate random deviates)
+#' set.seed(42)
+#' rroll(1, 2 * d6 + 5)
+#'
+#' @name roll
+
+#' @rdname roll
 #' @export
 roll <- function(roll, precise = FALSE) {
 
@@ -28,20 +106,7 @@ roll <- function(roll, precise = FALSE) {
   return(df)
 }
 
-#' Get relative frequency of an outcome of a roll
-#'
-#' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute the relative frequency of a specific outcome. In other words,
-#' calculate the probability of obtaining this outcome.
-#'
-#' @param x A vector of outcomes.
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @return A numeric vector.
-#'
-#' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
-#' droll(7:9, 2 * d6 + 5)
+#' @rdname roll
 #' @export
 droll <- function(x, roll) {
 
@@ -52,21 +117,7 @@ droll <- function(x, roll) {
   yac_n(df$freq[df$outcome %in% x])
 }
 
-#' Get distribution of outcomes of a roll
-#'
-#' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute the distribution the outcomes, returning `P[X <= x]` where `x` is an
-#' outcome of the roll.
-#'
-#' @param q A vector of outcomes.
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param lower.tail Whether to return `P[X <= x]` or `P[X > x]`.
-#' @return A numeric vector.
-#'
-#' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
-#' proll(7:9, 2 * d6 + 5)
+#' @rdname roll
 #' @export
 proll <- function(q, roll, lower.tail = TRUE) {
 
@@ -96,22 +147,7 @@ proll <- function(q, roll, lower.tail = TRUE) {
   return(tails)
 }
 
-#' Get inverse distribution of outcomes of a roll
-#'
-#' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute the distribution the outcomes, returning the smallest `x` such that
-#' `P[X <= x] >= p`.
-#'
-#' @param p A vector of probabilities.
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param lower.tail Whether to return `x | P[X <= x] >= p` or
-#' `x | P[X > x] >= p`.
-#' @return A numeric vector.
-#'
-#' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
-#' qroll(0.5, 2 * d6 + 5)
+#' @rdname roll
 #' @export
 qroll <- function(p, roll, lower.tail = TRUE) {
 
@@ -149,21 +185,7 @@ qroll <- function(p, roll, lower.tail = TRUE) {
   return(tails)
 }
 
-#' Roll some dice
-#'
-#' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute an outcome by sampling one face from each die and evaluating the
-#' expression. If `verbose = TRUE`, also print the expression before evaluation.
-#'
-#' @param n Number of observations.
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param verbose Whether to print the expression after the dice rolls.
-#' @return A numeric vector.
-#'
-#' @examples
-#' # Roll 2d6 + 6
-#' d6 <- d(1:6)
-#' rroll(3, 2 * d6 + 5)
+#' @rdname roll
 #' @export
 rroll <- function(n, roll, verbose = TRUE) {
 
@@ -180,7 +202,7 @@ rroll <- function(n, roll, verbose = TRUE) {
 
     # Roll dice making each result explicit
     expr <- roll_dice(substitute(roll), parent.frame())
-    out <- append(out, eval(expr, parent.frame()))
+    out <- append(out, eval_dice(expr, parent.frame()))
   }
 
   # Print expression for user befor evaluating
