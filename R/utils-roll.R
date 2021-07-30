@@ -260,7 +260,7 @@ mask_roll <- function(expr_and_counts, env) {
 #' roll be obtained. [roll()] wraps this function so that the user doesn't
 #' have to worry about environments.
 #'
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param roll A roll expression (e.g., `2 * d6 + 5`).
 #' @param env The environment of `roll`.
 #' @return A data frame with two columns: `outcome` and `count`.
 #'

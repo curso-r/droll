@@ -17,7 +17,7 @@ qroll_plot(roll, ..., lower.tail = TRUE)
 rroll_plot(n, roll, ...)
 }
 \arguments{
-\item{roll}{A roll expression (e.g. \code{2 * d6 + 5}).}
+\item{roll}{A roll expression (e.g., \code{2 * d6 + 5}).}
 
 \item{...}{Other arguments passed on to \code{\link[graphics:barplot]{graphics::barplot()}} or
 \code{\link[graphics:hist]{graphics::hist()}} (\code{\link[=rroll_plot]{rroll_plot()}} only).}

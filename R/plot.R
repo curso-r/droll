@@ -21,7 +21,7 @@
 #' @seealso [graphics::barplot()], [graphics::hist()], [d()], [roll]
 #'
 #' @param n Number of random deviates to return.
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
+#' @param roll A roll expression (e.g., `2 * d6 + 5`).
 #' @param ... Other arguments passed on to [graphics::barplot()] or
 #' [graphics::hist()] ([rroll_plot()] only).
 #' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
