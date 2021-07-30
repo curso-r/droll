@@ -17,7 +17,8 @@ qroll_plot(roll, ..., lower.tail = TRUE)
 rroll_plot(n, roll, ...)
 }
 \arguments{
-\item{roll}{A roll expression (e.g., \code{2 * d6 + 5}).}
+\item{roll}{A roll expression (e.g., \code{2 * d6 + 5}) or a data frame returned
+by \code{\link[=r]{r()}}.}
 
 \item{...}{Other arguments passed on to \code{\link[graphics:barplot]{graphics::barplot()}} or
 \code{\link[graphics:hist]{graphics::hist()}} (\code{\link[=rroll_plot]{rroll_plot()}} only).}
@@ -37,9 +38,8 @@ more details.
 }
 \details{
 Given a roll expression (i.e., an arithmetic expression involving dice),
-\code{\link[=roll]{roll()}} calculates the complete distribution of the outcomes. This is
-possible because the distribution is discrete and has a finite number of
-outcomes.
+\code{\link[=r]{r()}} calculates the complete distribution of the outcomes. This is possible
+because the distribution is discrete and has a finite number of outcomes.
 
 From this distribution, \code{\link[=droll_plot]{droll_plot()}} plots the density, \code{\link[=proll_plot]{proll_plot()}}
 plots the distribution function, \code{\link[=qroll_plot]{qroll_plot()}} plots the quantile function,

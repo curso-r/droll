@@ -46,7 +46,7 @@ roll_dice <- function(expr, env) {
   # Simplest expression, either roll or just eval
   if (length(expr) == 1) {
     if (is_die(expr, env)) {
-      return(r(eval_dice(expr, env)))
+      return(s(eval_dice(expr, env)))
     } else {
       return(eval(expr, env))
     }
@@ -61,7 +61,7 @@ roll_dice <- function(expr, env) {
   # Bypass regular `*` roll in order to get partial results
   # TODO: not a really good solution, try to not bypass
   if (expr[[1]] == "*" && is_die(expr[[3]], env) && !is_die(expr[[2]], env)) {
-    dice <- r(eval_dice(expr[[3]], env), eval(expr[[2]], env))
+    dice <- s(eval_dice(expr[[3]], env), eval(expr[[2]], env))
     return(str2lang_(paste0("sum(", paste(dice, collapse = ", "), ")")))
   }
 
@@ -79,7 +79,7 @@ roll_dice <- function(expr, env) {
 #'
 #' @param faces A numeric vector with the dice's faces.
 #' @param n The number of dice.
-#' @return A list of lists of the form `list(outcome, count)`.
+#' @return A list of lists of the form `list(outcome, n)`.
 #'
 #' @noRd
 dice_outcome_count <- function(faces, n = 1) {
@@ -93,7 +93,7 @@ dice_outcome_count <- function(faces, n = 1) {
 
   # Convert coeficients into outcome counts
   Map(
-    function(l) list(outcome = as.numeric(l[2]), count = l[1]),
+    function(l) list(outcome = as.numeric(l[2]), n = l[1]),
     strsplit(strsplit(poly, "\\+")[[1]], "\\*?x\\^")
   )
 }
@@ -257,8 +257,8 @@ mask_roll <- function(expr_and_counts, env) {
 #'
 #' Given a roll expression, compute the absolute frequency of each possible
 #' outcome. In other words, calculate how many ways can every outcome of the
-#' roll be obtained. [roll()] wraps this function so that the user doesn't
-#' have to worry about environments.
+#' roll be obtained. [r()] wraps this function so that the user doesn't have to
+#' worry about environments.
 #'
 #' @param roll A roll expression (e.g., `2 * d6 + 5`).
 #' @param env The environment of `roll`.
@@ -288,22 +288,22 @@ roll_outcome_count <- function(roll, env = parent.frame()) {
   roll_out <- Map(function(l) {
     data.frame(
       outcome = do.call(roll_function, as.list(l$outcome)),
-      count = yac("Multiply", paste0(l$count, collapse = ","))
+      n = yac("Multiply", paste0(l$n, collapse = ","))
     )
   }, dice_out)
 
   # Summarise table by outcome, adding counts
   df <- stats::aggregate(
-    count ~ outcome, data = do.call(rbind, roll_out),
+    n ~ outcome, data = do.call(rbind, roll_out),
     function(l) yac("Add", paste0(l, collapse = ","))
   )
 
   # Calculate relative frequency
-  t <- yac("Add", paste0(df$count, collapse = ","))
-  df$freq <- sapply(df$count, function(n) yac("", paste0(n, "/", t)))
+  t <- yac("Add", paste0(df$n, collapse = ","))
+  df$d <- sapply(df$n, function(n) yac("", paste0(n, "/", t)))
 
-  # Fix freq column
-  names(df$freq) <- NULL
+  # Fix d column
+  names(df$d) <- NULL
 
   if (requireNamespace("tibble", quietly = TRUE)) {
     return(tibble::as_tibble(df))

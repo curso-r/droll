@@ -1,21 +1,17 @@
 
-#' The roll distribution
-#'
-#' @description
-#' Density, distribution function, quantile function, and random generation for
-#' the discrete distribution described by a roll expression. See below for more
-#' details.
+#' Get full distribution of a roll
 #'
 #' @details
-#' Given a roll expression (i.e., an arithmetic expression involving dice),
-#' [roll()] calculates the complete distribution of the outcomes. This is
-#' possible because the distribution is discrete and has a finite number of
-#' outcomes.
+#' This function powers both the [roll] and [roll-plot] family of functions.
+#' Given a roll expression (i.e., an arithmetic expression involving dice), it
+#' calculates the complete distribution of the outcomes. This is possible
+#' because the distribution is discrete and has a finite number of outcomes.
 #'
-#' From this distribution, [droll()] returns the density, [proll()] returns the
-#' distribution function, [qroll()] returns the quantile function, and
-#' [rroll()] generates random deviates. They mirror functions from the
-#' [Distributions] family.
+#' [r()] returns a data frame with most information necessary to work with the
+#' roll distribution: a column containing the possible outcomes of the roll
+#' expression, a column counting how many different ways each outbome can be
+#' obtained, a colum with the associated densities, and a column with the
+#' associated probabilities.
 #'
 #' @section Roll Expressions:
 #' A roll expression is a piece of R code that describes a dice roll with or
@@ -29,7 +25,7 @@
 #' then write `dX * N`. All other expressions involving dice can usually be
 #' pasted straight into these functions.
 #'
-#' For more information, see the main [Dice] S4 class.
+#' For more details on what operations are supported, see the [Dice] S4 class.
 #'
 #' @section Built-in Dice:
 #' It is possible to define any die with [d()], but some are already built-in.
@@ -48,9 +44,53 @@
 #' use [Ryacas::yac_str()] to run computations symbolically. By default,
 #' results are converted to numeric vectors just before returning to the user,
 #' but one is able to access the symbolic strings returned by Ryacas by setting
-#' `precise = TRUE` on [roll()].
+#' `precise = TRUE`.
 #'
-#' @seealso [Dice], [d()], [roll-plot].
+#' @seealso [roll], [roll-plot], [Dice].
+#'
+#' @param roll A roll expression (e.g., `2 * d6 + 5`).
+#' @param precise Whether to return values with arbitrary precision.
+#' @return A data frame with four columns: `outcome`, `n`, `d`, and `p`.
+#'
+#' @examples
+#' # Get full distribution of 2d6 + 5
+#' r(2 * d6 + 5)
+#'
+#' @export
+r <- function(roll, precise = FALSE) {
+
+  # Get full distribution
+  df <- roll_outcome_count(substitute(roll), parent.frame())
+
+  # Convert values to numeric if requested
+  if (!precise) {
+    df$d <- yac_n(df$d)
+    df$n <- yac_n(df$n)
+  }
+
+  return(df)
+}
+
+#' The roll distribution
+#'
+#' @description
+#' Density, distribution function, quantile function, and random generation for
+#' the discrete distribution described by a roll expression. See below for more
+#' details.
+#'
+#' @details
+#' Given a roll expression (i.e., an arithmetic expression involving dice),
+#' [r()] calculates the complete distribution of the outcomes. This is possible
+#' because the distribution is discrete and has a finite number of outcomes.
+#'
+#' From this distribution, [droll()] returns the density, [proll()] returns the
+#' distribution function, [qroll()] returns the quantile function, and
+#' [rroll()] generates random deviates. They mirror functions from the
+#' [Distributions] family.
+#'
+#' For more details on roll expressions, see [r()] and the [Dice] S4 class.
+#'
+#' @seealso [r()], [Dice], [roll-plot].
 #'
 #' @source
 #' The main algorithm for calculating dice probabilities comes from
@@ -64,20 +104,15 @@
 #' @param q A numeric vector of outcomes.
 #' @param p A numeric vector of probabilities.
 #' @param n Number of random deviates to return.
-#' @param roll A roll expression (e.g., `2 * d6 + 5`).
+#' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
+#' by [r()].
 #' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
-#' @param precise Whether to return values with arbitrary precision.
 #' @param verbose For [rroll()], if `n = 1`, whether to print partial result of
 #' the dice roll.
-#' @return For [roll()], a data frame with three columns: `outcome`, `count`,
-#' and `freq`. For [droll()], [proll()], [qroll()], and [rroll()], a numeric
-#' vector.
+#' @return A numeric vector.
 #'
 #' @examples
 #' set.seed(42)
-#'
-#' # Complete distribution of 2d6 + 5
-#' roll(2 * d6 + 5)
 #'
 #' # Density of 2d6 + 5
 #' droll(12, 2 * d6 + 5)
@@ -92,22 +127,7 @@
 #' rroll(1, 2 * d6 + 5)
 #'
 #' @name roll
-
-#' @rdname roll
-#' @export
-roll <- function(roll, precise = FALSE) {
-
-  # Get full distribution
-  df <- roll_outcome_count(substitute(roll), parent.frame())
-
-  # Convert values to numeric if requested
-  if (!precise) {
-    df$freq <- yac_n(df$freq)
-    df$count <- yac_n(df$count)
-  }
-
-  return(df)
-}
+NULL
 
 #' @rdname roll
 #' @export
@@ -117,7 +137,7 @@ droll <- function(x, roll) {
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
   # Filter correct frequencies and convert to numeric
-  yac_n(df$freq[df$outcome %in% x])
+  yac_n(df$d[df$outcome %in% x])
 }
 
 #' @rdname roll
@@ -133,9 +153,9 @@ proll <- function(q, roll, lower.tail = TRUE) {
 
     # Handle side of tail
     if (lower.tail) {
-      tail <- df$freq[df$outcome <= n]
+      tail <- df$d[df$outcome <= n]
     } else {
-      tail <- df$freq[df$outcome > n]
+      tail <- df$d[df$outcome > n]
     }
 
     # Handle empty results
@@ -160,7 +180,7 @@ qroll <- function(p, roll, lower.tail = TRUE) {
   # Calculate the cumulative sum of the probabilities
   freq <- Reduce(
     function(x, y) yac("Add", paste0(x, ",", y)),
-    df$freq, accumulate = TRUE
+    df$d, accumulate = TRUE
   )
 
   # Handle side of tail

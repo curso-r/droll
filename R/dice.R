@@ -156,11 +156,11 @@ methods::setValidity("Dice", function(object) {
 #' @param n Number of dice.
 #'
 #' @noRd
-setGeneric("r", function(object, n = 1) standardGeneric("r"))
+setGeneric("s", function(object, n = 1) standardGeneric("s"))
 
 #' @describeIn r Roll a Dice object.
 #' @noRd
-methods::setMethod("r", "Dice", function(object, n = 1) {
+methods::setMethod("s", "Dice", function(object, n = 1) {
   return(as.numeric(sample(faces(object), n, TRUE)))
 })
 
@@ -181,7 +181,7 @@ methods::setMethod("show", "Dice", function(object) {
 #'
 #' @rdname Dice
 methods::setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
-  methods::callGeneric(r(e1), e2)
+  methods::callGeneric(s(e1), e2)
 })
 
 #' Arithmetic operations with Dice objects
@@ -191,7 +191,7 @@ methods::setMethod("Ops", c("Dice", "numeric"), function(e1, e2) {
 #'
 #' @rdname Dice
 methods::setMethod("Ops", c("numeric", "Dice"), function(e1, e2) {
-  methods::callGeneric(e1, r(e2))
+  methods::callGeneric(e1, s(e2))
 })
 
 #' Arithmetic operations with Dice objects
@@ -201,7 +201,7 @@ methods::setMethod("Ops", c("numeric", "Dice"), function(e1, e2) {
 #'
 #' @rdname Dice
 methods::setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
-  methods::callGeneric(r(e1), r(e2))
+  methods::callGeneric(s(e1), s(e2))
 })
 
 #' Arithmetic operations with Dice objects
@@ -211,7 +211,7 @@ methods::setMethod("Ops", c("Dice", "Dice"), function(e1, e2) {
 #'
 #' @rdname Dice
 methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
-  sum(r(e2, e1))
+  sum(s(e2, e1))
 })
 
 #' Math operations with Dice objects
@@ -220,7 +220,7 @@ methods::setMethod("*", c("numeric", "Dice"), function(e1, e2) {
 #'
 #' @rdname Dice
 methods::setMethod("Math", "Dice", function(x) {
-  methods::callGeneric(r(x))
+  methods::callGeneric(s(x))
 })
 
 #' Math2 operations with Dice objects
@@ -230,7 +230,7 @@ methods::setMethod("Math", "Dice", function(x) {
 #'
 #' @rdname Dice
 methods::setMethod("Math2", "Dice", function(x, digits) {
-  methods::callGeneric(r(x), digits)
+  methods::callGeneric(s(x), digits)
 })
 
 #' Summary operations with Dice objects
@@ -241,7 +241,7 @@ methods::setMethod("Math2", "Dice", function(x, digits) {
 #'
 #' @rdname Dice
 methods::setMethod("Summary", "Dice", function(x, ..., na.rm = FALSE) {
-  methods::callGeneric(r(x), as.numeric(...), na.rm = na.rm)
+  methods::callGeneric(s(x), as.numeric(...), na.rm = na.rm)
 })
 
 #' Coerce Dice object to numeric scalar by simulating a roll
@@ -250,4 +250,4 @@ methods::setMethod("Summary", "Dice", function(x, ..., na.rm = FALSE) {
 #' @param ... Not used.
 #'
 #' @rdname Dice
-as.numeric.Dice <- function(x, ...) r(x)
+as.numeric.Dice <- function(x, ...) s(x)

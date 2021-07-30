@@ -6,14 +6,14 @@ test_that("Dice S4 class works", {
   expect_output(print(d6), "# A die with faces:")
   expect_length(d6, 6)
 
-  expect_lte(r(d6), 6)
-  expect_lte(r(d10), 10)
-  expect_lte(r(d20), 20)
+  expect_lte(1 * d6, 6)
+  expect_lte(1 * d10, 10)
+  expect_lte(1 * d20, 20)
   expect_lte(d20 * d10, 200)
 
-  expect_gte(r(d6), 1)
-  expect_gte(r(d10), 1)
-  expect_gte(r(d20), 1)
+  expect_gte(1 * d6, 1)
+  expect_gte(1 * d10, 1)
+  expect_gte(1 * d20, 1)
   expect_gte(d20 * d10, 1)
 
   expect_equal((d6 * 10) %% 10, 0)

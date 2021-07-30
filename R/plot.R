@@ -8,9 +8,8 @@
 #'
 #' @details
 #' Given a roll expression (i.e., an arithmetic expression involving dice),
-#' [roll()] calculates the complete distribution of the outcomes. This is
-#' possible because the distribution is discrete and has a finite number of
-#' outcomes.
+#' [r()] calculates the complete distribution of the outcomes. This is possible
+#' because the distribution is discrete and has a finite number of outcomes.
 #'
 #' From this distribution, [droll_plot()] plots the density, [proll_plot()]
 #' plots the distribution function, [qroll_plot()] plots the quantile function,
@@ -21,7 +20,8 @@
 #' @seealso [graphics::barplot()], [graphics::hist()], [d()], [roll]
 #'
 #' @param n Number of random deviates to return.
-#' @param roll A roll expression (e.g., `2 * d6 + 5`).
+#' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
+#' by [r()].
 #' @param ... Other arguments passed on to [graphics::barplot()] or
 #' [graphics::hist()] ([rroll_plot()] only).
 #' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
@@ -44,6 +44,7 @@
 #' rroll_plot(1000, 2 * d6 + 5)
 #'
 #' @name roll-plot
+NULL
 
 #' @rdname roll-plot
 #' @export
@@ -51,7 +52,7 @@ droll_plot <- function(roll, ...) {
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
   graphics::barplot(
-    yac_n(df$freq), names.arg = df$outcome,
+    yac_n(df$d), names.arg = df$outcome,
     xlab = "Outcome", ylab = "P[X = x]", ...
   )
 }
@@ -69,9 +70,9 @@ proll_plot <- function(roll, ..., lower.tail = TRUE) {
 
     # Handle side of tail
     if (lower.tail) {
-      tail <- df$freq[df$outcome <= n]
+      tail <- df$d[df$outcome <= n]
     } else {
-      tail <- df$freq[df$outcome > n]
+      tail <- df$d[df$outcome > n]
     }
 
     # Handle empty results
@@ -99,7 +100,7 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
   # Calculate the cumulative sum of the probabilities
   freq <- Reduce(
     function(x, y) yac("Add", paste0(x, ",", y)),
-    df$freq, accumulate = TRUE
+    df$d, accumulate = TRUE
   )
 
   # Handle side of tail
