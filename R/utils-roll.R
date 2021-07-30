@@ -114,7 +114,7 @@ eval_dice <- function(expr, env) {
     # Return a new dice if built-in
     if (length(text) == 1) {
       if (grepl("^[dD](4|6|8|10|12|20|100)$", text)) {
-        return(d(1:(sub("[dD]", "", text))))
+        return(d(sub("[dD]", "", text)))
       } else {
         stop(e)
       }

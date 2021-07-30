@@ -1,7 +1,4 @@
 test_that("rroll() works", {
-  d6 <- d(1:6)
-  d20 <- d(1:20)
-  d10 <- d(1:10)
 
   expect_output(
     rroll(1, 3 * (2 * d6) + d20 - 1 + 4),

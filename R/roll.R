@@ -29,7 +29,7 @@
 #' then write `dX * N`. All other expressions involving dice can usually be
 #' pasted straight into these functions.
 #'
-#' For more information, see the dice creating function [d()].
+#' For more information, see the main [Dice] S4 class.
 #'
 #' @section Built-in Dice:
 #' It is possible to define any die with [d()], but some are already built-in.
@@ -50,7 +50,7 @@
 #' but one is able to access the symbolic strings returned by Ryacas by setting
 #' `precise = TRUE` on [roll()].
 #'
-#' @seealso [d()], [roll-plot]
+#' @seealso [Dice], [d()], [roll-plot].
 #'
 #' @source
 #' The main algorithm for calculating dice probabilities comes from
@@ -74,6 +74,8 @@
 #' vector.
 #'
 #' @examples
+#' set.seed(42)
+#'
 #' # Complete distribution of 2d6 + 5
 #' roll(2 * d6 + 5)
 #'
@@ -87,7 +89,6 @@
 #' qroll(0.5, 2 * d6 + 5)
 #'
 #' # Roll 2d6 + 5 (generate random deviates)
-#' set.seed(42)
 #' rroll(1, 2 * d6 + 5)
 #'
 #' @name roll

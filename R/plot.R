@@ -29,6 +29,8 @@
 #' For [rroll_plot()] a histogram.
 #'
 #' @examples
+#' set.seed(42)
+#'
 #' # Density of 2d6 + 5
 #' droll_plot(2 * d6 + 5)
 #'
@@ -39,7 +41,6 @@
 #' qroll_plot(2 * d6 + 5)
 #'
 #' # Roll 2d6 + 5
-#' set.seed(42)
 #' rroll_plot(1000, 2 * d6 + 5)
 #'
 #' @name roll-plot

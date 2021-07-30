@@ -1,7 +1,4 @@
 test_that("qroll() works", {
-  d6 <- d(1:6)
-  d20 <- d(1:20)
-  d10 <- d(1:10)
   deven <- d(c(2, 4, 6, 8, 10))
 
   simple <- qroll(0.5, d6)
@@ -35,9 +32,6 @@ test_that("qroll() works", {
 })
 
 test_that("qroll() with !lower.tail works", {
-  d6 <- d(1:6)
-  d20 <- d(1:20)
-  d10 <- d(1:10)
   deven <- d(c(2, 4, 6, 8, 10))
 
   simple <- qroll(0.5, d6, FALSE)

@@ -2,20 +2,51 @@
 % Please edit documentation in R/dice.R
 \name{d}
 \alias{d}
-\title{Create a Dice object}
+\title{Create a die}
 \usage{
 d(faces)
 }
 \arguments{
-\item{faces}{A numeric vector with the die's faces.}
+\item{faces}{Either the number of faces (\code{length(faces) == 1}) or a numeric
+vector specifying the values of the faces.}
 }
 \value{
-A Dice object.
+An object of the \link{Dice} S4 class.
 }
 \description{
-Create a Dice object
+Create an instance of the \link{Dice} S4 class, allowing for the use of
+non-standard dice and for interactive dice rolling without having to recur
+to functions of the \link{roll} family. See below for more details.
+}
+\details{
+If given a numeric vector, \code{\link[=d]{d()}} creates an object of the \link{Dice} S4 class
+representing a die with these values for faces. On the other hand, if given
+a numeric scalar, it creates a die with faces running from 1 to this value.
+At the moment, there is no support for specifying each face's probability,
+although it is possible to create a die where more than one face have the
+same value.
+
+This function has two main purposes: creating non-standard dice and allowing
+for interactive dice rolling. Non-standard dice are arbitrary objects that
+might not have a real world counterpart, e.g., a \code{d(17)} or a
+\code{d(c(1, 1, 3))}. Interactive rolling is the ability to get a random result
+from a die without having to resort to functions of the \link{roll} family,
+explained in detail in the documentation for the \link{Dice} S4 class.
 }
 \examples{
 # Create a d6
-d6 <- d(1:6)
+d6 <- d(6)
+d6
+
+# Create a die with even faces
+dEven <- d(c(2, 4, 6))
+dEven
+
+# Create a loaded die
+dLoaded <- d(c(1:6, 6))
+dLoaded
+
+}
+\seealso{
+\link{Dice}, \link{roll}.
 }

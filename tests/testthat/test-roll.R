@@ -1,7 +1,4 @@
 test_that("roll() for outcomes works", {
-  d6 <- d(1:6)
-  d20 <- d(1:20)
-  d10 <- d(1:10)
   deven <- d(c(2, 4, 6, 8, 10))
 
   simple <- roll(d6)
@@ -38,9 +35,6 @@ test_that("roll() for outcomes works", {
 })
 
 test_that("roll() for counts works", {
-  d6 <- d(1:6)
-  d20 <- d(1:20)
-  d10 <- d(1:10)
   deven <- d(c(2, 4, 6, 8, 10))
 
   simple <- roll(d6)
@@ -75,9 +69,6 @@ test_that("roll() for counts works", {
 })
 
 test_that("roll() for frequencies works", {
-  d6 <- d(1:6)
-  d20 <- d(1:20)
-  d10 <- d(1:10)
   deven <- d(c(2, 4, 6, 8, 10))
 
   simple <- roll(d6)
@@ -112,7 +103,6 @@ test_that("roll() for frequencies works", {
 })
 
 test_that("arbitrary precision works", {
-  d6 <- d(1:6)
 
   long <- roll(40 * d6, TRUE)
 
@@ -132,8 +122,6 @@ test_that("arbitrary precision works", {
 })
 
 test_that("exotic cases work", {
-  d10 <- d(1:10)
-  d20 <- d(1:20)
 
   # Level 6 barbarian raging and attacking recklessly
   barbarian <- roll({

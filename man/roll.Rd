@@ -78,7 +78,7 @@ faces and multiply the result by \code{N}" to a roll expression, the user must
 then write \code{dX * N}. All other expressions involving dice can usually be
 pasted straight into these functions.
 
-For more information, see the dice creating function \code{\link[=d]{d()}}.
+For more information, see the main \link{Dice} S4 class.
 }
 
 \section{Built-in Dice}{
@@ -105,6 +105,8 @@ but one is able to access the symbolic strings returned by Ryacas by setting
 }
 
 \examples{
+set.seed(42)
+
 # Complete distribution of 2d6 + 5
 roll(2 * d6 + 5)
 
@@ -118,10 +120,9 @@ proll(12, 2 * d6 + 5)
 qroll(0.5, 2 * d6 + 5)
 
 # Roll 2d6 + 5 (generate random deviates)
-set.seed(42)
 rroll(1, 2 * d6 + 5)
 
 }
 \seealso{
-\code{\link[=d]{d()}}, \link{roll-plot}
+\link{Dice}, \code{\link[=d]{d()}}, \link{roll-plot}.
 }

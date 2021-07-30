@@ -48,6 +48,8 @@ and \code{\link[=rroll_plot]{rroll_plot()}} plots random deviates.
 For more information, see the generating functions: \link{roll}.
 }
 \examples{
+set.seed(42)
+
 # Density of 2d6 + 5
 droll_plot(2 * d6 + 5)
 
@@ -58,7 +60,6 @@ proll_plot(2 * d6 + 5)
 qroll_plot(2 * d6 + 5)
 
 # Roll 2d6 + 5
-set.seed(42)
 rroll_plot(1000, 2 * d6 + 5)
 
 }
