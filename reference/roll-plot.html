@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The roll distribution — roll • droll</title>
+<title>Plot the roll distribution — roll-plot • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,10 @@
 
 
 
-<meta property="og:title" content="The roll distribution — roll" />
-<meta property="og:description" content="Density, distribution function, quantile function, and random generation for
-the discrete distribution described by a roll expression. See below for more
-details." />
+<meta property="og:title" content="Plot the roll distribution — roll-plot" />
+<meta property="og:description" content="Plot density, distribution function, quantile function, and random generation
+for the discrete distribution described by a roll expression. See below for
+more details." />
 
 
 
@@ -112,100 +112,80 @@ details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The roll distribution</h1>
+    <h1>Plot the roll distribution</h1>
     
-    <div class="hidden name"><code>roll.Rd</code></div>
+    <div class="hidden name"><code>roll-plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Density, distribution function, quantile function, and random generation for
-the discrete distribution described by a roll expression. See below for more
-details.</p>
+    <p>Plot density, distribution function, quantile function, and random generation
+for the discrete distribution described by a roll expression. See below for
+more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>droll</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>roll</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>droll_plot</span><span class='op'>(</span><span class='va'>roll</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>proll</span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>roll</span>, lower.tail <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>proll_plot</span><span class='op'>(</span><span class='va'>roll</span>, <span class='va'>...</span>, lower.tail <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>qroll</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>roll</span>, lower.tail <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>qroll_plot</span><span class='op'>(</span><span class='va'>roll</span>, <span class='va'>...</span>, lower.tail <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>rroll</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>roll</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'>rroll_plot</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>roll</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A numeric vector of outcomes.</p></td>
-    </tr>
     <tr>
       <th>roll</th>
       <td><p>A roll expression (e.g., <code>2 * d6 + 5</code>) or a data frame returned
 by <code><a href='r.html'>r()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>q</th>
-      <td><p>A numeric vector of outcomes.</p></td>
+      <th>...</th>
+      <td><p>Other arguments passed on to <code><a href='https://rdrr.io/r/graphics/barplot.html'>graphics::barplot()</a></code> or
+<code><a href='https://rdrr.io/r/graphics/hist.html'>graphics::hist()</a></code> (<code>rroll_plot()</code> only).</p></td>
     </tr>
     <tr>
       <th>lower.tail</th>
       <td><p>Whether to calculate <code>P[X &lt;= x]</code> or <code>P[X &gt; x]</code>.</p></td>
     </tr>
     <tr>
-      <th>p</th>
-      <td><p>A numeric vector of probabilities.</p></td>
-    </tr>
-    <tr>
       <th>n</th>
       <td><p>Number of random deviates to return.</p></td>
     </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>For <code>rroll()</code>, if <code>n = 1</code>, whether to print partial result of
-the dice roll.</p></td>
-    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>The main algorithm for calculating dice probabilities comes from
-<a href='https://mathworld.wolfram.com/Dice.html'>MathWorld</a>.</p>
-<p>Symbolic calculations are handled by
-<a href='https://cran.r-project.org/package=Ryacas'>Ryacas</a>, and, by extension, by
-<a href='https://www.yacas.org/'>Yacas</a>.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A numeric vector.</p>
+    <p>For <code>droll_plot()</code>, <code>proll_plot()</code>, and <code>qroll_plot()</code> a bar plot.
+For <code>rroll_plot()</code> a histogram.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Given a roll expression (i.e., an arithmetic expression involving dice),
 <code><a href='r.html'>r()</a></code> calculates the complete distribution of the outcomes. This is possible
 because the distribution is discrete and has a finite number of outcomes.</p>
-<p>From this distribution, <code>droll()</code> returns the density, <code>proll()</code> returns the
-distribution function, <code>qroll()</code> returns the quantile function, and
-<code>rroll()</code> generates random deviates. They mirror functions from the
-<a href='https://rdrr.io/r/stats/Distributions.html'>Distributions</a> family.</p>
-<p>For more details on roll expressions, see <code><a href='r.html'>r()</a></code> and the <a href='Dice.html'>Dice</a> S4 class.</p>
+<p>From this distribution, <code>droll_plot()</code> plots the density, <code>proll_plot()</code>
+plots the distribution function, <code>qroll_plot()</code> plots the quantile function,
+and <code>rroll_plot()</code> plots random deviates.</p>
+<p>For more information, see the generating functions: <a href='roll.html'>roll</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='r.html'>r()</a></code>, <a href='Dice.html'>Dice</a>, <a href='roll-plot.html'>roll-plot</a>.</p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/r/graphics/barplot.html'>graphics::barplot()</a></code>, <code><a href='https://rdrr.io/r/graphics/hist.html'>graphics::hist()</a></code>, <code><a href='d.html'>d()</a></code>, <a href='roll.html'>roll</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
 
 <span class='co'># Density of 2d6 + 5</span>
-<span class='fu'>droll</span><span class='op'>(</span><span class='fl'>12</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.1666667</div><div class='input'>
+<span class='fu'>droll_plot</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='img'><img src='roll-plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Distribution function of 2d6 + 5</span>
-<span class='fu'>proll</span><span class='op'>(</span><span class='fl'>12</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.5833333</div><div class='input'>
+<span class='fu'>proll_plot</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='img'><img src='roll-plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Quantile function of 2d6 + 5</span>
-<span class='fu'>qroll</span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 12</div><div class='input'>
-<span class='co'># Roll 2d6 + 5 (generate random deviates)</span>
-<span class='fu'>rroll</span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># Outcome: sum(5, 4) + 5 
-#&gt; </span></div><div class='output co'>#&gt; [1] 14</div><div class='input'>
+<span class='fu'>qroll_plot</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='img'><img src='roll-plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Roll 2d6 + 5</span>
+<span class='fu'>rroll_plot</span><span class='op'>(</span><span class='fl'>1000</span>, <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='img'><img src='roll-plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

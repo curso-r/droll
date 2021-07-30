@@ -6,8 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a Dice object — Dice • alea</title>
+<title>An S4 class to represent dice — Dice • droll</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -39,8 +46,11 @@
 
 
 
-<meta property="og:title" content="Create a Dice object — Dice" />
-<meta property="og:description" content="Create a Dice object" />
+<meta property="og:title" content="An S4 class to represent dice — Dice" />
+<meta property="og:description" content="A virtual representation of a die that supports the same arithmetic
+operations as a numeric scalar, with the special property that, when
+operated on, its value is randomly sampled from the die's faces. See below
+for more details." />
 
 
 
@@ -71,7 +81,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">alea</a>
+        <a class="navbar-link" href="../index.html">droll</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -103,27 +113,146 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a Dice object</h1>
+    <h1>An S4 class to represent dice</h1>
     
     <div class="hidden name"><code>Dice.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a Dice object</p>
+    <p>A virtual representation of a die that supports the same arithmetic
+operations as a numeric scalar, with the special property that, when
+operated on, its value is randomly sampled from the die's faces. See below
+for more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Dice</span><span class='op'>(</span><span class='va'>faces</span><span class='op'>)</span></pre>
+    <pre class="usage"># S4 method for Dice
+show(object)
+
+# S4 method for Dice,numeric
+Ops(e1, e2)
+
+# S4 method for numeric,Dice
+Ops(e1, e2)
+
+# S4 method for Dice,Dice
+Ops(e1, e2)
+
+# S4 method for numeric,Dice
+*(e1, e2)
+
+# S4 method for Dice
+Math(x)
+
+# S4 method for Dice
+Math2(x, digits)
+
+# S4 method for Dice
+Summary(x, ..., na.rm = FALSE)
+
+# S3 method for Dice
+as.numeric(x, ...)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>faces</th>
-      <td><p>A numeric vector</p></td>
+      <th>object</th>
+      <td><p>A Dice object.</p></td>
+    </tr>
+    <tr>
+      <th>e1</th>
+      <td><p>A numeric scalar or a Dice object.</p></td>
+    </tr>
+    <tr>
+      <th>e2</th>
+      <td><p>A numeric scalar or a Dice object.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>A Dice object.</p></td>
+    </tr>
+    <tr>
+      <th>digits</th>
+      <td><p>Number of digits to be used in <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></code> or <code><a href='https://rdrr.io/r/base/Round.html'>signif()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not used.</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>A logical indicating whether missing values should be removed.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>This S4 class extends <a href='https://rdrr.io/r/base/numeric.html'>numeric</a> with the goal of creating an interactive die
+inside of R. In short, an instance of this class functions as a numeric
+scalar for most intents and purposes except that, when its value is needed,
+it returns one of its faces at random.</p>
+<p>For more information on exactly what operations are supported, see the
+<strong>Operations</strong> section below. To learn more about how to create an object of
+this class, see the dice creating function <code><a href='d.html'>d()</a></code>. For roll distributions,
+see the <a href='roll.html'>roll</a> family. For plotting those distributions, see the <a href='roll-plot.html'>roll-plot</a>
+family.</p>
+    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
+
+    
+
+<dl>
+<dt><code>faces</code></dt><dd><p>A numeric vector with the die's faces.</p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="operations"><a class="anchor" href="#operations"></a>Operations</h2>
+
+    
+
+<p>By default, when printed, an object of this class returns a numeric vector
+with all of its faces. In order to actually "roll" the die (that is, get one
+of its faces at random), one can simply operate on it. Any arithmetic
+expression should trigger a die into sampling its faces, even <code>dX + 0</code> and
+<code>1 * dX</code>.</p>
+<p>All standard arithmetic operations are supported, along with comparisons,
+logic assertions, mathematical functions, and summarisations: every group
+described in S4groupGeneric except for <code>Complex</code>. Note that, when used in
+other situations, like <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code>, the die will return all of its faces.</p>
+<p>These functions also work in the exact same way as they would with regular
+numeric scalars, with the exception of multiplication. With the goal of
+supporting the very common operation <code>NdX</code> ("rolling <code>N</code> dice with <code>X</code> faces
+and adding the results"), the multiplication symbol behaves differently
+depending on the context: <code>N * dX</code> will work as <code>NdX</code> and <code>dX * N</code> will work
+as <code>N x dX</code> ("rolling a die with <code>X</code> faces and multiplying the result by
+<code>N</code>").</p>
+<p>The <a href='roll.html'>roll</a> and <a href='roll-plot.html'>roll-plot</a> families of functions make ample use of roll
+expressions like the ones described here. They even support some built-in
+dice that can be used without being created with <code><a href='d.html'>d()</a></code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='d.html'>d()</a></code>, <a href='roll.html'>roll</a>, <a href='roll-plot.html'>roll-plot</a>.</p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
+
+<span class='co'># Create some dice with d()</span>
+<span class='va'>d6</span> <span class='op'>&lt;-</span> <span class='fu'><a href='d.html'>d</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>
+<span class='va'>d20</span> <span class='op'>&lt;-</span> <span class='fu'><a href='d.html'>d</a></span><span class='op'>(</span><span class='fl'>20</span><span class='op'>)</span>
+
+<span class='co'># Print faces from die</span>
+<span class='va'>d6</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A die with faces:
+#&gt; </span>[1] 1 2 3 4 5 6</div><div class='input'>
+<span class='co'># Roll 1d6</span>
+<span class='fl'>1</span> <span class='op'>*</span> <span class='va'>d6</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='co'># Check if an attack hits and deal damage</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>d20</span> <span class='op'>+</span> <span class='fl'>8</span> <span class='op'>&gt;=</span> <span class='fl'>12</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fl'>4</span> <span class='op'>*</span> <span class='va'>d6</span><span class='op'>)</span>
+<span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] 8</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

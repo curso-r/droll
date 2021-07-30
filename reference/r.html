@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulate rolling a die — r • droll</title>
+<title>Get full distribution of a roll — r • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,8 @@
 
 
 
-<meta property="og:title" content="Simulate rolling a die — r" />
-<meta property="og:description" content="Simulate rolling a die" />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:title" content="Get full distribution of a roll — r" />
+<meta property="og:description" content="Get full distribution of a roll" />
 
 
 
@@ -111,40 +110,102 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simulate rolling a die</h1>
+    <h1>Get full distribution of a roll</h1>
     
     <div class="hidden name"><code>r.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simulate rolling a die</p>
+    <p>Get full distribution of a roll</p>
     </div>
 
-    <pre class="usage"><span class='fu'>r</span><span class='op'>(</span><span class='va'>object</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
-<span class='co'># S4 method for Dice</span>
-<span class='fu'>r</span><span class='op'>(</span><span class='va'>object</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>r</span><span class='op'>(</span><span class='va'>roll</span>, precise <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>A Dice object.</p></td>
+      <th>roll</th>
+      <td><p>A roll expression (e.g., <code>2 * d6 + 5</code>).</p></td>
     </tr>
     <tr>
-      <th>n</th>
-      <td><p>Number of dice.</p></td>
+      <th>precise</th>
+      <td><p>Whether to return values with arbitrary precision.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame with four columns: <code>outcome</code>, <code>n</code>, <code>d</code>, and <code>p</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function powers both the <a href='roll.html'>roll</a> and <a href='roll-plot.html'>roll-plot</a> family of functions.
+Given a roll expression (i.e., an arithmetic expression involving dice), it
+calculates the complete distribution of the outcomes. This is possible
+because the distribution is discrete and has a finite number of outcomes.</p>
+<p><code>r()</code> returns a data frame with most information necessary to work with the
+roll distribution: a column containing the possible outcomes of the roll
+expression, a column counting how many different ways each outbome can be
+obtained, a colum with the associated densities, and a column with the
+associated probabilities.</p>
+    <h2 class="hasAnchor" id="roll-expressions"><a class="anchor" href="#roll-expressions"></a>Roll Expressions</h2>
 
     
-<ul>
-<li><p><code>Dice</code>: Roll a Dice object.</p></li>
-</ul>
 
+<p>A roll expression is a piece of R code that describes a dice roll with or
+without modifiers, e.g., <code>2 * d6 + 5</code>.</p>
+<p>Standard <a href='https://en.wikipedia.org/wiki/Dice_notation'>dice notation</a> should
+mostly work out of the box, with the notable exception of <code>NdX</code>, i.e., "roll
+<code>N</code> dice with <code>X</code> faces and add the results". In this case, the user must
+write <code>N * dX</code>; this also means that, when translating "roll a die with <code>X</code>
+faces and multiply the result by <code>N</code>" to a roll expression, the user must
+then write <code>dX * N</code>. All other expressions involving dice can usually be
+pasted straight into these functions.</p>
+<p>For more details on what operations are supported, see the <a href='Dice.html'>Dice</a> S4 class.</p>
+    <h2 class="hasAnchor" id="built-in-dice"><a class="anchor" href="#built-in-dice"></a>Built-in Dice</h2>
+
+    
+
+<p>It is possible to define any die with <code><a href='d.html'>d()</a></code>, but some are already built-in.
+Because of R's restrictions on what kind of object can be exported, they are
+not readly available for the user, but can be used inside a roll expression
+nontheless. These are the standard D&amp;D dice: <code>d4</code>, <code>d6</code>, <code>d8</code>, <code>d10</code>, <code>d12</code>,
+<code>d20</code>, and <code>d100</code>.</p>
+    <h2 class="hasAnchor" id="arbitrary-precision"><a class="anchor" href="#arbitrary-precision"></a>Arbitrary Precision</h2>
+
+    
+
+<p>Most dice programs that can calculate probabilities are forced to round
+their results due to the fact that these quantities might become
+exceptionally low when dealing with a lot of dice. This, however, can lead
+to error magnification.</p>
+<p>In order to avoid rouding as much as possible, all functions described here
+use <code><a href='https://rdrr.io/pkg/Ryacas/man/yac_str.html'>Ryacas::yac_str()</a></code> to run computations symbolically. By default,
+results are converted to numeric vectors just before returning to the user,
+but one is able to access the symbolic strings returned by Ryacas by setting
+<code>precise = TRUE</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='roll.html'>roll</a>, <a href='roll-plot.html'>roll-plot</a>, <a href='Dice.html'>Dice</a>.</p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Get full distribution of 2d6 + 5</span>
+<span class='fu'>r</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>d6</span> <span class='op'>+</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 × 3</span>
+#&gt;    outcome     n      d
+#&gt;      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>       7     1 0.027<span style='text-decoration: underline;'>8</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span>       8     2 0.055<span style='text-decoration: underline;'>6</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span>       9     3 0.083<span style='text-decoration: underline;'>3</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span>      10     4 0.111 
+#&gt; <span style='color: #BCBCBC;'> 5</span>      11     5 0.139 
+#&gt; <span style='color: #BCBCBC;'> 6</span>      12     6 0.167 
+#&gt; <span style='color: #BCBCBC;'> 7</span>      13     5 0.139 
+#&gt; <span style='color: #BCBCBC;'> 8</span>      14     4 0.111 
+#&gt; <span style='color: #BCBCBC;'> 9</span>      15     3 0.083<span style='text-decoration: underline;'>3</span>
+#&gt; <span style='color: #BCBCBC;'>10</span>      16     2 0.055<span style='text-decoration: underline;'>6</span>
+#&gt; <span style='color: #BCBCBC;'>11</span>      17     1 0.027<span style='text-decoration: underline;'>8</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
