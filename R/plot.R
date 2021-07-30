@@ -1,18 +1,50 @@
 
-#' Plot the ways each outcome of a roll can be obtained
+#' Plot the roll distribution
 #'
-#' Given a roll expression (i.e. an arithmetic expression involving dice),
-#' compute the absolute frequency of each possible outcome and plot them as a
-#' bar chart.
+#' @description
+#' Plot density, distribution function, quantile function, and random generation
+#' for the discrete distribution described by a roll expression. See below for
+#' more details.
 #'
+#' @details
+#' Given a roll expression (i.e., an arithmetic expression involving dice),
+#' [roll()] calculates the complete distribution of the outcomes. This is
+#' possible because the distribution is discrete and has a finite number of
+#' outcomes.
+#'
+#' From this distribution, [droll_plot()] plots the density, [proll_plot()]
+#' plots the distribution function, [qroll_plot()] plots the quantile function,
+#' and [rroll_plot()] plots random deviates.
+#'
+#' For more information, see the generating functions: [roll].
+#'
+#' @seealso [graphics::barplot()], [graphics::hist()], [d()], [roll]
+#'
+#' @param n Number of random deviates to return.
 #' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param ... Other arguments passed on to [graphics::barplot()]
-#' @return A bar plot.
+#' @param ... Other arguments passed on to [graphics::barplot()] or
+#' [graphics::hist()] ([rroll_plot()] only).
+#' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
+#' @return For [droll_plot()], [proll_plot()], and [qroll_plot()] a bar plot.
+#' For [rroll_plot()] a histogram.
 #'
 #' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
+#' # Density of 2d6 + 5
 #' droll_plot(2 * d6 + 5)
+#'
+#' # Distribution function of 2d6 + 5
+#' proll_plot(2 * d6 + 5)
+#'
+#' # Quantile function of 2d6 + 5
+#' qroll_plot(2 * d6 + 5)
+#'
+#' # Roll 2d6 + 5
+#' set.seed(42)
+#' rroll_plot(1000, 2 * d6 + 5)
+#'
+#' @name roll-plot
+
+#' @rdname roll-plot
 #' @export
 droll_plot <- function(roll, ...) {
   df <- roll_outcome_count(substitute(roll), parent.frame())
@@ -23,17 +55,7 @@ droll_plot <- function(roll, ...) {
   )
 }
 
-#' Plot probability distribution
-#'
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param ... Other arguments passed on to [graphics::barplot()]
-#' @param lower.tail Whether to return `P[X <= x]` or `P[X > x]`.
-#' @return A bar plot.
-#'
-#' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
-#' proll_plot(2 * d6 + 5)
+#' @rdname roll-plot
 #' @export
 proll_plot <- function(roll, ..., lower.tail = TRUE) {
 
@@ -66,18 +88,7 @@ proll_plot <- function(roll, ..., lower.tail = TRUE) {
   )
 }
 
-#' Plot quantile distribution
-#'
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param ... Other arguments passed on to [graphics::barplot()]
-#' @param lower.tail Whether to return `x | P[X <= x] >= p` or
-#' `x | P[X > x] >= p`.
-#' @return A bar plot.
-#'
-#' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
-#' qroll_plot(2 * d6 + 5)
+#' @rdname roll-plot
 #' @export
 qroll_plot <- function(roll, ..., lower.tail = TRUE) {
 
@@ -125,17 +136,7 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
   )
 }
 
-#' Plot random samples of a roll
-#'
-#' @param n Number of samples.
-#' @param roll A roll expression (e.g. `2 * d6 + 5`).
-#' @param ... Other arguments passed on to [graphics::hist()]
-#' @return A histogram.
-#'
-#' @examples
-#' # Possible outcomes of 2d6 + 5
-#' d6 <- d(1:6)
-#' rroll_plot(1000, 2 * d6 + 5)
+#' @rdname roll-plot
 #' @export
 rroll_plot <- function(n, roll, ...) {
 
