@@ -48,7 +48,8 @@
 #'
 #' @seealso [roll], [roll-plot], [Dice].
 #'
-#' @param roll A roll expression (e.g., `2 * d6 + 5`).
+#' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
+#' by [r()].
 #' @param precise Whether to return values with arbitrary precision.
 #' @return A data frame with four columns: `outcome`, `n`, `d`, and `p`.
 #'
@@ -66,6 +67,7 @@ r <- function(roll, precise = FALSE) {
   if (!precise) {
     df$d <- yac_n(df$d)
     df$n <- yac_n(df$n)
+    df$p <- yac_n(df$p)
   }
 
   return(df)
@@ -135,7 +137,7 @@ droll <- function(x, roll) {
 
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
-
+message(df)
   # Filter correct frequencies and convert to numeric
   yac_n(df$d[df$outcome %in% x])
 }
@@ -177,19 +179,13 @@ qroll <- function(p, roll, lower.tail = TRUE) {
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
-  # Calculate the cumulative sum of the probabilities
-  freq <- Reduce(
-    function(x, y) yac("Add", paste0(x, ",", y)),
-    df$d, accumulate = TRUE
-  )
-
   # Handle side of tail
   if (!lower.tail) {
-    freq <- sapply(freq, function(x) paste0("1-", x))
+    df$p <- sapply(df$p, function(x) paste0("1-", x))
   }
 
   # Convert to numeric
-  freq <- yac_n(freq)
+  df$p <- yac_n(df$p)
 
   # Get outcomes that correspond to p
   tails <- c()
@@ -197,9 +193,9 @@ qroll <- function(p, roll, lower.tail = TRUE) {
 
     # Handle side of tail
     if (lower.tail) {
-      tail <- df$outcome[min(which(freq >= f))]
+      tail <- df$outcome[min(which(df$p >= f))]
     } else {
-      tail <- df$outcome[max(which(freq >= f))]
+      tail <- df$outcome[max(which(df$p >= f))]
     }
 
     tails <- append(tails, tail)

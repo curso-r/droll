@@ -33,4 +33,7 @@ test_that("droll() works", {
 
   even <- droll(0, deven %% 2)
   expect_equal(even, 1)
+
+  df <- droll(40, r(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4))
+  expect_equal(df, 0.03888889, tolerance = 1e-6)
 })

@@ -31,7 +31,11 @@ yac <- function(f, b) {
 #'
 #' @noRd
 yac_n <- function(x) {
-  as.numeric(sapply(x, function(a) yac("N", a)))
+  if (is.numeric(x)) {
+    return(x)
+  } else {
+    return(as.numeric(sapply(x, function(a) yac("N", a))))
+  }
 }
 
 #' BFS on the expression tree, evaluating dice rolls
@@ -253,19 +257,25 @@ mask_roll <- function(expr_and_counts, env) {
   return(list(expr, counts))
 }
 
-#' Count the ways each outcome of a roll can be obtained (internal)
+#' Count the ways each outcome of a roll can be obtained
 #'
 #' Given a roll expression, compute the absolute frequency of each possible
 #' outcome. In other words, calculate how many ways can every outcome of the
 #' roll be obtained. [r()] wraps this function so that the user doesn't have to
 #' worry about environments.
 #'
-#' @param roll A roll expression (e.g., `2 * d6 + 5`).
+#' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
+#' by [r()].
 #' @param env The environment of `roll`.
 #' @return A data frame with two columns: `outcome` and `count`.
 #'
 #' @noRd
 roll_outcome_count <- function(roll, env = parent.frame()) {
+
+  # Check if roll is already a data frame
+  if (tryCatch(is.data.frame(eval(roll, env)), error = function(e) FALSE)) {
+    return(eval(roll, env))
+  }
 
   # Capture roll expression and mask dice objects
   expr_and_counts <- mask_roll(list(roll, list()), env)
@@ -301,6 +311,12 @@ roll_outcome_count <- function(roll, env = parent.frame()) {
   # Calculate relative frequency
   t <- yac("Add", paste0(df$n, collapse = ","))
   df$d <- sapply(df$n, function(n) yac("", paste0(n, "/", t)))
+
+  # Calculate cumulative sum (probability)
+  df$p <- Reduce(
+    function(x, y) yac("Add", paste0(x, ",", y)),
+    df$d, accumulate = TRUE
+  )
 
   # Fix d column
   names(df$d) <- NULL

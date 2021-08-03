@@ -29,6 +29,9 @@ test_that("qroll() works", {
 
   even <- qroll(1, deven %% 2)
   expect_equal(even, 0)
+
+  df <- qroll(0.007083333, r(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4))
+  expect_equal(df, 17)
 })
 
 test_that("qroll() with !lower.tail works", {
@@ -62,4 +65,7 @@ test_that("qroll() with !lower.tail works", {
 
   even <- qroll(0, deven %% 2, FALSE)
   expect_equal(even, 0)
+
+  df <- qroll(0.9929166, r(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4), FALSE)
+  expect_equal(df, 17)
 })

@@ -7,7 +7,8 @@
 r(roll, precise = FALSE)
 }
 \arguments{
-\item{roll}{A roll expression (e.g., \code{2 * d6 + 5}).}
+\item{roll}{A roll expression (e.g., \code{2 * d6 + 5}) or a data frame returned
+by \code{\link[=r]{r()}}.}
 
 \item{precise}{Whether to return values with arbitrary precision.}
 }

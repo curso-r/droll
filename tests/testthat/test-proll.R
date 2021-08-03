@@ -30,6 +30,9 @@ test_that("proll() works", {
 
   even <- proll(0, deven %% 2)
   expect_equal(even, 1)
+
+  df <- proll(17, r(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4))
+  expect_equal(df, 0.007083333, tolerance = 1e-6)
 })
 
 test_that("proll() with !lower.tail works", {
@@ -63,4 +66,7 @@ test_that("proll() with !lower.tail works", {
 
   even <- proll(0, deven %% 2, FALSE)
   expect_equal(even, 0)
+
+  df <- proll(17, r(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4), FALSE)
+  expect_equal(df, 0.9929167, tolerance = 1e-6)
 })
