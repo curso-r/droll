@@ -1,5 +1,5 @@
 Package: droll
-Title: Analyze Dice Outcomes
+Title: Analyze Roll Distributions
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "C.",
