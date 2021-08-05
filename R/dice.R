@@ -244,10 +244,3 @@ methods::setMethod("Summary", "Dice", function(x, ..., na.rm = FALSE) {
   methods::callGeneric(s(x), as.numeric(...), na.rm = na.rm)
 })
 
-#' Coerce Dice object to numeric scalar by simulating a roll
-#'
-#' @param x A Dice object.
-#' @param ... Not used.
-#'
-#' @rdname Dice
-as.numeric.Dice <- function(x, ...) s(x)

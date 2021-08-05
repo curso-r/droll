@@ -11,7 +11,6 @@
 \alias{Math,Dice-method}
 \alias{Math2,Dice-method}
 \alias{Summary,Dice-method}
-\alias{as.numeric.Dice}
 \title{An S4 class to represent dice}
 \usage{
 \S4method{show}{Dice}(object)
@@ -29,8 +28,6 @@
 \S4method{Math2}{Dice}(x, digits)
 
 \S4method{Summary}{Dice}(x, ..., na.rm = FALSE)
-
-\method{as.numeric}{Dice}(x, ...)
 }
 \arguments{
 \item{object}{A Dice object.}
@@ -39,11 +36,11 @@
 
 \item{e2}{A numeric scalar or a Dice object.}
 
-\item{x}{A Dice object.}
+\item{x}{A Dice object}
 
 \item{digits}{Number of digits to be used in \code{\link[=round]{round()}} or \code{\link[=signif]{signif()}}.}
 
-\item{...}{Not used.}
+\item{...}{Numeric arguments.}
 
 \item{na.rm}{A logical indicating whether missing values should be removed.}
 }
