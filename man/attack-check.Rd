@@ -53,8 +53,8 @@ functions to calculate the probability of a critical hit/miss and of a
 critical pass/fail.
 
 Note that a critical success is considered to occur when the given die
-rolls its highest possible value and that a critical fumble occurs when
-opposite happens.
+rolls its highest possible value and that a critical fumble is considered to
+occur when the opposite happens.
 
 For more details on roll expressions, see \code{\link[=r]{r()}} and the \link{Dice} S4 class.
 }
@@ -62,7 +62,7 @@ For more details on roll expressions, see \code{\link[=r]{r()}} and the \link{Di
 # Probability of d20 + 8 passing a DC 15 skill check
 check_pass(d20 + 8, 15)
 
-# Probability of d20 + 8 missing an AC 15
+# Probability of d20 + 8 missing an AC 15 attack
 attack_miss(d20 + 8, 15)
 
 # Probability of disadvantaged roll critting
