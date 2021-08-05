@@ -10,9 +10,9 @@
 \usage{
 droll_plot(roll, ...)
 
-proll_plot(roll, ..., lower.tail = TRUE)
+proll_plot(roll, lower.tail = TRUE, ...)
 
-qroll_plot(roll, ..., lower.tail = TRUE)
+qroll_plot(roll, lower.tail = TRUE, ...)
 
 rroll_plot(n, roll, ...)
 }

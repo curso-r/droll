@@ -1,7 +1,4 @@
 test_that("droll() works", {
-  d6 <- d(6)
-  d20 <- d(20)
-  d10 <- d(10)
   deven <- d(c(2, 4, 6, 8, 10))
 
   simple <- droll(1, d6)

@@ -44,6 +44,6 @@ test_that("plotting functions work without ggplot2", {
   skip_if(R.version$major < 4)
   set.seed(42)
 
-  r <- rroll_plot(1000, 3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
+  r <- rroll_plot(10000, 3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
   expect_snapshot(r)
 })

@@ -22,9 +22,9 @@
 #' @param n Number of random deviates to return.
 #' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
 #' by [r()].
+#' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
 #' @param ... Other arguments passed on to plotting functions
 #' ([graphics::barplot()] or [ggplot2::qplot()] if available).
-#' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
 #' @return For [droll_plot()], [proll_plot()], and [qroll_plot()] a bar plot.
 #' For [rroll_plot()] a histogram.
 #'
@@ -49,16 +49,19 @@ NULL
 #' @rdname roll-plot
 #' @export
 droll_plot <- function(roll, ...) {
+
+  # Get full distribution and f(x)
   df <- roll_outcome_count(substitute(roll), parent.frame())
+  y <- roll_pdf(df$outcome, df)
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      df$outcome, yac_n(df$d), ..., geom = "col",
+      df$outcome, y, ..., geom = "col",
       xlab = "Outcome", ylab = "P[X = x]"
     )
   } else {
     out <- graphics::barplot(
-      yac_n(df$d), names.arg = df$outcome,
+      y, names.arg = df$outcome,
       xlab = "Outcome", ylab = "P[X = x]", ...
     )
   }
@@ -68,39 +71,20 @@ droll_plot <- function(roll, ...) {
 
 #' @rdname roll-plot
 #' @export
-proll_plot <- function(roll, ..., lower.tail = TRUE) {
+proll_plot <- function(roll, lower.tail = TRUE, ...) {
 
-  # Get full distribution
+  # Get full distribution and F(q)
   df <- roll_outcome_count(substitute(roll), parent.frame())
-
-  # Get tail of the distribution
-  tails <- c()
-  for (n in df$outcome) {
-
-    # Handle side of tail
-    if (lower.tail) {
-      tail <- df$d[df$outcome <= n]
-    } else {
-      tail <- df$d[df$outcome > n]
-    }
-
-    # Handle empty results
-    if (length(tail) == 0) {
-      tail <- "0"
-    }
-
-    # Convert to numeric
-    tails <- append(tails, yac_n(yac("Add", paste0(tail, collapse = ","))))
-  }
+  y <- roll_cdf(df$outcome, df, lower.tail)
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      df$outcome, tails, ..., geom = "col",
+      df$outcome, y, ..., geom = "col",
       xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]"
     )
   } else {
     out <- graphics::barplot(
-      tails, names.arg = df$outcome,
+      y, names.arg = df$outcome,
       xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]", ...
     )
   }
@@ -110,54 +94,23 @@ proll_plot <- function(roll, ..., lower.tail = TRUE) {
 
 #' @rdname roll-plot
 #' @export
-qroll_plot <- function(roll, ..., lower.tail = TRUE) {
+qroll_plot <- function(roll, lower.tail = TRUE, ...) {
 
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
-  # Calculate the cumulative sum of the probabilities
-  freq <- Reduce(
-    function(x, y) yac("Add", paste0(x, ",", y)),
-    df$d, accumulate = TRUE
-  )
-
-  # Handle side of tail
-  if (!lower.tail) {
-    freq <- sapply(freq, function(x) paste0("1-", x))
-  }
-
-  # Convert to numeric
-  freq <- yac_n(freq)
-
-  # Create vector of probabilities
-  if (lower.tail) {
-    p <- seq(0, 1, length.out = length(freq))
-  } else {
-    p <- seq(0, 0.99, length.out = length(freq))
-  }
-
-  # Get outcomes that correspond to p
-  tails <- c()
-  for (f in p) {
-
-    # Handle side of tail
-    if (lower.tail) {
-      tail <- df$outcome[min(which(freq >= f))]
-    } else {
-      tail <- df$outcome[max(which(freq >= f))]
-    }
-
-    tails <- append(tails, tail)
-  }
+  # Get q(p)
+  p <- seq(0, 1, length.out = nrow(df))
+  y <- roll_quantile(p, df, lower.tail)
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      p, tails, ..., geom = "col",
+      p, y, ..., geom = "col",
       xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome"
     )
   } else {
     out <- graphics::barplot(
-      tails, names.arg = round(p, 2),
+      y, names.arg = round(p, 2),
       xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome", ...
     )
   }
@@ -169,21 +122,8 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
 #' @export
 rroll_plot <- function(n, roll, ...) {
 
-  # Handle edge cases
-  if (n == 0) {
-    return(numeric(0))
-  } else if (n < 0) {
-    stop("Invalid arguments")
-  }
-
-  # Evaluate expression n times
-  devs <- c()
-  for (i in 1:n) {
-
-    # Roll dice making each result explicit
-    expr <- roll_dice(substitute(roll), parent.frame())
-    devs <- append(devs, eval(expr, parent.frame()))
-  }
+  # Get n deviates
+  devs <- roll_rand(n, substitute(roll), parent.frame())
 
   # Convert deviates to table
   devs <- table(devs)

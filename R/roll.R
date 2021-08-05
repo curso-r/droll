@@ -108,8 +108,6 @@ r <- function(roll, precise = FALSE) {
 #' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
 #' by [r()].
 #' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
-#' @param verbose For [rroll()], if `n = 1`, whether to print partial result of
-#' the dice roll.
 #' @return A numeric vector.
 #'
 #' @examples
@@ -137,8 +135,7 @@ droll <- function(x, roll) {
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
-  # Filter correct frequencies and convert to numeric
-  yac_n(df$d[df$outcome %in% x])
+  return(roll_pdf(x, df))
 }
 
 #' @rdname roll
@@ -148,27 +145,7 @@ proll <- function(q, roll, lower.tail = TRUE) {
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
-  # Get tail of the distribution
-  tails <- c()
-  for (n in q) {
-
-    # Handle side of tail
-    if (lower.tail) {
-      tail <- df$d[df$outcome <= n]
-    } else {
-      tail <- df$d[df$outcome > n]
-    }
-
-    # Handle empty results
-    if (length(tail) == 0) {
-      tail <- "0"
-    }
-
-    # Convert to numeric
-    tails <- append(tails, yac_n(yac("Add", paste0(tail, collapse = ","))))
-  }
-
-  return(tails)
+  return(roll_cdf(q, df, lower.tail))
 }
 
 #' @rdname roll
@@ -178,59 +155,15 @@ qroll <- function(p, roll, lower.tail = TRUE) {
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
-  # Handle side of tail
-  if (!lower.tail) {
-    df$p <- sapply(df$p, function(x) paste0("1-", x))
-  }
-
-  # Convert to numeric
-  df$p <- yac_n(df$p)
-
-  # Get outcomes that correspond to p
-  tails <- c()
-  for (f in p) {
-
-    # Handle side of tail
-    if (lower.tail) {
-      tail <- df$outcome[min(which(df$p >= f))]
-    } else {
-      tail <- df$outcome[max(which(df$p >= f))]
-    }
-
-    tails <- append(tails, tail)
-  }
-
-  return(tails)
+  return(roll_quantile(p, df, lower.tail))
 }
 
 #' @rdname roll
 #' @export
-rroll <- function(n, roll, verbose = TRUE) {
+rroll <- function(n, roll) {
 
-  # Handle edge cases
-  if (n == 0) {
-    return(numeric(0))
-  } else if (n < 0) {
-    stop("Invalid arguments")
-  }
-
-  # Evaluate expression n times
-  out <- c()
-  for (i in 1:n) {
-
-    # Roll dice making each result explicit
-    expr <- roll_dice(substitute(roll), parent.frame())
-    out <- append(out, eval_dice(expr, parent.frame()))
-  }
-
-  # Print expression for user befor evaluating
-  if (verbose && n == 1) {
-    cat(
-      "\033[38;5;246m# Outcome:",
-      gsub(" +", " ", paste0(deparse(expr), collapse = "")),
-      "\n\033[39m"
-    )
-  }
+  # Get n deviates
+  out <- roll_rand(n, substitute(roll), parent.frame())
 
   return(out)
 }

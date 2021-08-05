@@ -13,7 +13,7 @@ test_that("proll() works", {
 
   mult <- proll(1:200, d10 * d20)
   expect_equal(mult[1], 0.005)
-  expect_equal(mult[200], 1)
+  expect_equal(mult[100], 1)
   expect_equal(min(mult), 0.005)
 
   unary <- proll(c(10, 18), abs(d6 - d20))
@@ -50,7 +50,7 @@ test_that("proll() with !lower.tail works", {
 
   mult <- proll(1:200, d10 * d20, FALSE)
   expect_equal(mult[1], 0.995)
-  expect_equal(mult[200], 0)
+  expect_equal(mult[100], 0)
 
   unary <- proll(c(10, 18), abs(d6 - d20), FALSE)
   expect_equal(unary[1], 0.325)

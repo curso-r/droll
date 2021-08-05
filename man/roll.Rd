@@ -22,7 +22,7 @@ proll(q, roll, lower.tail = TRUE)
 
 qroll(p, roll, lower.tail = TRUE)
 
-rroll(n, roll, verbose = TRUE)
+rroll(n, roll)
 }
 \arguments{
 \item{x}{A numeric vector of outcomes.}
@@ -37,9 +37,6 @@ by \code{\link[=r]{r()}}.}
 \item{p}{A numeric vector of probabilities.}
 
 \item{n}{Number of random deviates to return.}
-
-\item{verbose}{For \code{\link[=rroll]{rroll()}}, if \code{n = 1}, whether to print partial result of
-the dice roll.}
 }
 \value{
 A numeric vector.
