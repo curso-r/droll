@@ -47,7 +47,11 @@
 
 
 <meta property="og:title" content="Get full distribution of a roll — r" />
-<meta property="og:description" content="Get full distribution of a roll" />
+<meta property="og:description" content="Return a data frame with most information necessary to work with the roll
+distribution: a column containing the possible outcomes of the roll
+expression, a column counting how many different ways each outcome can be
+obtained, a colum with the associated densities, and a column with the
+associated probabilities. See below for more details." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -117,7 +121,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Get full distribution of a roll</p>
+    <p>Return a data frame with most information necessary to work with the roll
+distribution: a column containing the possible outcomes of the roll
+expression, a column counting how many different ways each outcome can be
+obtained, a colum with the associated densities, and a column with the
+associated probabilities. See below for more details.</p>
     </div>
 
     <pre class="usage"><span class='fu'>r</span><span class='op'>(</span><span class='va'>roll</span>, precise <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -141,21 +149,12 @@ by <code>r()</code>.</p></td>
     <p>A data frame with four columns: <code>outcome</code>, <code>n</code>, <code>d</code>, and <code>p</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function powers both the <a href='roll.html'>roll</a> and <a href='roll-plot.html'>roll-plot</a> family of functions.
-Given a roll expression (i.e., an arithmetic expression involving dice), it
-calculates the complete distribution of the outcomes. This is possible
-because the distribution is discrete and has a finite number of outcomes.</p>
-<p><code>r()</code> returns a data frame with most information necessary to work with the
-roll distribution: a column containing the possible outcomes of the roll
-expression, a column counting how many different ways each outbome can be
-obtained, a colum with the associated densities, and a column with the
-associated probabilities.</p>
-    <h2 class="hasAnchor" id="roll-expressions"><a class="anchor" href="#roll-expressions"></a>Roll Expressions</h2>
-
-    
-
-<p>A roll expression is a piece of R code that describes a dice roll with or
-without modifiers, e.g., <code>2 * d6 + 5</code>.</p>
+    <p>A roll expression is a piece of R code that describes a dice roll with or
+without modifiers, e.g., <code>2 * d6 + 5</code>. This function processes roll
+expressions in order to power both the <a href='roll.html'>roll</a> and <a href='roll-plot.html'>roll-plot</a> family of
+functions. Given an expression of this form it calculates the complete
+distribution of the outcomes. This is possible because the distribution is
+discrete and has a finite number of outcomes.</p>
 <p>Standard <a href='https://en.wikipedia.org/wiki/Dice_notation'>dice notation</a> should
 mostly work out of the box, with the notable exception of <code>NdX</code>, i.e., "roll
 <code>N</code> dice with <code>X</code> faces and add the results". In this case, the user must
