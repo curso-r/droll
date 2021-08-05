@@ -23,10 +23,10 @@ droll is an R package for parsing dice notation, analyzing rolls,
 calculating success probabilities, and plotting outcome distributions.
 It can help detail-oriented DMs prepare (un)fair encounters in advance
 or decide on skill check DCs on the fly. Players might also find it
-usefull for determining the best course of action when in a tought
+useful for determining the best course of action when in a tough
 situation.
 
-It is designed to be a very light weight (only one required dependency),
+It is designed to be a very lightweight (only one required dependency),
 very fast (less than 0.4s to get the full distribution of 40d6), and
 very precise (symbolic internal representation courtesy of Ryacas)
 [anydice](https://anydice.com/) for R.
@@ -222,7 +222,7 @@ r(8 * d6, precise = TRUE)
 
 The data frame returned by `r()` can be used as the `roll` argument of
 every function discussed above. This skips all internal calculations, so
-it’s a usefull shortcut if you want to run multiple diagnostics on the
+it’s a useful shortcut if you want to run multiple diagnostics on the
 same roll expression.
 
 As a level 20 statistician, you are not constrained by droll’s built-in

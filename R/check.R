@@ -22,7 +22,7 @@
 #' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
 #' by [r()].
 #' @param p The probability of success/failure of the check (or attack).
-#' @param dc The dificulty class to beat for a skill check (or the armor class
+#' @param dc The difficulty class to beat for a skill check (or the armor class
 #' to beat for an attack).
 #' @param success Whether to aim for success (the default) or for failure on
 #' the check (or attack).

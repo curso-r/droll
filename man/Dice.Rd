@@ -77,7 +77,7 @@ expression should trigger a die into sampling its faces, even \code{dX + 0} and
 \code{1 * dX}.
 
 All standard arithmetic operations are supported, along with comparisons,
-logic assertions, mathematical functions, and summarisations: every group
+logic assertions, mathematical functions, and summaries: every group
 described in \link{S4groupGeneric} except for \code{Complex}. Note that, when used in
 other situations, like \code{\link[=c]{c()}}, the die will return all of its faces.
 

@@ -5,7 +5,7 @@
 #' Return a data frame with most information necessary to work with the roll
 #' distribution: a column containing the possible outcomes of the roll
 #' expression, a column counting how many different ways each outcome can be
-#' obtained, a colum with the associated densities, and a column with the
+#' obtained, a column with the associated densities, and a column with the
 #' associated probabilities. See below for more details.
 #'
 #' @details
@@ -29,8 +29,8 @@
 #' @section Built-in Dice:
 #' It is possible to define any die with [d()], but some are already built-in.
 #' Because of R's restrictions on what kind of object can be exported, they are
-#' not readly available for the user, but can be used inside a roll expression
-#' nontheless. These are the standard D&D dice: `d4`, `d6`, `d8`, `d10`, `d12`,
+#' not readily available for the user, but can be used inside a roll expression
+#' nonetheless These are the standard D&D dice: `d4`, `d6`, `d8`, `d10`, `d12`,
 #' `d20`, and `d100`.
 #'
 #' @section Arbitrary Precision:
@@ -39,7 +39,7 @@
 #' exceptionally low when dealing with a lot of dice. This, however, can lead
 #' to error magnification.
 #'
-#' In order to avoid rouding as much as possible, all functions described here
+#' In order to avoid rounding as much as possible, all functions described here
 #' use [Ryacas::yac_str()] to run computations symbolically. By default,
 #' results are converted to numeric vectors just before returning to the user,
 #' but one is able to access the symbolic strings returned by Ryacas by setting

@@ -19,7 +19,7 @@ by \code{\link[=r]{r()}}.}
 \item{success}{Whether to aim for success (the default) or for failure on
 the check (or attack).}
 
-\item{dc}{The dificulty class to beat for a skill check (or the armor class
+\item{dc}{The difficulty class to beat for a skill check (or the armor class
 to beat for an attack).}
 }
 \value{

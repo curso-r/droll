@@ -27,7 +27,7 @@
 #' `1 * dX`.
 #'
 #' All standard arithmetic operations are supported, along with comparisons,
-#' logic assertions, mathematical functions, and summarisations: every group
+#' logic assertions, mathematical functions, and summaries: every group
 #' described in [S4groupGeneric] except for `Complex`. Note that, when used in
 #' other situations, like [c()], the die will return all of its faces.
 #'
@@ -243,4 +243,3 @@ methods::setMethod("Math2", "Dice", function(x, digits) {
 methods::setMethod("Summary", "Dice", function(x, ..., na.rm = FALSE) {
   methods::callGeneric(s(x), as.numeric(...), na.rm = na.rm)
 })
-

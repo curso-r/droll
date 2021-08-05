@@ -70,7 +70,7 @@ proll(12, 2 * d6 + 5)
 # Quantile function of 2d6 + 5
 qroll(0.5, 2 * d6 + 5)
 
-# Roll 2d6 + 5 (generate random deviates)
+# Roll 2d6 + 5 (generate random deviate)
 rroll(1, 2 * d6 + 5)
 
 }
