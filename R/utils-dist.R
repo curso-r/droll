@@ -60,6 +60,14 @@ roll_quantile <- function(p, df, lower.tail = TRUE) {
   return(out)
 }
 
+#' Generate random deviates of a roll
+#'
+#' @param n Number of random deviates to return.
+#' @param df A data frame returned by [r()].
+#' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
+#' @return A numeric vector.
+#'
+#' @noRd
 roll_rand <- function(n, roll, env = parent.frame()) {
 
   # Handle edge cases
