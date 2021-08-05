@@ -1,21 +1,20 @@
 
 #' Get full distribution of a roll
 #'
-#' @details
-#' This function powers both the [roll] and [roll-plot] family of functions.
-#' Given a roll expression (i.e., an arithmetic expression involving dice), it
-#' calculates the complete distribution of the outcomes. This is possible
-#' because the distribution is discrete and has a finite number of outcomes.
-#'
-#' [r()] returns a data frame with most information necessary to work with the
-#' roll distribution: a column containing the possible outcomes of the roll
-#' expression, a column counting how many different ways each outbome can be
+#' @description
+#' Return a data frame with most information necessary to work with the roll
+#' distribution: a column containing the possible outcomes of the roll
+#' expression, a column counting how many different ways each outcome can be
 #' obtained, a colum with the associated densities, and a column with the
-#' associated probabilities.
+#' associated probabilities. See below for more details.
 #'
-#' @section Roll Expressions:
+#' @details
 #' A roll expression is a piece of R code that describes a dice roll with or
-#' without modifiers, e.g., `2 * d6 + 5`.
+#' without modifiers, e.g., `2 * d6 + 5`. This function processes roll
+#' expressions in order to power both the [roll] and [roll-plot] family of
+#' functions. Given an expression of this form it calculates the complete
+#' distribution of the outcomes. This is possible because the distribution is
+#' discrete and has a finite number of outcomes.
 #'
 #' Standard [dice notation](https://en.wikipedia.org/wiki/Dice_notation) should
 #' mostly work out of the box, with the notable exception of `NdX`, i.e., "roll

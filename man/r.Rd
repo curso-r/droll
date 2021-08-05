@@ -16,24 +16,19 @@ by \code{\link[=r]{r()}}.}
 A data frame with four columns: \code{outcome}, \code{n}, \code{d}, and \code{p}.
 }
 \description{
-Get full distribution of a roll
+Return a data frame with most information necessary to work with the roll
+distribution: a column containing the possible outcomes of the roll
+expression, a column counting how many different ways each outcome can be
+obtained, a colum with the associated densities, and a column with the
+associated probabilities. See below for more details.
 }
 \details{
-This function powers both the \link{roll} and \link{roll-plot} family of functions.
-Given a roll expression (i.e., an arithmetic expression involving dice), it
-calculates the complete distribution of the outcomes. This is possible
-because the distribution is discrete and has a finite number of outcomes.
-
-\code{\link[=r]{r()}} returns a data frame with most information necessary to work with the
-roll distribution: a column containing the possible outcomes of the roll
-expression, a column counting how many different ways each outbome can be
-obtained, a colum with the associated densities, and a column with the
-associated probabilities.
-}
-\section{Roll Expressions}{
-
 A roll expression is a piece of R code that describes a dice roll with or
-without modifiers, e.g., \code{2 * d6 + 5}.
+without modifiers, e.g., \code{2 * d6 + 5}. This function processes roll
+expressions in order to power both the \link{roll} and \link{roll-plot} family of
+functions. Given an expression of this form it calculates the complete
+distribution of the outcomes. This is possible because the distribution is
+discrete and has a finite number of outcomes.
 
 Standard \href{https://en.wikipedia.org/wiki/Dice_notation}{dice notation} should
 mostly work out of the box, with the notable exception of \code{NdX}, i.e., "roll
@@ -45,7 +40,6 @@ pasted straight into these functions.
 
 For more details on what operations are supported, see the \link{Dice} S4 class.
 }
-
 \section{Built-in Dice}{
 
 It is possible to define any die with \code{\link[=d]{d()}}, but some are already built-in.
