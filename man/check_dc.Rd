@@ -34,10 +34,10 @@ is no \code{attack_dc()} function.
 For more details on roll expressions, see \code{\link[=r]{r()}} and the \link{Dice} S4 class.
 }
 \examples{
-# DC of a check so that character has a 50\% chance of passing
+# DC of a check so player has (at least) a 50\% chance of success
 check_dc(d20 + 8, 0.5)
 
-# DC of a check so that character has a 30\% chance of failing
+# DC of a check so player has (at most) a 30\% chance of failure
 check_dc(d20 + 8, 0.3, pass = FALSE)
 
 }

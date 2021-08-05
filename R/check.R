@@ -88,10 +88,10 @@ check_prob <- function(roll, dc, pass = TRUE) {
 #' @return A numeric scalar.
 #'
 #' @examples
-#' # DC of a check so player has a 50% chance (at least) of success
+#' # DC of a check so player has (at least) a 50% chance of success
 #' check_dc(d20 + 8, 0.5)
 #'
-#' # DC of a check so player has a 30% chance (at most) of failure
+#' # DC of a check so player has (at most) a 30% chance of failure
 #' check_dc(d20 + 8, 0.3, pass = FALSE)
 #'
 #' @export

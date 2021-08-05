@@ -64,5 +64,5 @@ rroll_plot(1000, 2 * d6 + 5)
 
 }
 \seealso{
-\code{\link[graphics:barplot]{graphics::barplot()}}, \code{\link[graphics:hist]{graphics::hist()}}, \code{\link[=d]{d()}}, \link{roll}
+\code{\link[graphics:barplot]{graphics::barplot()}}, \code{\link[ggplot2:qplot]{ggplot2::qplot()}}, \code{\link[=d]{d()}}, \link{roll}
 }

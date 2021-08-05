@@ -17,7 +17,7 @@
 #'
 #' For more information, see the generating functions: [roll].
 #'
-#' @seealso [graphics::barplot()], [graphics::hist()], [d()], [roll]
+#' @seealso [graphics::barplot()], [ggplot2::qplot()], [d()], [roll]
 #'
 #' @param n Number of random deviates to return.
 #' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
