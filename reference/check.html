@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • droll</title>
+<title>Work with skill checks' probabilities and DCs — check • droll</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Work with skill checks' probabilities and DCs — check" />
+<meta property="og:description" content="These are simple functions that manipulate probabilities and DCs for skill
+checks. check_prob() calculates the success/failure probability of a check
+with the given DC. check_dc() calculates the required difficulty class so
+that a skill check has the given success/failure probability. See below for
+more details." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +71,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,72 +113,73 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Work with skill checks' probabilities and DCs</h1>
+    
+    <div class="hidden name"><code>check.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>These are simple functions that manipulate probabilities and DCs for skill
+checks. <code>check_prob()</code> calculates the success/failure probability of a check
+with the given DC. <code>check_dc()</code> calculates the required difficulty class so
+that a skill check has the given success/failure probability. See below for
+more details.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>check_dc</span><span class='op'>(</span><span class='va'>roll</span>, <span class='va'>p</span>, success <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="Dice.html">show(<i>&lt;Dice&gt;</i>)</a></code> <code><a href="Dice.html">Ops(<i>&lt;Dice&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="Dice.html">Ops(<i>&lt;numeric&gt;</i>,<i>&lt;Dice&gt;</i>)</a></code> <code><a href="Dice.html">Ops(<i>&lt;Dice&gt;</i>,<i>&lt;Dice&gt;</i>)</a></code> <code><a href="Dice.html">`*`(<i>&lt;numeric&gt;</i>,<i>&lt;Dice&gt;</i>)</a></code> <code><a href="Dice.html">Math(<i>&lt;Dice&gt;</i>)</a></code> <code><a href="Dice.html">Math2(<i>&lt;Dice&gt;</i>)</a></code> <code><a href="Dice.html">Summary(<i>&lt;Dice&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>An S4 class to represent dice</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="check.html">check_dc()</a></code> <code><a href="check.html">check_prob()</a></code> </p>
-        </td>
-        <td><p>Work with skill checks' probabilities and DCs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="d.html">d()</a></code> </p>
-        </td>
-        <td><p>Create a die</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="r.html">r()</a></code> </p>
-        </td>
-        <td><p>Get full distribution of a roll</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="roll-plot.html">droll_plot()</a></code> <code><a href="roll-plot.html">proll_plot()</a></code> <code><a href="roll-plot.html">qroll_plot()</a></code> <code><a href="roll-plot.html">rroll_plot()</a></code> </p>
-        </td>
-        <td><p>Plot the roll distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="roll.html">droll()</a></code> <code><a href="roll.html">proll()</a></code> <code><a href="roll.html">qroll()</a></code> <code><a href="roll.html">rroll()</a></code> </p>
-        </td>
-        <td><p>The roll distribution</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>check_prob</span><span class='op'>(</span><span class='va'>roll</span>, <span class='va'>dc</span>, success <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>roll</th>
+      <td><p>A roll expression (e.g., <code>2 * d6 + 5</code>) or a data frame returned
+by <code><a href='r.html'>r()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>The probability of success/failure of the check (or attack).</p></td>
+    </tr>
+    <tr>
+      <th>success</th>
+      <td><p>Whether to aim for success (the default) or for failure on
+the check (or attack).</p></td>
+    </tr>
+    <tr>
+      <th>dc</th>
+      <td><p>The dificulty class to beat for a skill check (or the armor class
+to beat for an attack).</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A numeric scalar.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>These functions hide the complexities of the <a href='roll.html'>roll</a> family so users
+unfamiliar with R's d/p/q/r notation can get quickly up and running
+with the package. Since attacks and checks work in the same way (i.e.,
+success means rolling a value higher than or equal to a certain threshold),
+there are no <code>attack_*()</code> functions.</p>
+<p>For more details on roll expressions, see <code><a href='r.html'>r()</a></code> and the <a href='Dice.html'>Dice</a> S4 class.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='roll.html'>roll</a>, <code><a href='r.html'>r()</a></code>, <a href='Dice.html'>Dice</a>.</p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Probability of d20 + 8 passing a DC 15 skill check</span>
+<span class='fu'>check_prob</span><span class='op'>(</span><span class='va'>d20</span> <span class='op'>+</span> <span class='fl'>8</span>, <span class='fl'>15</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.7</div><div class='input'>
+<span class='co'># Probability of d20 + 8 missing an AC 15 attack</span>
+<span class='fu'>check_prob</span><span class='op'>(</span><span class='va'>d20</span> <span class='op'>+</span> <span class='fl'>8</span>, <span class='fl'>15</span>, success <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.3</div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
