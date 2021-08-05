@@ -1,32 +1,20 @@
 test_that("plotting functions work", {
 
-  d <- droll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
-  ggplot2::ggsave("test-plot/d.png", d, width = 7, height = 7)
-  expect_snapshot_file("test-plot/d.png")
+  gd <- droll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
+  vdiffr::expect_doppelganger("gd", gd)
 
-  p <- proll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
-  ggplot2::ggsave("test-plot/p.png", p, width = 7, height = 7)
-  expect_snapshot_file("test-plot/p.png")
+  gp_ <- proll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4, lower.tail = FALSE)
+  vdiffr::expect_doppelganger("gp_", gp_)
 
-  p_ <- proll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4, lower.tail = FALSE)
-  ggplot2::ggsave("test-plot/p_.png", p_, width = 7, height = 7)
-  expect_snapshot_file("test-plot/p_.png")
-
-  q <- qroll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
-  ggplot2::ggsave("test-plot/q.png", q, width = 7, height = 7)
-  expect_snapshot_file("test-plot/q.png")
-
-  q_ <- qroll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4, lower.tail = FALSE)
-  ggplot2::ggsave("test-plot/q_.png", q_, width = 7, height = 7)
-  expect_snapshot_file("test-plot/q_.png")
+  gq_ <- qroll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4, lower.tail = FALSE)
+  vdiffr::expect_doppelganger("gq_", gq_)
 
   # Skip due to different seed Behavior
   skip_if(R.version$major < 4)
   set.seed(42)
 
-  r <- rroll_plot(1000, 3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
-  ggplot2::ggsave("test-plot/r.png", r, width = 7, height = 7)
-  expect_snapshot_file("test-plot/r.png")
+  gr <- rroll_plot(1000, 3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
+  vdiffr::expect_doppelganger("gr", gr)
 })
 
 test_that("plotting functions work without ggplot2", {
