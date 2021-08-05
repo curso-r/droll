@@ -137,7 +137,7 @@ droll <- function(x, roll) {
 
   # Get full distribution
   df <- roll_outcome_count(substitute(roll), parent.frame())
-message(df)
+
   # Filter correct frequencies and convert to numeric
   yac_n(df$d[df$outcome %in% x])
 }

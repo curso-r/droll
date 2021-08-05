@@ -22,8 +22,8 @@
 #' @param n Number of random deviates to return.
 #' @param roll A roll expression (e.g., `2 * d6 + 5`) or a data frame returned
 #' by [r()].
-#' @param ... Other arguments passed on to [graphics::barplot()] or
-#' [graphics::hist()] ([rroll_plot()] only).
+#' @param ... Other arguments passed on to plotting functions
+#' ([graphics::barplot()] or [ggplot2::qplot()] if available).
 #' @param lower.tail Whether to calculate `P[X <= x]` or `P[X > x]`.
 #' @return For [droll_plot()], [proll_plot()], and [qroll_plot()] a bar plot.
 #' For [rroll_plot()] a histogram.
@@ -51,10 +51,19 @@ NULL
 droll_plot <- function(roll, ...) {
   df <- roll_outcome_count(substitute(roll), parent.frame())
 
-  graphics::barplot(
-    yac_n(df$d), names.arg = df$outcome,
-    xlab = "Outcome", ylab = "P[X = x]", ...
-  )
+  if (is_ggplot2_installed()) {
+    out <- ggplot2::qplot(
+      df$outcome, yac_n(df$d), ..., geom = "col",
+      xlab = "Outcome", ylab = "P[X = x]"
+    )
+  } else {
+    out <- graphics::barplot(
+      yac_n(df$d), names.arg = df$outcome,
+      xlab = "Outcome", ylab = "P[X = x]", ...
+    )
+  }
+
+  return(out)
 }
 
 #' @rdname roll-plot
@@ -84,10 +93,19 @@ proll_plot <- function(roll, ..., lower.tail = TRUE) {
     tails <- append(tails, yac_n(yac("Add", paste0(tail, collapse = ","))))
   }
 
-  graphics::barplot(
-    tails, names.arg = df$outcome,
-    xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]", ...
-  )
+  if (is_ggplot2_installed()) {
+    out <- ggplot2::qplot(
+      df$outcome, tails, ..., geom = "col",
+      xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]"
+    )
+  } else {
+    out <- graphics::barplot(
+      tails, names.arg = df$outcome,
+      xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]", ...
+    )
+  }
+
+  return(out)
 }
 
 #' @rdname roll-plot
@@ -132,10 +150,19 @@ qroll_plot <- function(roll, ..., lower.tail = TRUE) {
     tails <- append(tails, tail)
   }
 
-  graphics::barplot(
-    tails, names.arg = round(p, 2),
-    xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome", ...
-  )
+  if (is_ggplot2_installed()) {
+    out <- ggplot2::qplot(
+      p, tails, ..., geom = "col",
+      xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome"
+    )
+  } else {
+    out <- graphics::barplot(
+      tails, names.arg = round(p, 2),
+      xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome", ...
+    )
+  }
+
+  return(out)
 }
 
 #' @rdname roll-plot
@@ -150,16 +177,40 @@ rroll_plot <- function(n, roll, ...) {
   }
 
   # Evaluate expression n times
-  out <- c()
+  devs <- c()
   for (i in 1:n) {
 
     # Roll dice making each result explicit
     expr <- roll_dice(substitute(roll), parent.frame())
-    out <- append(out, eval(expr, parent.frame()))
+    devs <- append(devs, eval(expr, parent.frame()))
   }
 
-  graphics::hist(
-    out, breaks = min(out):max(out),
-    xlab = "Outcome", ylab = "Count", ...
-  )
+  # Convert deviates to table
+  devs <- table(devs)
+
+  if (is_ggplot2_installed()) {
+    out <- ggplot2::qplot(
+      as.numeric(names(devs)), as.numeric(devs), ..., geom = "col",
+      xlab = "Outcome", ylab = "Count"
+    )
+  } else {
+    out <- graphics::barplot(
+      as.numeric(devs), names.arg = as.numeric(names(devs)),
+      xlab = "Outcome", ylab = "Count", ...
+    )
+  }
+
+  return(out)
+}
+
+#' Test if ggplot2 is installed
+#'
+#' Auxiliary function that tests if ggplot2 is installed. This is necessary for
+#' [mockery::stub()] to have something to override.
+#'
+#' @return A boolean.
+#'
+#' @noRd
+is_ggplot2_installed <- function() {
+  requireNamespace("ggplot2", quietly = TRUE)
 }

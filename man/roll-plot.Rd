@@ -20,8 +20,8 @@ rroll_plot(n, roll, ...)
 \item{roll}{A roll expression (e.g., \code{2 * d6 + 5}) or a data frame returned
 by \code{\link[=r]{r()}}.}
 
-\item{...}{Other arguments passed on to \code{\link[graphics:barplot]{graphics::barplot()}} or
-\code{\link[graphics:hist]{graphics::hist()}} (\code{\link[=rroll_plot]{rroll_plot()}} only).}
+\item{...}{Other arguments passed on to plotting functions
+(\code{\link[graphics:barplot]{graphics::barplot()}} or \code{\link[ggplot2:qplot]{ggplot2::qplot()}} if available).}
 
 \item{lower.tail}{Whether to calculate \code{P[X <= x]} or \code{P[X > x]}.}
 

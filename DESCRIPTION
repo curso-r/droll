@@ -17,7 +17,9 @@ Imports:
 Suggests: 
     tibble,
     covr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    mockery,
+    ggplot2
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
