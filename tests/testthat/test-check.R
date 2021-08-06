@@ -1,5 +1,4 @@
 test_that("check_prob() works", {
-
   expect_equal(check_prob(d20, 21), 0)
   expect_equal(check_prob(d20, 0), 0)
 
@@ -14,7 +13,6 @@ test_that("check_prob() works", {
 })
 
 test_that("check_dc() works", {
-
   expect_equal(check_dc(d20, 0), 20)
   expect_equal(check_dc(d20, 1), 1)
 

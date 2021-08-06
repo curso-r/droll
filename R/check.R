@@ -34,7 +34,6 @@
 #'
 #' # Probability of d20 + 8 missing an AC 15 attack
 #' check_prob(d20 + 8, 15, success = FALSE)
-#'
 #' @name check
 
 #' @rdname check
@@ -47,7 +46,8 @@ check_dc <- function(roll, p, success = TRUE) {
   # Create a reverse p vector (P[X >= x])
   df$p <- rev(Reduce(
     function(x, y) yac("Add", paste0(x, ",", y)),
-    rev(df$d), accumulate = TRUE
+    rev(df$d),
+    accumulate = TRUE
   ))
 
   # Convert to numeric
@@ -78,7 +78,8 @@ check_prob <- function(roll, dc, success = TRUE) {
   # Create a reverse p vector (P[X >= x])
   df$p <- rev(Reduce(
     function(x, y) yac("Add", paste0(x, ",", y)),
-    rev(df$d), accumulate = TRUE
+    rev(df$d),
+    accumulate = TRUE
   ))
 
   # Get tail of the distribution

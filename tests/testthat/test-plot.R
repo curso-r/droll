@@ -1,5 +1,4 @@
 test_that("plotting functions work", {
-
   gd <- droll_plot(3 * (2 * d6) + d20 + 1 * d10 - 1 + 4)
   vdiffr::expect_doppelganger("gd", gd)
 

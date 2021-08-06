@@ -55,7 +55,6 @@
 #' @examples
 #' # Get full distribution of 2d6 + 5
 #' r(2 * d6 + 5)
-#'
 #' @export
 r <- function(roll, precise = FALSE) {
 
@@ -124,7 +123,6 @@ r <- function(roll, precise = FALSE) {
 #'
 #' # Roll 2d6 + 5 (generate random deviate)
 #' rroll(1, 2 * d6 + 5)
-#'
 #' @name roll
 NULL
 

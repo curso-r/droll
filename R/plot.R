@@ -42,7 +42,6 @@
 #'
 #' # Roll 2d6 + 5
 #' rroll_plot(1000, 2 * d6 + 5)
-#'
 #' @name roll-plot
 NULL
 
@@ -56,12 +55,14 @@ droll_plot <- function(roll, ...) {
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      df$outcome, y, ..., geom = "col",
+      df$outcome, y, ...,
+      geom = "col",
       xlab = "Outcome", ylab = "P[X = x]"
     )
   } else {
     out <- graphics::barplot(
-      y, names.arg = df$outcome,
+      y,
+      names.arg = df$outcome,
       xlab = "Outcome", ylab = "P[X = x]", ...
     )
   }
@@ -79,12 +80,14 @@ proll_plot <- function(roll, lower.tail = TRUE, ...) {
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      df$outcome, y, ..., geom = "col",
+      df$outcome, y, ...,
+      geom = "col",
       xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]"
     )
   } else {
     out <- graphics::barplot(
-      y, names.arg = df$outcome,
+      y,
+      names.arg = df$outcome,
       xlab = "Outcome", ylab = if (lower.tail) "P[X <= x]" else "P[X > x]", ...
     )
   }
@@ -105,12 +108,14 @@ qroll_plot <- function(roll, lower.tail = TRUE, ...) {
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      p, y, ..., geom = "col",
+      p, y, ...,
+      geom = "col",
       xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome"
     )
   } else {
     out <- graphics::barplot(
-      y, names.arg = round(p, 2),
+      y,
+      names.arg = round(p, 2),
       xlab = if (lower.tail) "P[X <= x]" else "P[X > x]", ylab = "Outcome", ...
     )
   }
@@ -130,12 +135,14 @@ rroll_plot <- function(n, roll, ...) {
 
   if (is_ggplot2_installed()) {
     out <- ggplot2::qplot(
-      as.numeric(names(devs)), as.numeric(devs), ..., geom = "col",
+      as.numeric(names(devs)), as.numeric(devs), ...,
+      geom = "col",
       xlab = "Outcome", ylab = "Count"
     )
   } else {
     out <- graphics::barplot(
-      as.numeric(devs), names.arg = as.numeric(names(devs)),
+      as.numeric(devs),
+      names.arg = as.numeric(names(devs)),
       xlab = "Outcome", ylab = "Count", ...
     )
   }

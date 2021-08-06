@@ -165,8 +165,8 @@ mask_dice <- function(expr_and_counts, env, dice = FALSE) {
     if (dice) {
       return(dice_outcome_count(
         faces(eval_dice(expr[[3]], env)),
-        eval(expr[[2]], env))
-      )
+        eval(expr[[2]], env)
+      ))
     }
 
     # Return DOC directly (if expression is a single die)
@@ -304,7 +304,8 @@ roll_outcome_count <- function(roll, env = parent.frame()) {
 
   # Summarise table by outcome, adding counts
   df <- stats::aggregate(
-    n ~ outcome, data = do.call(rbind, roll_out),
+    n ~ outcome,
+    data = do.call(rbind, roll_out),
     function(l) yac("Add", paste0(l, collapse = ","))
   )
 
@@ -315,7 +316,8 @@ roll_outcome_count <- function(roll, env = parent.frame()) {
   # Calculate cumulative sum (probability)
   df$p <- Reduce(
     function(x, y) yac("Add", paste0(x, ",", y)),
-    df$d, accumulate = TRUE
+    df$d,
+    accumulate = TRUE
   )
 
   # Fix d column

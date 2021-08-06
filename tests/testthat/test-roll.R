@@ -103,7 +103,6 @@ test_that("r() for frequencies works", {
 })
 
 test_that("arbitrary precision works", {
-
   long <- r(40 * d6, TRUE)
 
   expect_type(long$d, "character")

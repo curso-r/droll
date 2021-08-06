@@ -66,7 +66,6 @@
 #' } else {
 #'   print(0)
 #' }
-#'
 #' @name Dice
 methods::setClass(
   "Dice",
@@ -114,7 +113,6 @@ methods::setClass(
 #' # Create a loaded die
 #' dLoaded <- d(c(1:6, 6))
 #' dLoaded
-#'
 #' @export
 d <- function(faces) {
 

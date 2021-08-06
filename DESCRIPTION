@@ -6,8 +6,8 @@ Authors@R:
            family = "Lente",
            role = c("aut", "cre"),
            email = "clente@curso-r.com")
-Description: A toolkit for parsing dice notation, analyzing rolls, calculating
-    success probabilities, and plotting outcome distributions.
+Description: A toolkit for parsing dice notation, analyzing rolls,
+    calculating success probabilities, and plotting outcome distributions.
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.3.0)
@@ -15,11 +15,11 @@ Imports:
     methods,
     Ryacas
 Suggests: 
-    tibble,
     covr,
-    testthat (>= 3.0.0),
-    mockery,
     ggplot2,
+    mockery,
+    testthat (>= 3.0.0),
+    tibble,
     vdiffr
 Config/testthat/edition: 3
 Encoding: UTF-8
