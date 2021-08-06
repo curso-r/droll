@@ -18,10 +18,10 @@ knitr::opts_chunk$set(
 # droll <a href='https://curso-r.com/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/droll)](https://CRAN.R-project.org/package=droll)
 [![R-CMD-check](https://github.com/curso-r/droll/workflows/Check/badge.svg)](https://github.com/curso-r/droll/actions)
 [![Codecov test coverage](https://codecov.io/gh/curso-r/droll/branch/main/graph/badge.svg)](https://codecov.io/gh/curso-r/droll?branch=master)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 ## Overview
