@@ -7,7 +7,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/droll)](https://CRAN.R-project.org/package=droll) -->
+[![CRAN
+status](https://www.r-pkg.org/badges/version/droll)](https://CRAN.R-project.org/package=droll)
 [![R-CMD-check](https://github.com/curso-r/droll/workflows/Check/badge.svg)](https://github.com/curso-r/droll/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/curso-r/droll/branch/main/graph/badge.svg)](https://codecov.io/gh/curso-r/droll?branch=master)
