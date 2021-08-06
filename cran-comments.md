@@ -1,7 +1,7 @@
 ## Test environments
-
-* GitHub Actions (ubuntu-16.04): devel, release, oldrel, 3.5, 3.4, 3.3
-* GitHub Actions (windows): release, oldrel
+* Local R installation (macOS arm64): release
+* GitHub Actions (ubuntu-16.04): devel, release, oldrel, 3.6, 3.5
+* GitHub Actions (windows): release, 3.6
 * GitHub Actions (macOS): release
 * win-builder: devel
 

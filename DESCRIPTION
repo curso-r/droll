@@ -2,10 +2,12 @@ Package: droll
 Title: Analyze Roll Distributions
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "C.",
-           family = "Lente",
-           role = c("aut", "cre"),
-           email = "clente@curso-r.com")
+    c(person(given = "C.",
+             family = "Lente",
+             role = c("aut", "cre"),
+             email = "clente@curso-r.com"),
+      person(given = "Curso-R",
+             role = c("cph", "fnd")))
 Description: A toolkit for parsing dice notation, analyzing rolls,
     calculating success probabilities, and plotting outcome distributions.
 License: MIT + file LICENSE
