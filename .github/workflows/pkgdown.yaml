@@ -1,8 +1,7 @@
 on:
-  push:
-    branches:
-      - main
-      - master
+  create:
+    tags:
+      - v*
 
 name: Pages
 
