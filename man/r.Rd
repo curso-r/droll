@@ -66,7 +66,6 @@ but one is able to access the symbolic strings returned by Ryacas by setting
 \examples{
 # Get full distribution of 2d6 + 5
 r(2 * d6 + 5)
-
 }
 \seealso{
 \link{roll}, \link{roll-plot}, \link{Dice}.

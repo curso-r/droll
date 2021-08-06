@@ -45,7 +45,6 @@ dEven
 # Create a loaded die
 dLoaded <- d(c(1:6, 6))
 dLoaded
-
 }
 \seealso{
 \link{Dice}, \link{roll}.

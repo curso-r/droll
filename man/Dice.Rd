@@ -113,7 +113,6 @@ if (d20 + 8 >= 12) {
 } else {
   print(0)
 }
-
 }
 \seealso{
 \code{\link[=d]{d()}}, \link{roll}, \link{roll-plot}.

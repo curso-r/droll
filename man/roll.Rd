@@ -72,7 +72,6 @@ qroll(0.5, 2 * d6 + 5)
 
 # Roll 2d6 + 5 (generate random deviate)
 rroll(1, 2 * d6 + 5)
-
 }
 \seealso{
 \code{\link[=r]{r()}}, \link{Dice}, \link{roll-plot}.

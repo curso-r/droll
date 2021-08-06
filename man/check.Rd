@@ -47,7 +47,6 @@ check_prob(d20 + 8, 15)
 
 # Probability of d20 + 8 missing an AC 15 attack
 check_prob(d20 + 8, 15, success = FALSE)
-
 }
 \seealso{
 \link{roll}, \code{\link[=r]{r()}}, \link{Dice}.
