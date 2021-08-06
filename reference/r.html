@@ -50,7 +50,7 @@
 <meta property="og:description" content="Return a data frame with most information necessary to work with the roll
 distribution: a column containing the possible outcomes of the roll
 expression, a column counting how many different ways each outcome can be
-obtained, a colum with the associated densities, and a column with the
+obtained, a column with the associated densities, and a column with the
 associated probabilities. See below for more details." />
 <meta property="og:image" content="/logo.png" />
 
@@ -84,7 +84,7 @@ associated probabilities. See below for more details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">droll</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ associated probabilities. See below for more details." />
     <p>Return a data frame with most information necessary to work with the roll
 distribution: a column containing the possible outcomes of the roll
 expression, a column counting how many different ways each outcome can be
-obtained, a colum with the associated densities, and a column with the
+obtained, a column with the associated densities, and a column with the
 associated probabilities. See below for more details.</p>
     </div>
 
@@ -169,8 +169,8 @@ pasted straight into these functions.</p>
 
 <p>It is possible to define any die with <code><a href='d.html'>d()</a></code>, but some are already built-in.
 Because of R's restrictions on what kind of object can be exported, they are
-not readly available for the user, but can be used inside a roll expression
-nontheless. These are the standard D&amp;D dice: <code>d4</code>, <code>d6</code>, <code>d8</code>, <code>d10</code>, <code>d12</code>,
+not readily available for the user, but can be used inside a roll expression
+nonetheless These are the standard D&amp;D dice: <code>d4</code>, <code>d6</code>, <code>d8</code>, <code>d10</code>, <code>d12</code>,
 <code>d20</code>, and <code>d100</code>.</p>
     <h2 class="hasAnchor" id="arbitrary-precision"><a class="anchor" href="#arbitrary-precision"></a>Arbitrary Precision</h2>
 
@@ -180,7 +180,7 @@ nontheless. These are the standard D&amp;D dice: <code>d4</code>, <code>d6</code
 their results due to the fact that these quantities might become
 exceptionally low when dealing with a lot of dice. This, however, can lead
 to error magnification.</p>
-<p>In order to avoid rouding as much as possible, all functions described here
+<p>In order to avoid rounding as much as possible, all functions described here
 use <code><a href='https://rdrr.io/pkg/Ryacas/man/yac_str.html'>Ryacas::yac_str()</a></code> to run computations symbolically. By default,
 results are converted to numeric vectors just before returning to the user,
 but one is able to access the symbolic strings returned by Ryacas by setting
@@ -205,8 +205,7 @@ but one is able to access the symbolic strings returned by Ryacas by setting
 #&gt; <span style='color: #BCBCBC;'> 8</span>      14     4 0.111  0.833 
 #&gt; <span style='color: #BCBCBC;'> 9</span>      15     3 0.083<span style='text-decoration: underline;'>3</span> 0.917 
 #&gt; <span style='color: #BCBCBC;'>10</span>      16     2 0.055<span style='text-decoration: underline;'>6</span> 0.972 
-#&gt; <span style='color: #BCBCBC;'>11</span>      17     1 0.027<span style='text-decoration: underline;'>8</span> 1     </div><div class='input'>
-</div></pre>
+#&gt; <span style='color: #BCBCBC;'>11</span>      17     1 0.027<span style='text-decoration: underline;'>8</span> 1     </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -218,7 +217,7 @@ but one is able to access the symbolic strings returned by Ryacas by setting
 
       <footer>
       <div class="copyright">
-  <p>Developed by C. Lente.</p>
+  <p>Developed by C. Lente, Curso-R.</p>
 </div>
 
 <div class="pkgdown">
